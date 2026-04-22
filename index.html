@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Humanize Deep - Mejora de Textos</title>
+    <title>Humanize Deep - Mejora de Textos con IA</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { min-height: 100vh; background: linear-gradient(135deg, #0a0f1e, #0c1222); padding: 1rem; color: #eef2ff; }
@@ -24,6 +24,7 @@
         .legal-notice { background: rgba(59,130,246,0.1); border-left: 4px solid #3b82f6; border-radius: 0.8rem; padding: 0.8rem; margin-bottom: 1rem; font-size: 0.7rem; }
         .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+        .ia-badge { background: #8b5cf6; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
         
         /* Botón VR */
         .vr-button {
@@ -70,7 +71,7 @@
             font-family: monospace;
         }
         
-        /* Publicidad al final */
+        /* Publicidad */
         .ad-container {
             text-align: center;
             margin: 30px 0 0 0;
@@ -93,8 +94,8 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <h1>📝 HUMANIZE DEEP</h1>
-                <div class="sub">Mejora tu redacción · Traducción cíclica · Sinónimos</div>
+                <h1>📝 HUMANIZE DEEP <span class="ia-badge">GROQ IA</span></h1>
+                <div class="sub">Mejora tu redacción con Inteligencia Artificial · Reformulación inteligente</div>
             </div>
 
             <div class="legal-notice">
@@ -105,21 +106,21 @@
                 <div class="card">
                     <div class="card-title">📝 TEXTO ORIGINAL</div>
                     <textarea id="inputText" placeholder="Escribe o pega tu texto aquí..."></textarea>
-                    <button class="process-btn" id="processBtn">🔄 REFORMULAR TEXTO</button>
+                    <button class="process-btn" id="processBtn">🤖 REFORMULAR CON IA</button>
                 </div>
 
                 <div class="card">
-                    <div class="card-title">✨ TEXTO REFORMULADO</div>
-                    <div class="result-box" id="resultText">El texto mejorado aparecerá aquí...</div>
+                    <div class="card-title">✨ TEXTO REFORMULADO (IA)</div>
+                    <div class="result-box" id="resultText">El texto mejorado con IA aparecerá aquí...</div>
                     <button class="copy-btn" id="copyBtn">📋 Copiar resultado</button>
                 </div>
             </div>
 
             <footer>
-                ⚡ Humanize Deep · Traducción cíclica · Sinónimos · 100% Gratuito
+                ⚡ Humanize Deep · IA con Groq · Reformulación inteligente · 100% Gratuito
             </footer>
             
-            <!-- PUBLICIDAD AL FINAL (SMART LINKS) -->
+            <!-- PUBLICIDAD: OFERTAS 1 y 2 (enlaces directos) -->
             <div class="ad-container">
                 <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
                 <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
@@ -127,6 +128,18 @@
                     <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎲 OFERTA 2</a>
                     <div style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; min-width: 120px; text-align: center; font-size: 0.7rem; color: #e9c46a;">⏳ PRÓXIMAMENTE</div>
                 </div>
+            </div>
+
+            <!-- SMART LINK 1 de Adsterra -->
+            <div class="ad-container" style="margin-top: 15px;">
+                <div class="ad-label">🔗 RECOMENDACIONES</div>
+                <script src="https://www.profitablecpmratenetwork.com/hfbcqgkv?key=c318b34c55ad7f3a70c974fce455fb18"></script>
+            </div>
+
+            <!-- SMART LINK 2 de Adsterra -->
+            <div class="ad-container" style="margin-top: 15px;">
+                <div class="ad-label">🎁 OFERTAS ESPECIALES</div>
+                <script src="https://www.profitablecpmratenetwork.com/sy5uvbav4x?key=c29e1fd554f321e910c2944fc5395589"></script>
             </div>
         </div>
     </div>
@@ -142,51 +155,93 @@
 
     <script>
         // ============================================
-        // PROCESAMIENTO DE TEXTO (SIN IA LOCAL)
+        // CONFIGURACIÓN GROQ - MISMA CLAVE
+        // ============================================
+        const GROQ_API_KEY = "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";
+        const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
+        const MODEL = "llama-3.3-70b-versatile";
+        
+        // Límite de 100 consultas/día por navegador
+        const limite = {
+            get hoy() { return new Date().toDateString(); },
+            get usadas() { 
+                if(localStorage.getItem('dia_humanize') !== this.hoy) return 0;
+                return parseInt(localStorage.getItem('consultas_humanize') || 0);
+            },
+            puede() { return this.usadas < 100; },
+            registrar() { 
+                localStorage.setItem('dia_humanize', this.hoy);
+                localStorage.setItem('consultas_humanize', this.usadas + 1);
+            }
+        };
+        
+        // ============================================
+        // REFORMULACIÓN CON IA (GROQ)
         // ============================================
         
-        const synonyms = {
-            "importante": ["relevante", "significativo", "trascendental", "clave"],
-            "bueno": ["positivo", "favorable", "beneficioso", "excelente"],
-            "malo": ["negativo", "perjudicial", "desfavorable", "deficiente"],
-            "grande": ["amplio", "extenso", "considerable", "enorme"],
-            "pequeño": ["reducido", "limitado", "modesto", "compacto"]
-        };
-
-        async function translate(text, from, to) {
-            try {
-                const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                return data?.responseData?.translatedText || text;
-            } catch(e) { return text; }
-        }
-
-        async function cyclicTranslation(text) {
-            let result = text;
-            const route = [{from:'es',to:'en'},{from:'en',to:'fr'},{from:'fr',to:'de'},{from:'de',to:'it'},{from:'it',to:'pt'},{from:'pt',to:'es'}];
-            for(const step of route) result = await translate(result, step.from, step.to);
-            return result;
-        }
-
-        function humanize(text) {
-            let result = text;
-            for(let [word, list] of Object.entries(synonyms)) {
-                const regex = new RegExp(`\\b${word}\\b`, 'gi');
-                result = result.replace(regex, (match) => {
-                    const syn = list[Math.floor(Math.random() * list.length)];
-                    return match[0] === match[0].toUpperCase() ? syn.charAt(0).toUpperCase() + syn.slice(1) : syn;
-                });
+        async function reformularConIA(texto) {
+            if (!limite.puede()) {
+                return `🛡️ Límite de IA alcanzado (100 reformulaciones/día). Vuelve mañana.`;
             }
-            return result;
-        }
+            
+            const prompt = `Reescribe el siguiente texto manteniendo el mismo significado, pero mejora su fluidez, claridad y estilo. Haz que suene más natural y profesional. No cambies hechos ni información clave. Solo mejora la redacción.
 
-        async function processText(text) {
-            let result = await cyclicTranslation(text);
-            result = humanize(result);
-            return result;
-        }
+Texto original:
+"${texto}"
 
+Texto mejorado:`;
+
+            try {
+                const response = await fetch(GROQ_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${GROQ_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            { 
+                                role: "system", 
+                                content: "Eres un experto en redacción y estilo. Mejoras textos manteniendo el significado original. Hablas español. Das respuestas concisas y directas." 
+                            },
+                            { role: "user", content: prompt }
+                        ],
+                        max_tokens: 500,
+                        temperature: 0.7
+                    })
+                });
+                
+                if (!response.ok) return null;
+                const data = await response.json();
+                const respuesta = data.choices?.[0]?.message?.content || null;
+                
+                if (respuesta) {
+                    limite.registrar();
+                }
+                
+                return respuesta;
+            } catch (error) {
+                console.error("Error en Groq:", error);
+                return null;
+            }
+        }
+        
+        // Fallback: mejora local simple (por si la IA falla)
+        function mejoraLocal(texto) {
+            let mejorado = texto;
+            // Pequeñas mejoras locales
+            mejorado = mejorado.replace(/muy muy/g, 'muy');
+            mejorado = mejorado.replace(/y y/g, 'y');
+            if (mejorado.length > 0) {
+                mejorado = mejorado.charAt(0).toUpperCase() + mejorado.slice(1);
+            }
+            if (!mejorado.endsWith('.') && !mejorado.endsWith('?') && !mejorado.endsWith('!')) {
+                mejorado += '.';
+            }
+            return mejorado + " (mejora local - IA no disponible)";
+        }
+        
         function showToast(message) {
             const toast = document.createElement('div');
             toast.className = 'toast-msg';
@@ -194,28 +249,43 @@
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2000);
         }
-
+        
         document.getElementById('processBtn').addEventListener('click', async () => {
             const input = document.getElementById('inputText').value;
-            if (!input.trim()) { showToast("⚠️ Escribe un texto primero"); return; }
-            document.getElementById('resultText').innerHTML = '<div style="text-align:center;">🔄 Procesando...<br>🌐 Traducción cíclica<br>✨ Mejorando redacción</div>';
+            if (!input.trim()) { 
+                showToast("⚠️ Escribe un texto primero"); 
+                return; 
+            }
+            
+            document.getElementById('resultText').innerHTML = '<div style="text-align:center;">🤖 IA analizando tu texto...<br>🧠 Reformulando con Groq<br>✨ Mejorando estilo</div>';
+            
             try {
-                const result = await processText(input);
-                document.getElementById('resultText').innerHTML = result;
-                showToast("✅ Texto reformulado");
+                let resultado = await reformularConIA(input);
+                
+                if (!resultado) {
+                    resultado = mejoraLocal(input);
+                    showToast("⚠️ Usando mejora local (IA no disponible)");
+                } else {
+                    showToast("✅ Texto reformulado con IA");
+                }
+                
+                document.getElementById('resultText').innerHTML = resultado;
+                
             } catch (err) {
-                document.getElementById('resultText').innerHTML = "⚠️ Error, intenta de nuevo";
+                document.getElementById('resultText').innerHTML = "⚠️ Error al procesar. Intenta de nuevo.";
                 showToast("❌ Error en el procesamiento");
             }
         });
-
+        
         document.getElementById('copyBtn').addEventListener('click', () => {
             const text = document.getElementById('resultText').innerText;
-            if (text && !text.includes("El texto mejorado aparecerá aquí")) {
+            if (text && !text.includes("El texto mejorado con IA aparecerá aquí")) {
                 navigator.clipboard.writeText(text);
                 showToast("📋 Texto copiado");
             }
         });
+        
+        console.log("🤖 Humanize Deep con Groq - Límite diario:", limite.usadas, "/100 usadas");
     </script>
 
     <!-- Script para el MODO VR (Three.js + WebXR) -->
