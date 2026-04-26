@@ -11,6 +11,16 @@
         .header { text-align: center; margin-bottom: 2rem; }
         h1 { background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 2.5rem; }
         .sub { color: #94a3b8; margin-top: 0.5rem; }
+        .daily-tip {
+            background: rgba(139, 92, 246, 0.15);
+            border-radius: 2rem;
+            padding: 0.6rem 1.2rem;
+            margin: 0.8rem auto 0 auto;
+            text-align: center;
+            max-width: 90%;
+            font-size: 0.75rem;
+            border: 1px solid rgba(96,165,250,0.3);
+        }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
         .card { background: rgba(15,23,42,0.6); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139,92,246,0.3); }
@@ -26,66 +36,27 @@
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .ia-badge { background: #8b5cf6; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
         
-        /* Botón VR */
-        .vr-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 100;
-            font-family: 'Cinzel', serif;
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
-            transition: transform 0.2s;
-        }
+        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 0 15px rgba(245,158,11,0.5); transition: transform 0.2s; }
         .vr-button:hover { transform: scale(1.05); }
-        
-        /* Modo VR */
-        .vr-mode {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            display: none;
-            background: #0a0f1e;
-        }
+        .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
         .vr-mode.active { display: block; }
-        .close-vr {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.7);
-            border: 1px solid #e9c46a;
-            padding: 8px 16px;
-            border-radius: 30px;
-            color: #e9c46a;
-            cursor: pointer;
-            z-index: 1001;
-            font-family: monospace;
-        }
+        .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; font-family: monospace; }
         
-        /* Publicidad */
-        .ad-container {
-            text-align: center;
-            margin: 30px 0 0 0;
-            padding: 15px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 10px;
+        /* Auspiciantes en chiquito */
+        .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
+        .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+        .sponsors-link a {
+            background: rgba(255,255,255,0.08);
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.65rem;
+            font-weight: normal;
+            transition: 0.2s;
+            color: #94a3b8;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .ad-label {
-            font-size: 11px;
-            color: #7a9aae;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
     </style>
 </head>
 <body>
@@ -95,7 +66,10 @@
         <div class="container">
             <div class="header">
                 <h1>📝 HUMANIZE DEEP <span class="ia-badge">GROQ IA</span></h1>
-                <div class="sub">Mejora tu redacción con Inteligencia Artificial · Reformulación inteligente</div>
+                <div class="sub" id="subHeader">Mejora tu redacción con Inteligencia Artificial · Reformulación inteligente</div>
+                <div class="daily-tip" id="dailyTip">
+                    ✍️ Escribir bien es pensar con claridad.
+                </div>
             </div>
 
             <div class="legal-notice">
@@ -116,28 +90,20 @@
                 </div>
             </div>
 
-            <footer>
-                ⚡ Humanize Deep · IA con Groq · Reformulación inteligente · 100% Gratuito
-            </footer>
-            
-            <!-- PUBLICIDAD: OFERTAS 1 y 2 (enlaces directos) -->
-            <div class="ad-container">
-                <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
-                <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
-                    <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎮 OFERTA 1</a>
-                    <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎲 OFERTA 2</a>
-                    <div style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; min-width: 120px; text-align: center; font-size: 0.7rem; color: #e9c46a;">⏳ PRÓXIMAMENTE</div>
+            <!-- AUSPICIANTES EN CHIQUITO -->
+            <div class="sponsors">
+                <div class="sponsors-link">
+                    <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a>
+                    <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a>
                 </div>
             </div>
 
-            <footer>⚡ Datos: DexScreener · Análisis: Groq IA (Llama 3.3) · Anuncios: PopAds, Adsterra, HilltopAds</footer>
+            <footer id="footer">⚡ Humanize Deep · IA con Groq · Reformulación inteligente</footer>
         </div>
     </div>
 
-    <!-- Botón para activar MODO VR -->
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
 
-    <!-- MODO VR -->
     <div class="vr-mode" id="vrMode">
         <button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button>
         <div id="vrContainer" style="width:100%;height:100%"></div>
@@ -145,13 +111,53 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN GROQ - MISMA CLAVE
+        // ACTUALIZACIÓN AUTOMÁTICA DIARIA
         // ============================================
-        const GROQ_API_KEY = "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";
+        
+        function actualizarContenidoDiario() {
+            const hoy = new Date();
+            const diaSemana = hoy.getDay();
+            const diaMes = hoy.getDate();
+            
+            const frasesEscritura = [
+                "📖 Domingo: Un buen escritor también es un gran lector.",
+                "✍️ Lunes: La primera versión nunca es la definitiva. Reescribe.",
+                "📝 Martes: La claridad es la cortesía del escritor.",
+                "🔍 Miércoles: Elimina palabras innecesarias. Menos es más.",
+                "🎯 Jueves: Conoce a tu audiencia antes de escribir.",
+                "⚡ Viernes: La práctica constante afina tu estilo.",
+                "🧘 Sábado: Descansa. Las mejores ideas llegan cuando te relajas."
+            ];
+            
+            const subtitulos = [
+                "Mejora tu redacción con Inteligencia Artificial",
+                "Reformulación inteligente · Estilo profesional",
+                "IA que entiende tu voz y la mejora",
+                "Escribe mejor · Comunica claro · Impacta fuerte"
+            ];
+            
+            const tips = [
+                "💡 Lee en voz alta para detectar frases incómodas.",
+                "📊 Usa ejemplos concretos. La gente recuerda historias.",
+                "🔐 Evita la voz pasiva cuando puedas usar activa.",
+                "🎯 Una idea por párrafo. Claridad ante todo.",
+                "⚡ El primer y último párrafo son los más importantes.",
+                "📝 Revisa sinónimos para evitar repeticiones.",
+                "✍️ Escribe como hablas, pero más pulido."
+            ];
+            
+            document.getElementById('dailyTip').innerHTML = frasesEscritura[diaSemana];
+            document.getElementById('subHeader').innerHTML = subtitulos[diaMes % subtitulos.length];
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')} · ${tips[diaSemana]}`;
+        }
+        
+        // ============================================
+        // CONFIGURACIÓN GROQ
+        // ============================================
+        const GROQ_API_KEY = "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";
         const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
         const MODEL = "llama-3.3-70b-versatile";
         
-        // Límite de 100 consultas/día por navegador
         const limite = {
             get hoy() { return new Date().toDateString(); },
             get usadas() { 
@@ -164,10 +170,6 @@
                 localStorage.setItem('consultas_humanize', this.usadas + 1);
             }
         };
-        
-        // ============================================
-        // REFORMULACIÓN CON IA (GROQ)
-        // ============================================
         
         async function reformularConIA(texto) {
             if (!limite.puede()) {
@@ -184,32 +186,21 @@ Texto mejorado:`;
             try {
                 const response = await fetch(GROQ_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${GROQ_API_KEY}`
-                    },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
                     body: JSON.stringify({
                         model: MODEL,
                         messages: [
-                            { 
-                                role: "system", 
-                                content: "Eres un experto en redacción y estilo. Mejoras textos manteniendo el significado original. Hablas español. Das respuestas concisas y directas." 
-                            },
+                            { role: "system", content: "Eres un experto en redacción y estilo. Mejoras textos manteniendo el significado original. Hablas español. Das respuestas concisas y directas." },
                             { role: "user", content: prompt }
                         ],
-                        max_tokens: 500,
+                        max_tokens: 800,
                         temperature: 0.7
                     })
                 });
-                
                 if (!response.ok) return null;
                 const data = await response.json();
-                const respuesta = data.choices?.[0]?.message?.content || null;
-                
-                if (respuesta) {
-                    limite.registrar();
-                }
-                
+                const respuesta = data.choices?.[0]?.message?.content;
+                if (respuesta) limite.registrar();
                 return respuesta;
             } catch (error) {
                 console.error("Error en Groq:", error);
@@ -217,10 +208,8 @@ Texto mejorado:`;
             }
         }
         
-        // Fallback: mejora local simple (por si la IA falla)
         function mejoraLocal(texto) {
             let mejorado = texto;
-            // Pequeñas mejoras locales
             mejorado = mejorado.replace(/muy muy/g, 'muy');
             mejorado = mejorado.replace(/y y/g, 'y');
             if (mejorado.length > 0) {
@@ -242,25 +231,19 @@ Texto mejorado:`;
         
         document.getElementById('processBtn').addEventListener('click', async () => {
             const input = document.getElementById('inputText').value;
-            if (!input.trim()) { 
-                showToast("⚠️ Escribe un texto primero"); 
-                return; 
-            }
+            if (!input.trim()) { showToast("⚠️ Escribe un texto primero"); return; }
             
             document.getElementById('resultText').innerHTML = '<div style="text-align:center;">🤖 IA analizando tu texto...<br>🧠 Reformulando con Groq<br>✨ Mejorando estilo</div>';
             
             try {
                 let resultado = await reformularConIA(input);
-                
                 if (!resultado) {
                     resultado = mejoraLocal(input);
                     showToast("⚠️ Usando mejora local (IA no disponible)");
                 } else {
                     showToast("✅ Texto reformulado con IA");
                 }
-                
                 document.getElementById('resultText').innerHTML = resultado;
-                
             } catch (err) {
                 document.getElementById('resultText').innerHTML = "⚠️ Error al procesar. Intenta de nuevo.";
                 showToast("❌ Error en el procesamiento");
@@ -275,207 +258,81 @@ Texto mejorado:`;
             }
         });
         
+        actualizarContenidoDiario();
         console.log("🤖 Humanize Deep con Groq - Límite diario:", limite.usadas, "/100 usadas");
     </script>
 
-    <!-- Script para el MODO VR (Three.js + WebXR) -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-            }
-        }
-    </script>
-
+    <!-- VR Three.js -->
+    <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { VRButton } from 'three/addons/webxr/VRButton.js';
         
-        let vrScene, vrCamera, vrRenderer, vrControls;
-        let vrActive = false;
-        
-        function initVR() {
-            const container = document.getElementById('vrContainer');
-            if (!container) return;
-            container.innerHTML = '';
-            
-            vrScene = new THREE.Scene();
-            vrScene.background = new THREE.Color(0x0a0f1e);
-            vrScene.fog = new THREE.FogExp2(0x0a0f1e, 0.008);
-            
-            vrCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            vrCamera.position.set(5, 3, 8);
-            vrCamera.lookAt(0, 0, 0);
-            
-            vrRenderer = new THREE.WebGLRenderer({ antialias: true });
-            vrRenderer.setSize(container.clientWidth, container.clientHeight);
-            vrRenderer.setPixelRatio(window.devicePixelRatio);
-            vrRenderer.xr.enabled = true;
-            container.appendChild(vrRenderer.domElement);
-            
-            const vrBtn = VRButton.createButton(vrRenderer);
-            vrBtn.style.position = 'absolute';
-            vrBtn.style.bottom = '20px';
-            vrBtn.style.right = '20px';
-            vrBtn.style.zIndex = '1000';
-            container.appendChild(vrBtn);
-            
-            vrControls = new OrbitControls(vrCamera, vrRenderer.domElement);
-            vrControls.enableDamping = true;
-            vrControls.target.set(0, 0, 0);
-            
-            // Luces
-            const ambientLight = new THREE.AmbientLight(0x404060);
-            vrScene.add(ambientLight);
-            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-            dirLight.position.set(5, 10, 7);
-            vrScene.add(dirLight);
-            const pointLight = new THREE.PointLight(0x8b5cf6, 0.5);
-            pointLight.position.set(0, 3, 2);
-            vrScene.add(pointLight);
-            
-            // Suelo reflectante
-            const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x1a1f2e, roughness: 0.3, metalness: 0.8 });
-            const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), floorMaterial);
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = -1.5;
-            vrScene.add(floor);
-            
-            // Cuadrícula
-            const gridHelper = new THREE.GridHelper(25, 30, 0x8b5cf6, 0x334155);
-            gridHelper.position.y = -1.4;
-            vrScene.add(gridHelper);
-            
-            // Libros flotantes (símbolos de escritura)
-            const colors = [0x4a9eff, 0xf87171, 0xfbbf24, 0x60a5fa, 0xa78bfa, 0x34d399];
-            for (let i = 0; i < 36; i++) {
-                const color = colors[i % colors.length];
-                const material = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.2 });
-                const book = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.25), material);
-                const angle = (i / 36) * Math.PI * 2;
-                const radius = 4.5;
-                book.position.x = Math.cos(angle) * radius;
-                book.position.z = Math.sin(angle) * radius;
-                book.position.y = Math.sin(angle * 2) * 0.8;
-                book.rotation.y = angle;
-                vrScene.add(book);
+        let s,c,r,ctrl,a=false;
+        function init(){
+            const ct=document.getElementById('vrContainer');
+            if(!ct)return;
+            ct.innerHTML='';
+            s=new THREE.Scene();
+            s.background=new THREE.Color(0x0a0f1e);
+            c=new THREE.PerspectiveCamera(45,ct.clientWidth/ct.clientHeight,0.1,1000);
+            c.position.set(5,3,8);
+            r=new THREE.WebGLRenderer({antialias:true});
+            r.setSize(ct.clientWidth,ct.clientHeight);
+            r.xr.enabled=true;
+            ct.appendChild(r.domElement);
+            const vb=VRButton.createButton(r);
+            vb.style.cssText='position:absolute;bottom:20px;right:20px;z-index:1000';
+            ct.appendChild(vb);
+            ctrl=new OrbitControls(c,r.domElement);
+            ctrl.enableDamping=true;
+            const al=new THREE.AmbientLight(0x404060);
+            s.add(al);
+            const dl=new THREE.DirectionalLight(0xffffff,1);
+            dl.position.set(5,10,7);
+            s.add(dl);
+            const fm=new THREE.MeshStandardMaterial({color:0x1a1f2e,roughness:0.3,metalness:0.8});
+            const f=new THREE.Mesh(new THREE.PlaneGeometry(20,20),fm);
+            f.rotation.x=-Math.PI/2;
+            f.position.y=-1.5;
+            s.add(f);
+            const gh=new THREE.GridHelper(25,30,0x8b5cf6,0x334155);
+            gh.position.y=-1.4;
+            s.add(gh);
+            for(let i=0;i<36;i++){
+                const m=new THREE.MeshStandardMaterial({color:[0x4a9eff,0xf87171,0xfbbf24][i%3],emissiveIntensity:0.2});
+                const b=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.5,0.25),m);
+                const ang=(i/36)*Math.PI*2;
+                b.position.set(Math.cos(ang)*4.5, Math.sin(ang*2)*0.8, Math.sin(ang)*4.5);
+                b.rotation.y=ang;
+                s.add(b);
             }
-            
-            // Esferas brillantes (letras flotantes)
-            for (let i = 0; i < 12; i++) {
-                const color = colors[i % colors.length];
-                const material = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.3 });
-                const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.25, 16, 16), material);
-                const angle = (i / 12) * Math.PI * 2;
-                const radius = 6;
-                sphere.position.x = Math.cos(angle) * radius;
-                sphere.position.z = Math.sin(angle) * radius;
-                sphere.position.y = Math.cos(angle * 3) * 0.6;
-                vrScene.add(sphere);
-            }
-            
-            // Texto flotante "HUMANIZE DEEP"
-            const canvas = document.createElement('canvas');
-            canvas.width = 512;
-            canvas.height = 128;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#0a0f1e';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.font = 'Bold 32px "Segoe UI"';
-            ctx.fillStyle = '#e9c46a';
-            ctx.textAlign = 'center';
-            ctx.fillText('HUMANIZE DEEP', canvas.width/2, canvas.height/2);
-            const textTexture = new THREE.CanvasTexture(canvas);
-            const textMaterial = new THREE.MeshStandardMaterial({ map: textTexture, side: THREE.DoubleSide });
-            const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(5, 1.2), textMaterial);
-            textPlane.position.set(0, 2.8, -3.5);
-            vrScene.add(textPlane);
-            
-            // Partículas
-            const particleCount = 1200;
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesPositions = new Float32Array(particleCount * 3);
-            for (let i = 0; i < particleCount; i++) {
-                particlesPositions[i * 3] = (Math.random() - 0.5) * 35;
-                particlesPositions[i * 3 + 1] = (Math.random() - 0.5) * 12;
-                particlesPositions[i * 3 + 2] = (Math.random() - 0.5) * 20 - 10;
-            }
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
-            const particlesMaterial = new THREE.PointsMaterial({ color: 0xa78bfa, size: 0.04, transparent: true, opacity: 0.5 });
-            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-            vrScene.add(particles);
-            
-            let time = 0;
-            function animate() {
-                requestAnimationFrame(animate);
-                time += 0.005;
-                particles.rotation.y += 0.0005;
-                if (vrControls) vrControls.update();
-                if (vrRenderer) vrRenderer.render(vrScene, vrCamera);
-            }
+            const cnv=document.createElement('canvas');
+            cnv.width=512;cnv.height=128;
+            const ctx=cnv.getContext('2d');
+            ctx.fillStyle='#0a0f1e';
+            ctx.fillRect(0,0,512,128);
+            ctx.font='Bold 32px "Segoe UI"';
+            ctx.fillStyle='#e9c46a';
+            ctx.textAlign='center';
+            ctx.fillText('HUMANIZE DEEP',256,64);
+            const tp=new THREE.Mesh(new THREE.PlaneGeometry(5,1.2),new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cnv),side:THREE.DoubleSide}));
+            tp.position.set(0,2.8,-3.5);
+            s.add(tp);
+            function animate(){requestAnimationFrame(animate);ctrl.update();r.render(s,c)}
             animate();
-            
-            window.addEventListener('resize', () => {
-                if (vrRenderer && vrCamera) {
-                    const width = container.clientWidth;
-                    const height = container.clientHeight;
-                    vrCamera.aspect = width / height;
-                    vrCamera.updateProjectionMatrix();
-                    vrRenderer.setSize(width, height);
-                }
-            });
+            window.addEventListener('resize',()=>{if(r&&c){c.aspect=ct.clientWidth/ct.clientHeight;c.updateProjectionMatrix();r.setSize(ct.clientWidth,ct.clientHeight)}});
         }
-        
-        // Control de modos
-        const normalMode = document.getElementById('normalMode');
-        const vrModeDiv = document.getElementById('vrMode');
-        const vrBtn = document.getElementById('vrModeBtn');
-        const closeVrBtn = document.getElementById('closeVrBtn');
-        
-        vrBtn.addEventListener('click', () => {
-            normalMode.style.display = 'none';
-            vrModeDiv.classList.add('active');
-            if (!vrActive) {
-                initVR();
-                vrActive = true;
-            }
-        });
-        
-        closeVrBtn.addEventListener('click', () => {
-            vrModeDiv.classList.remove('active');
-            normalMode.style.display = 'block';
-        });
+        const nm=document.getElementById('normalMode'),vd=document.getElementById('vrMode'),vb2=document.getElementById('vrModeBtn'),cv=document.getElementById('closeVrBtn');
+        vb2.onclick=()=>{nm.style.display='none';vd.classList.add('active');if(!a){init();a=true}};
+        cv.onclick=()=>{vd.classList.remove('active');nm.style.display='block'};
     </script>
 
-    <!-- ============================================ -->
-    <!-- CÓDIGOS DE PUBLICIDAD -->
-    <!-- ============================================ -->
-    
-    <!-- PopAds -->
-    <script type="text/javascript" data-cfasync="false">
-    /*<![CDATA[/* */
-    (function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();
-    /*]]>/* */
-    </script>
-    
-    <!-- Adsterra Smart Link (NUEVO) -->
+    <!-- PUBLICIDAD (SCRIPTS OCULTOS) -->
+    <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
-    
-    <!-- Hiltop Ads -->
-    <script>
-    (function(lba){
-    var d = document,
-        s = d.createElement('script'),
-        l = d.scripts[d.scripts.length - 1];
-    s.settings = lba || {};
-    s.src = "\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";
-    s.async = true;
-    s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.parentNode.insertBefore(s, l);
-    })({})
-    </script>
+    <script>(function(lba){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=lba||{};s.src="\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
 
 </body>
 </html>
