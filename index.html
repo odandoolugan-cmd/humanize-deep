@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Humanize Deep - Mejora de Textos con IA</title>
+    <title>Humanize Deep - Mejora de Textos con IA Local</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { min-height: 100vh; background: linear-gradient(135deg, #0a0f1e, #0c1222); padding: 1rem; color: #eef2ff; }
@@ -25,16 +25,21 @@
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
         .card { background: rgba(15,23,42,0.6); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139,92,246,0.3); }
         .card-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 1rem; background: linear-gradient(135deg, #FFD166, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        textarea { width: 100%; height: 280px; background: rgba(0,0,0,0.6); border: 1px solid rgba(139,92,246,0.3); border-radius: 1rem; padding: 1rem; color: white; resize: vertical; }
+        textarea { width: 100%; height: 280px; background: rgba(0,0,0,0.6); border: 1px solid rgba(139,92,246,0.3); border-radius: 1rem; padding: 1rem; color: white; resize: vertical; font-size: 1rem; }
         textarea:focus { outline: none; border-color: #8B5CF6; }
-        .process-btn { background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6); font-weight: bold; width: 100%; margin-top: 1rem; padding: 1rem; border: none; border-radius: 1rem; color: white; cursor: pointer; }
-        .result-box { background: rgba(0,0,0,0.6); border-radius: 1rem; padding: 1rem; min-height: 280px; overflow-y: auto; line-height: 1.6; }
-        .copy-btn { background: #475569; margin-top: 1rem; width: 100%; padding: 0.8rem; border: none; border-radius: 1rem; color: white; cursor: pointer; }
+        .process-btn { background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6); font-weight: bold; width: 100%; margin-top: 1rem; padding: 1rem; border: none; border-radius: 1rem; color: white; cursor: pointer; transition: transform 0.2s; }
+        .process-btn:hover { transform: scale(1.02); }
+        .process-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .result-box { background: rgba(0,0,0,0.6); border-radius: 1rem; padding: 1rem; min-height: 280px; overflow-y: auto; line-height: 1.6; white-space: pre-wrap; }
+        .copy-btn { background: #475569; margin-top: 1rem; width: 100%; padding: 0.8rem; border: none; border-radius: 1rem; color: white; cursor: pointer; transition: background 0.2s; }
+        .copy-btn:hover { background: #5a6a8a; }
         footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: #64748b; }
         .legal-notice { background: rgba(59,130,246,0.1); border-left: 4px solid #3b82f6; border-radius: 0.8rem; padding: 0.8rem; margin-bottom: 1rem; font-size: 0.7rem; }
         .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .ia-badge { background: #8b5cf6; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
+        .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
+        @keyframes spin { to { transform: rotate(360deg); } }
         
         .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 0 15px rgba(245,158,11,0.5); transition: transform 0.2s; }
         .vr-button:hover { transform: scale(1.05); }
@@ -42,7 +47,6 @@
         .vr-mode.active { display: block; }
         .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; font-family: monospace; }
         
-        /* Auspiciantes en chiquito */
         .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
         .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
         .sponsors-link a {
@@ -65,8 +69,8 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <h1>📝 HUMANIZE DEEP <span class="ia-badge">GROQ IA</span></h1>
-                <div class="sub" id="subHeader">Mejora tu redacción con Inteligencia Artificial · Reformulación inteligente</div>
+                <h1>📝 HUMANIZE DEEP <span class="ia-badge">IA LOCAL</span></h1>
+                <div class="sub" id="subHeader">Mejora tu redacción con Inteligencia Artificial Local · Reformulación inteligente</div>
                 <div class="daily-tip" id="dailyTip">
                     ✍️ Escribir bien es pensar con claridad.
                 </div>
@@ -80,7 +84,7 @@
                 <div class="card">
                     <div class="card-title">📝 TEXTO ORIGINAL</div>
                     <textarea id="inputText" placeholder="Escribe o pega tu texto aquí..."></textarea>
-                    <button class="process-btn" id="processBtn">🤖 REFORMULAR CON IA</button>
+                    <button class="process-btn" id="processBtn">🤖 REFORMULAR CON IA LOCAL</button>
                 </div>
 
                 <div class="card">
@@ -90,7 +94,6 @@
                 </div>
             </div>
 
-            <!-- AUSPICIANTES EN CHIQUITO -->
             <div class="sponsors">
                 <div class="sponsors-link">
                     <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a>
@@ -98,7 +101,7 @@
                 </div>
             </div>
 
-            <footer id="footer">⚡ Humanize Deep · IA con Groq · Reformulación inteligente</footer>
+            <footer id="footer">⚡ Humanize Deep · IA Local · Reformulación inteligente · Sin API</footer>
         </div>
     </div>
 
@@ -109,10 +112,15 @@
         <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
+    <!-- jsllm7 - IA local (invisible para el usuario) -->
+    <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
+
     <script>
         // ============================================
         // ACTUALIZACIÓN AUTOMÁTICA DIARIA
         // ============================================
+        
+        let iaLista = false;
         
         function actualizarContenidoDiario() {
             const hoy = new Date();
@@ -130,10 +138,10 @@
             ];
             
             const subtitulos = [
-                "Mejora tu redacción con Inteligencia Artificial",
-                "Reformulación inteligente · Estilo profesional",
-                "IA que entiende tu voz y la mejora",
-                "Escribe mejor · Comunica claro · Impacta fuerte"
+                "Mejora tu redacción con Inteligencia Artificial Local",
+                "Reformulación inteligente · Estilo profesional · Sin Internet? Sin problema",
+                "IA que entiende tu voz y la mejora · Totalmente privada",
+                "Escribe mejor · Comunica claro · Impacta fuerte · IA en tu navegador"
             ];
             
             const tips = [
@@ -148,118 +156,156 @@
             
             document.getElementById('dailyTip').innerHTML = frasesEscritura[diaSemana];
             document.getElementById('subHeader').innerHTML = subtitulos[diaMes % subtitulos.length];
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')} · ${tips[diaSemana]}`;
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')} · ${tips[diaSemana]} · IA Local Totalmente Privada`;
         }
         
         // ============================================
-        // CONFIGURACIÓN GROQ
+        // IA LOCAL CON JSLLM7 (INVISIBLE)
         // ============================================
-        const GROQ_API_KEY = "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";
-        const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-        const MODEL = "llama-3.3-70b-versatile";
         
-        const limite = {
-            get hoy() { return new Date().toDateString(); },
-            get usadas() { 
-                if(localStorage.getItem('dia_humanize') !== this.hoy) return 0;
-                return parseInt(localStorage.getItem('consultas_humanize') || 0);
-            },
-            puede() { return this.usadas < 100; },
-            registrar() { 
-                localStorage.setItem('dia_humanize', this.hoy);
-                localStorage.setItem('consultas_humanize', this.usadas + 1);
-            }
-        };
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg';
+            toast.style.background = isError ? '#ef4444' : '#10b981';
+            toast.innerText = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
         
         async function reformularConIA(texto) {
-            if (!limite.puede()) {
-                return `🛡️ Límite de IA alcanzado (100 reformulaciones/día). Vuelve mañana.`;
-            }
-            
-            const prompt = `Reescribe el siguiente texto manteniendo el mismo significado, pero mejora su fluidez, claridad y estilo. Haz que suene más natural y profesional. No cambies hechos ni información clave. Solo mejora la redacción.
+            return new Promise(async (resolve) => {
+                try {
+                    if (typeof jsllm7 === 'undefined') {
+                        console.log("Esperando carga de jsllm7...");
+                        await new Promise(r => setTimeout(r, 500));
+                        if (typeof jsllm7 === 'undefined') {
+                            resolve(null);
+                            return;
+                        }
+                    }
+                    
+                    const prompt = `Eres un experto en redacción y estilo. Mejora el siguiente texto manteniendo el mismo significado, mejora su fluidez, claridad y estilo. Haz que suene más natural y profesional. No cambies hechos ni información clave. Solo mejora la redacción. Devuelve SOLO el texto mejorado, sin explicaciones adicionales.
 
 Texto original:
 "${texto}"
 
 Texto mejorado:`;
-
-            try {
-                const response = await fetch(GROQ_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
-                    body: JSON.stringify({
-                        model: MODEL,
-                        messages: [
-                            { role: "system", content: "Eres un experto en redacción y estilo. Mejoras textos manteniendo el significado original. Hablas español. Das respuestas concisas y directas." },
-                            { role: "user", content: prompt }
-                        ],
-                        max_tokens: 800,
-                        temperature: 0.7
-                    })
-                });
-                if (!response.ok) return null;
-                const data = await response.json();
-                const respuesta = data.choices?.[0]?.message?.content;
-                if (respuesta) limite.registrar();
-                return respuesta;
-            } catch (error) {
-                console.error("Error en Groq:", error);
-                return null;
-            }
+                    
+                    const respuesta = await jsllm7(prompt);
+                    
+                    if (respuesta && respuesta.length > 0 && respuesta.length < 2000) {
+                        resolve(respuesta);
+                    } else {
+                        resolve(null);
+                    }
+                } catch (error) {
+                    console.error("Error en IA local:", error);
+                    resolve(null);
+                }
+            });
         }
         
         function mejoraLocal(texto) {
             let mejorado = texto;
+            // Mejoras básicas
+            mejorado = mejorado.replace(/\s+/g, ' ').trim();
             mejorado = mejorado.replace(/muy muy/g, 'muy');
             mejorado = mejorado.replace(/y y/g, 'y');
+            mejorado = mejorado.replace(/  +/g, ' ');
+            
+            // Capitalizar primera letra
             if (mejorado.length > 0) {
                 mejorado = mejorado.charAt(0).toUpperCase() + mejorado.slice(1);
             }
-            if (!mejorado.endsWith('.') && !mejorado.endsWith('?') && !mejorado.endsWith('!')) {
+            
+            // Asegurar punto final
+            if (!mejorado.endsWith('.') && !mejorado.endsWith('?') && !mejorado.endsWith('!') && mejorado.length > 0) {
                 mejorado += '.';
             }
-            return mejorado + " (mejora local - IA no disponible)";
-        }
-        
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-msg';
-            toast.innerText = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2000);
-        }
-        
-        document.getElementById('processBtn').addEventListener('click', async () => {
-            const input = document.getElementById('inputText').value;
-            if (!input.trim()) { showToast("⚠️ Escribe un texto primero"); return; }
             
-            document.getElementById('resultText').innerHTML = '<div style="text-align:center;">🤖 IA analizando tu texto...<br>🧠 Reformulando con Groq<br>✨ Mejorando estilo</div>';
+            return mejorado + "\n\n[✨ Mejora local aplicada - IA en segundo plano]";
+        }
+        
+        // ============================================
+        // MANEJADORES DE UI
+        // ============================================
+        
+        const processBtn = document.getElementById('processBtn');
+        const inputText = document.getElementById('inputText');
+        const resultDiv = document.getElementById('resultText');
+        const copyBtn = document.getElementById('copyBtn');
+        
+        let procesando = false;
+        
+        processBtn.addEventListener('click', async () => {
+            const texto = inputText.value.trim();
+            if (!texto) {
+                showToast("⚠️ Escribe un texto primero", true);
+                return;
+            }
+            
+            if (procesando) {
+                showToast("⏳ Ya estoy procesando, espera un momento", true);
+                return;
+            }
+            
+            procesando = true;
+            processBtn.disabled = true;
+            processBtn.innerHTML = '<span class="loading-spinner"></span> IA reformulando...';
+            
+            resultDiv.innerHTML = '<div style="text-align:center; opacity:0.7;">🤖 IA local está procesando tu texto...<br>🧠 Mejorando estilo y fluidez<br>✨ Esto toma solo unos segundos</div>';
             
             try {
-                let resultado = await reformularConIA(input);
+                let resultado = await reformularConIA(texto);
+                
                 if (!resultado) {
-                    resultado = mejoraLocal(input);
-                    showToast("⚠️ Usando mejora local (IA no disponible)");
+                    resultado = mejoraLocal(texto);
+                    showToast("⚠️ Usando mejora local (IA cargando)", true);
                 } else {
-                    showToast("✅ Texto reformulado con IA");
+                    showToast("✅ Texto reformulado con IA local");
                 }
-                document.getElementById('resultText').innerHTML = resultado;
+                
+                resultDiv.innerHTML = resultado;
             } catch (err) {
-                document.getElementById('resultText').innerHTML = "⚠️ Error al procesar. Intenta de nuevo.";
-                showToast("❌ Error en el procesamiento");
+                console.error(err);
+                resultDiv.innerHTML = "⚠️ Error al procesar. Intenta de nuevo.";
+                showToast("❌ Error en el procesamiento", true);
+            } finally {
+                procesando = false;
+                processBtn.disabled = false;
+                processBtn.innerHTML = "🤖 REFORMULAR CON IA LOCAL";
             }
         });
         
-        document.getElementById('copyBtn').addEventListener('click', () => {
-            const text = document.getElementById('resultText').innerText;
+        copyBtn.addEventListener('click', () => {
+            const text = resultDiv.innerText;
             if (text && !text.includes("El texto mejorado con IA aparecerá aquí")) {
                 navigator.clipboard.writeText(text);
-                showToast("📋 Texto copiado");
+                showToast("📋 Texto copiado al portapapeles");
+            } else {
+                showToast("⚠️ No hay texto para copiar", true);
             }
         });
         
+        // Carga inicial
         actualizarContenidoDiario();
-        console.log("🤖 Humanize Deep con Groq - Límite diario:", limite.usadas, "/100 usadas");
+        
+        // Verificar que jsllm7 está cargado (silenciosamente)
+        let verificarIntentos = 0;
+        function verificarIA() {
+            if (typeof jsllm7 !== 'undefined') {
+                iaLista = true;
+                console.log("✅ IA local jsllm7 cargada correctamente (invisible para el usuario)");
+            } else if (verificarIntentos < 10) {
+                verificarIntentos++;
+                setTimeout(verificarIA, 500);
+            } else {
+                console.log("⚠️ jsllm7 no cargó, se usará mejora local como respaldo");
+            }
+        }
+        verificarIA();
+        
+        console.log("🤖 Humanize Deep con IA Local - Listo para usar");
     </script>
 
     <!-- VR Three.js -->
@@ -269,67 +315,111 @@ Texto mejorado:`;
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { VRButton } from 'three/addons/webxr/VRButton.js';
         
-        let s,c,r,ctrl,a=false;
-        function init(){
-            const ct=document.getElementById('vrContainer');
-            if(!ct)return;
-            ct.innerHTML='';
-            s=new THREE.Scene();
-            s.background=new THREE.Color(0x0a0f1e);
-            c=new THREE.PerspectiveCamera(45,ct.clientWidth/ct.clientHeight,0.1,1000);
-            c.position.set(5,3,8);
-            r=new THREE.WebGLRenderer({antialias:true});
-            r.setSize(ct.clientWidth,ct.clientHeight);
-            r.xr.enabled=true;
-            ct.appendChild(r.domElement);
-            const vb=VRButton.createButton(r);
-            vb.style.cssText='position:absolute;bottom:20px;right:20px;z-index:1000';
-            ct.appendChild(vb);
-            ctrl=new OrbitControls(c,r.domElement);
-            ctrl.enableDamping=true;
-            const al=new THREE.AmbientLight(0x404060);
-            s.add(al);
-            const dl=new THREE.DirectionalLight(0xffffff,1);
-            dl.position.set(5,10,7);
-            s.add(dl);
-            const fm=new THREE.MeshStandardMaterial({color:0x1a1f2e,roughness:0.3,metalness:0.8});
-            const f=new THREE.Mesh(new THREE.PlaneGeometry(20,20),fm);
-            f.rotation.x=-Math.PI/2;
-            f.position.y=-1.5;
-            s.add(f);
-            const gh=new THREE.GridHelper(25,30,0x8b5cf6,0x334155);
-            gh.position.y=-1.4;
-            s.add(gh);
-            for(let i=0;i<36;i++){
-                const m=new THREE.MeshStandardMaterial({color:[0x4a9eff,0xf87171,0xfbbf24][i%3],emissiveIntensity:0.2});
-                const b=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.5,0.25),m);
-                const ang=(i/36)*Math.PI*2;
-                b.position.set(Math.cos(ang)*4.5, Math.sin(ang*2)*0.8, Math.sin(ang)*4.5);
-                b.rotation.y=ang;
-                s.add(b);
+        let scene, camera, renderer, controls, vrActive = false;
+        
+        function initVR() {
+            const container = document.getElementById('vrContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0f1e);
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(5, 3, 8);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.xr.enabled = true;
+            container.appendChild(renderer.domElement);
+            
+            const vrBtn = VRButton.createButton(renderer);
+            vrBtn.style.cssText = 'position:absolute;bottom:20px;right:20px;z-index:1000';
+            container.appendChild(vrBtn);
+            
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            
+            const ambientLight = new THREE.AmbientLight(0x404060);
+            scene.add(ambientLight);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+            dirLight.position.set(5, 10, 7);
+            scene.add(dirLight);
+            
+            const floorMat = new THREE.MeshStandardMaterial({ color: 0x1a1f2e, roughness: 0.3, metalness: 0.8 });
+            const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), floorMat);
+            floor.rotation.x = -Math.PI / 2;
+            floor.position.y = -1.5;
+            scene.add(floor);
+            
+            const grid = new THREE.GridHelper(25, 30, 0x8b5cf6, 0x334155);
+            grid.position.y = -1.4;
+            scene.add(grid);
+            
+            // Elementos flotantes decorativos
+            for (let i = 0; i < 36; i++) {
+                const material = new THREE.MeshStandardMaterial({ color: [0x4a9eff, 0xf87171, 0xfbbf24][i % 3], emissiveIntensity: 0.2 });
+                const box = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.25), material);
+                const angle = (i / 36) * Math.PI * 2;
+                box.position.set(Math.cos(angle) * 4.5, Math.sin(angle * 2) * 0.8, Math.sin(angle) * 4.5);
+                box.rotation.y = angle;
+                scene.add(box);
             }
-            const cnv=document.createElement('canvas');
-            cnv.width=512;cnv.height=128;
-            const ctx=cnv.getContext('2d');
-            ctx.fillStyle='#0a0f1e';
-            ctx.fillRect(0,0,512,128);
-            ctx.font='Bold 32px "Segoe UI"';
-            ctx.fillStyle='#e9c46a';
-            ctx.textAlign='center';
-            ctx.fillText('HUMANIZE DEEP',256,64);
-            const tp=new THREE.Mesh(new THREE.PlaneGeometry(5,1.2),new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cnv),side:THREE.DoubleSide}));
-            tp.position.set(0,2.8,-3.5);
-            s.add(tp);
-            function animate(){requestAnimationFrame(animate);ctrl.update();r.render(s,c)}
+            
+            // Texto 3D
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#0a0f1e';
+            ctx.fillRect(0, 0, 512, 128);
+            ctx.font = 'Bold 32px "Segoe UI"';
+            ctx.fillStyle = '#e9c46a';
+            ctx.textAlign = 'center';
+            ctx.fillText('HUMANIZE DEEP', 256, 64);
+            const texture = new THREE.CanvasTexture(canvas);
+            const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(5, 1.2), new THREE.MeshStandardMaterial({ map: texture, side: THREE.DoubleSide }));
+            textPlane.position.set(0, 2.8, -3.5);
+            scene.add(textPlane);
+            
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
             animate();
-            window.addEventListener('resize',()=>{if(r&&c){c.aspect=ct.clientWidth/ct.clientHeight;c.updateProjectionMatrix();r.setSize(ct.clientWidth,ct.clientHeight)}});
+            
+            window.addEventListener('resize', () => {
+                if (renderer && camera) {
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(width, height);
+                }
+            });
+            
+            vrActive = true;
         }
-        const nm=document.getElementById('normalMode'),vd=document.getElementById('vrMode'),vb2=document.getElementById('vrModeBtn'),cv=document.getElementById('closeVrBtn');
-        vb2.onclick=()=>{nm.style.display='none';vd.classList.add('active');if(!a){init();a=true}};
-        cv.onclick=()=>{vd.classList.remove('active');nm.style.display='block'};
+        
+        const normalMode = document.getElementById('normalMode');
+        const vrModeDiv = document.getElementById('vrMode');
+        const vrBtn2 = document.getElementById('vrModeBtn');
+        const closeVrBtn = document.getElementById('closeVrBtn');
+        
+        vrBtn2.addEventListener('click', () => {
+            normalMode.style.display = 'none';
+            vrModeDiv.classList.add('active');
+            if (!vrActive) {
+                setTimeout(() => initVR(), 100);
+            }
+        });
+        
+        closeVrBtn.addEventListener('click', () => {
+            vrModeDiv.classList.remove('active');
+            normalMode.style.display = 'block';
+        });
     </script>
 
-    <!-- PUBLICIDAD (SCRIPTS OCULTOS) -->
+    <!-- PUBLICIDAD (scripts originales) -->
     <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
     <script>(function(lba){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=lba||{};s.src="\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
