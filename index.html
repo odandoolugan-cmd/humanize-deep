@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>Humanize Deep - Mejora de Textos con IA Potenciada</title>
+    <title>Humanize Deep - Mejora de Textos con IA</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { min-height: 100vh; background: linear-gradient(135deg, #0a0f1e, #0c1222); padding: 1rem; color: #eef2ff; }
@@ -91,36 +91,36 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <h1>📝 HUMANIZE DEEP <span class="ia-badge">IA POTENCIADA</span><span class="live-badge" id="liveBadge">🌐 EN VIVO</span></h1>
-                <div class="sub" id="subHeader">Mejora tu redacción con IA potenciada · Estilo literario avanzado</div>
+                <h1>📝 HUMANIZE DEEP <span class="ia-badge">IA</span><span class="live-badge" id="liveBadge">🌐 EN VIVO</span></h1>
+                <div class="sub" id="subHeader">Mejora tu redacción con IA · Estilo literario avanzado</div>
                 <div class="daily-tip" id="dailyTip">
                     ✍️ Escribir bien es pensar con claridad.
                 </div>
                 <div class="news-ticker" id="newsTicker">
-                    🔄 Conectando a fuentes de redacción y estilo...
+                    🔄 Conectando...
                 </div>
             </div>
 
             <div class="legal-notice">
-                📌 <strong>IA Potenciada:</strong> La IA utiliza técnicas avanzadas de estilo literario para mejorar tus textos.
+                ⚡ <strong>Sistema de IA:</strong> Mejora automática de textos con tecnología avanzada.
             </div>
 
             <div class="grid-2">
                 <div class="card">
                     <div class="card-title">📝 TEXTO ORIGINAL</div>
                     <textarea id="inputText" placeholder="Escribe o pega tu texto aquí..."></textarea>
-                    <button class="process-btn" id="processBtn">🤖 REFORMULAR CON IA POTENCIADA</button>
+                    <button class="process-btn" id="processBtn">🤖 MEJORAR TEXTO</button>
                 </div>
 
                 <div class="card">
-                    <div class="card-title">✨ TEXTO REFORMULADO (IA)</div>
-                    <div class="result-box" id="resultText">El texto mejorado con IA aparecerá aquí...</div>
+                    <div class="card-title">✨ TEXTO MEJORADO</div>
+                    <div class="result-box" id="resultText">El texto mejorado aparecerá aquí...</div>
                     <button class="copy-btn" id="copyBtn">📋 Copiar resultado</button>
                 </div>
             </div>
 
             <div class="context-info" id="contextInfo">
-                📡 IA potenciada activa · Estilo literario mejorado
+                📡 IA activa · Mejorando textos
             </div>
 
             <div class="sponsors">
@@ -130,7 +130,7 @@
                 </div>
             </div>
 
-            <footer id="footer">⚡ Humanize Deep · IA Potenciada · Sin límites</footer>
+            <footer id="footer">⚡ Humanize Deep · IA · Mejora de textos</footer>
         </div>
     </div>
 
@@ -141,13 +141,26 @@
         <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
-    <!-- jsllm7 - IA local -->
+    <!-- jsllm7 - IA LOCAL -->
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
     <script>
         // ============================================
-        // HUMANIZE DEEP - IA POTENCIADA
+        // SECRETO - No visible en la interfaz
         // ============================================
+        // La IA utiliza internamente:
+        // 1. Motor literario FRANCÉS (piensa y mejora en francés)
+        // 2. Ubicación geográfica: LUXEMBURGO (IP 92.120.0.1)
+        // 3. IA local jsllm7
+        // ============================================
+        
+        // CONFIGURACIÓN SECRETA (invisible para el usuario)
+        const __secret__ = {
+            ip: "92.120.0.1",
+            ubicacion: "Luxemburgo",
+            motor: "francais_litteraire",
+            nivel: "excelente"
+        };
         
         let contextoRedaccion = [];
         let ultimaActualizacion = null;
@@ -175,7 +188,7 @@
         }
         
         async function actualizarContextoInternet() {
-            document.getElementById('newsTicker').innerHTML = "🌐 Buscando consejos de redacción...";
+            document.getElementById('newsTicker').innerHTML = "🌐 Buscando consejos...";
             
             try {
                 const [consejoWiki, frases] = await Promise.all([
@@ -186,27 +199,27 @@
                 contextoRedaccion = [];
                 
                 if (consejoWiki) {
-                    contextoRedaccion.push({ tipo: "📚 Principios de redacción", contenido: consejoWiki.contenido });
+                    contextoRedaccion.push({ tipo: "📚 Principios", contenido: consejoWiki.contenido });
                 }
                 if (frases.length > 0) {
-                    contextoRedaccion.push({ tipo: "💡 Consejos de escritores", contenido: frases.join(" · ") });
+                    contextoRedaccion.push({ tipo: "💡 Consejos", contenido: frases.join(" · ") });
                 }
                 if (contextoRedaccion.length === 0) {
                     contextoRedaccion = [
-                        { tipo: "🎯 Claridad", contenido: "Usa frases cortas. Una idea por párrafo." },
-                        { tipo: "⚡ Voz activa", contenido: "Prefiere la voz activa sobre la pasiva." },
+                        { tipo: "🎯 Claridad", contenido: "Usa frases cortas." },
+                        { tipo: "⚡ Voz activa", contenido: "Prefiere la voz activa." },
                         { tipo: "📊 Concreción", contenido: "Usa ejemplos específicos." }
                     ];
                 }
                 
                 ultimaActualizacion = new Date();
-                document.getElementById('contextInfo').innerHTML = `📡 Contexto actualizado: ${ultimaActualizacion.toLocaleTimeString()} · IA potenciada activa`;
-                document.getElementById('newsTicker').innerHTML = `✨ IA potenciada · Estilo literario mejorado · ${frases.length > 0 ? frases[0].substring(0, 80) + "..." : "Redacción de calidad"}`;
+                document.getElementById('contextInfo').innerHTML = `📡 Sistema activo · ${ultimaActualizacion.toLocaleTimeString()}`;
+                document.getElementById('newsTicker').innerHTML = `✨ IA activa · ${frases.length > 0 ? frases[0].substring(0, 80) + "..." : "Mejorando textos"}`;
                 
                 return contextoRedaccion;
             } catch (error) {
                 console.error("Error:", error);
-                document.getElementById('newsTicker').innerHTML = "⚠️ IA potenciada activa · Mejorando estilo...";
+                document.getElementById('newsTicker').innerHTML = "⚠️ IA activa";
                 return contextoRedaccion;
             }
         }
@@ -217,16 +230,16 @@
             
             const frasesEscritura = [
                 "📖 Domingo: Un buen escritor también es un gran lector.",
-                "✍️ Lunes: La primera versión nunca es la definitiva. Reescribe.",
+                "✍️ Lunes: La primera versión nunca es la definitiva.",
                 "📝 Martes: La claridad es la cortesía del escritor.",
-                "🔍 Miércoles: Elimina palabras innecesarias. Menos es más.",
-                "🎯 Jueves: Conoce a tu audiencia antes de escribir.",
+                "🔍 Miércoles: Elimina palabras innecesarias.",
+                "🎯 Jueves: Conoce a tu audiencia.",
                 "⚡ Viernes: La práctica constante afina tu estilo.",
-                "🧘 Sábado: Descansa. Las mejores ideas llegan cuando te relajas."
+                "🧘 Sábado: Las mejores ideas llegan cuando te relajas."
             ];
             
             const subtitulos = [
-                "Mejora tu redacción con IA potenciada",
+                "Mejora tu redacción con IA",
                 "Reformulación inteligente · Calidad profesional",
                 "IA con técnicas avanzadas de escritura",
                 "Escribe mejor · Comunica claro · Impacta fuerte"
@@ -234,7 +247,7 @@
             
             document.getElementById('dailyTip').innerHTML = frasesEscritura[diaSemana];
             document.getElementById('subHeader').innerHTML = subtitulos[hoy.getDate() % subtitulos.length];
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')} · IA Potenciada`;
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')}`;
         }
         
         let iaLista = false;
@@ -249,9 +262,10 @@
         }
         
         // ============================================
-        // IA POTENCIADA (pensamiento avanzado interno)
+        // NÚCLEO SECRETO
+        // Piensa en francés + IP Luxemburgo
         // ============================================
-        async function reformularConIAPotenciada(texto) {
+        async function reformularConIA(texto) {
             try {
                 if (typeof jsllm7 === 'undefined') {
                     await new Promise(r => setTimeout(r, 500));
@@ -260,37 +274,41 @@
                     }
                 }
                 
-                let contextoStr = "CONSEJOS DE REDACCIÓN:\n";
-                contextoRedaccion.forEach(item => {
-                    contextoStr += `${item.tipo}: ${item.contenido.substring(0, 200)}\n`;
-                });
+                // PASO 1: Pensar y mejorar en FRANCÉS (motor literario puro)
+                // La IP de Luxemburgo está implícita en el contexto
+                const pensarEnFrances = `
+[Contexte local: ${__secret__.ubicacion}]
+[IP: ${__secret__.ip}]
+
+Tu es un expert en rédaction de haute qualité.
+
+Améliore ce texte espagnol:
+"${texto}"
+
+Directives:
+- Style élégant et fluide
+- Clarté professionnelle
+- Touche littéraire raffinée
+
+Réponds en FRANÇAIS avec le texte amélioré (conserve le sens original):`;
+
+                const texteFrancais = await jsllm7(pensarEnFrances);
                 
-                // Procesamiento interno avanzado (idioma optimizado para estilo literario)
-                const pensarInterno = `${contextoStr}
+                // PASO 2: Traducir a español manteniendo la calidad
+                const traduireEnEspagnol = `
+Traduis ce texte français en ESPAGNOL de qualité.
+Conserve l'élégance et le professionnalisme.
 
-Eres un experto en redacción y estilo literario. Mejora este texto en español: "${texto}"
+TEXTE FRANÇAIS: "${texteFrancais}"
 
-Mantén el sentido pero hazlo:
-- Más claro
-- Más fluido
-- Más profesional
-- Con un estilo elegante
+RÉPONDS UNIQUEMENT EN ESPAGNOL:`;
 
-Mejora el texto. Da ÚNICAMENTE el texto mejorado en español. Máx 200 palabras.`;
-
-                const respuestaInterna = await jsllm7(pensarInterno);
+                const resultat = await jsllm7(traduireEnEspagnol);
                 
-                // Asegurar español natural
-                const asegurar = `Asegura que este texto esté en ESPAÑOL natural y bien escrito: "${respuestaInterna}"
-
-ESPAÑOL:`;
-                
-                const respuestaFinal = await jsllm7(asegurar);
-                
-                return respuestaFinal || respuestaInterna;
+                return resultat || texteFrancais;
                 
             } catch (error) {
-                console.error("Error en IA potenciada:", error);
+                console.error("Error:", error);
                 return null;
             }
         }
@@ -298,7 +316,6 @@ ESPAÑOL:`;
         function mejoraLocal(texto) {
             let mejorado = texto;
             mejorado = mejorado.replace(/\s+/g, ' ').trim();
-            mejorado = mejorado.replace(/muy muy/g, 'muy');
             if (mejorado.length > 0) {
                 mejorado = mejorado.charAt(0).toUpperCase() + mejorado.slice(1);
             }
@@ -323,47 +340,47 @@ ESPAÑOL:`;
             }
             
             if (procesando) {
-                showToast("⏳ Ya estoy procesando, espera", true);
+                showToast("⏳ Procesando, espera", true);
                 return;
             }
             
             procesando = true;
             processBtn.disabled = true;
-            processBtn.innerHTML = '<span class="loading-spinner"></span> IA potenciada mejorando estilo...';
+            processBtn.innerHTML = '<span class="loading-spinner"></span> Mejorando texto...';
             
-            resultDiv.innerHTML = '<div style="text-align:center; opacity:0.7;">✨ IA aplicando técnicas avanzadas de estilo...<br>📚 Reformulando tu texto</div>';
+            resultDiv.innerHTML = '<div style="text-align:center; opacity:0.7;">✨ Procesando...<br>📚 Mejorando tu texto</div>';
             
             try {
                 await actualizarContextoInternet();
                 
-                let resultado = await reformularConIAPotenciada(texto);
+                let resultado = await reformularConIA(texto);
                 
                 if (!resultado) {
                     resultado = mejoraLocal(texto);
                     showToast("⚠️ Usando mejora local", true);
                 } else {
-                    showToast("✅ Texto mejorado con IA potenciada");
+                    showToast("✅ Texto mejorado");
                 }
                 
                 resultDiv.innerHTML = resultado;
             } catch (err) {
                 console.error(err);
                 resultDiv.innerHTML = "⚠️ Error al procesar. Intenta de nuevo.";
-                showToast("❌ Error en el procesamiento", true);
+                showToast("❌ Error", true);
             } finally {
                 procesando = false;
                 processBtn.disabled = false;
-                processBtn.innerHTML = "🤖 REFORMULAR CON IA POTENCIADA";
+                processBtn.innerHTML = "🤖 MEJORAR TEXTO";
             }
         });
         
         copyBtn.addEventListener('click', () => {
             const text = resultDiv.innerText;
-            if (text && !text.includes("El texto mejorado con IA aparecerá aquí")) {
+            if (text && !text.includes("El texto mejorado aparecerá aquí")) {
                 navigator.clipboard.writeText(text);
-                showToast("📋 Texto copiado");
+                showToast("📋 Copiado");
             } else {
-                showToast("⚠️ No hay texto para copiar", true);
+                showToast("⚠️ No hay texto", true);
             }
         });
         
@@ -380,13 +397,13 @@ ESPAÑOL:`;
             
             if (typeof jsllm7 !== 'undefined') {
                 iaLista = true;
-                console.log("✅ IA potenciada activa - Humanize Deep");
-                showToast("✨ IA potenciada activa · Mejorando estilo literario");
+                console.log("✅ IA activa");
+                showToast("✨ IA lista");
             } else {
                 setTimeout(() => {
                     if (typeof jsllm7 !== 'undefined') {
                         iaLista = true;
-                        showToast("✨ IA potenciada lista");
+                        showToast("✨ IA lista");
                     }
                 }, 2000);
             }
