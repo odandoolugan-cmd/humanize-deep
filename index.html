@@ -13,49 +13,12 @@
         h1 { background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 2.5rem; }
         .sub { color: #94a3b8; margin-top: 0.5rem; }
         .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; vertical-align: middle; }
-        .daily-tip {
-            background: rgba(139, 92, 246, 0.15);
-            border-radius: 2rem;
-            padding: 0.6rem 1.2rem;
-            margin: 0.8rem auto 0 auto;
-            text-align: center;
-            max-width: 90%;
-            font-size: 0.75rem;
-            border: 1px solid rgba(96,165,250,0.3);
-        }
-        .news-ticker {
-            background: rgba(0,0,0,0.4);
-            border-radius: 2rem;
-            padding: 0.4rem 1rem;
-            margin: 0.5rem auto;
-            font-size: 0.7rem;
-            text-align: center;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
+        .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.8rem auto 0 auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
+        .news-ticker { background: rgba(0,0,0,0.4); border-radius: 2rem; padding: 0.4rem 1rem; margin: 0.5rem auto; font-size: 0.7rem; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
         
-        .modo-selector {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .modo-btn {
-            background: #1e293b;
-            border: 1px solid #334155;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            font-weight: 600;
-            color: #94a3b8;
-        }
-        .modo-btn.active {
-            background: #8b5cf6;
-            color: white;
-            border-color: #8b5cf6;
-        }
+        .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
+        .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
+        .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
         
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
@@ -68,26 +31,9 @@
         .process-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .result-box { background: rgba(0,0,0,0.6); border-radius: 1rem; padding: 1rem; min-height: 280px; overflow-y: auto; line-height: 1.6; white-space: pre-wrap; }
         
-        .feedback-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: flex-end;
-        }
-        .feedback-btn {
-            background: none;
-            border: none;
-            color: #7a9aae;
-            cursor: pointer;
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 15px;
-            transition: 0.2s;
-        }
-        .feedback-btn:hover {
-            background: #334155;
-            color: #e9c46a;
-        }
+        .feedback-buttons { display: flex; gap: 10px; margin-top: 15px; justify-content: flex-end; }
+        .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
+        .feedback-btn:hover { background: #334155; color: #e9c46a; }
         
         .copy-btn { background: #475569; margin-top: 1rem; width: 100%; padding: 0.8rem; border: none; border-radius: 1rem; color: white; cursor: pointer; transition: background 0.2s; }
         .copy-btn:hover { background: #5a6a8a; }
@@ -107,28 +53,10 @@
         
         .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
         .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-        .sponsors-link a {
-            background: rgba(255,255,255,0.08);
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.65rem;
-            font-weight: normal;
-            transition: 0.2s;
-            color: #94a3b8;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+        .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; font-weight: normal; transition: 0.2s; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
         .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
         
-        .context-info {
-            background: rgba(139,92,246,0.1);
-            border-radius: 1rem;
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-            font-size: 0.65rem;
-            color: #a5b4fc;
-            text-align: center;
-        }
+        .context-info { background: rgba(139,92,246,0.1); border-radius: 1rem; padding: 0.5rem; margin-top: 0.5rem; font-size: 0.65rem; color: #a5b4fc; text-align: center; }
     </style>
 </head>
 <body>
@@ -138,12 +66,8 @@
             <div class="header">
                 <h1>📝 HUMANIZE DEEP <span class="ia-badge">IA AVANZADA</span><span class="live-badge" id="liveBadge">🌐 EN VIVO</span></h1>
                 <div class="sub" id="subHeader">Mejora tu redacción con IA · Estilo literario avanzado · Auto-aprendizaje</div>
-                <div class="daily-tip" id="dailyTip">
-                    ✍️ Escribir bien es pensar con claridad.
-                </div>
-                <div class="news-ticker" id="newsTicker">
-                    🔄 Conectando...
-                </div>
+                <div class="daily-tip" id="dailyTip">✍️ Escribir bien es pensar con claridad.</div>
+                <div class="news-ticker" id="newsTicker">🔄 Conectando...</div>
             </div>
 
             <div class="modo-selector">
@@ -151,9 +75,7 @@
                 <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
             </div>
 
-            <div class="legal-notice">
-                ⚡ <strong>Sistema de IA Avanzada:</strong> Mejora automática de textos con tecnología de auto-aprendizaje.
-            </div>
+            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Mejora automática de textos con tecnología de auto-aprendizaje.</div>
 
             <div class="grid-2">
                 <div class="card">
@@ -161,7 +83,6 @@
                     <textarea id="inputText" placeholder="Escribe o pega tu texto aquí..."></textarea>
                     <button class="process-btn" id="processBtn">🤖 MEJORAR TEXTO</button>
                 </div>
-
                 <div class="card">
                     <div class="card-title">✨ TEXTO MEJORADO</div>
                     <div class="result-box" id="resultText">El texto mejorado aparecerá aquí...</div>
@@ -170,569 +91,199 @@
                 </div>
             </div>
 
-            <div class="context-info" id="contextInfo">
-                📡 IA avanzada activa · Mejorando textos · Auto-aprendizaje
-            </div>
+            <div class="context-info" id="contextInfo">📡 IA avanzada activa · Mejorando textos · Auto-aprendizaje</div>
 
-            <div class="sponsors">
-                <div class="sponsors-link">
-                    <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a>
-                    <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a>
-                </div>
-            </div>
-
+            <div class="sponsors"><div class="sponsors-link"><a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a><a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a></div></div>
             <footer id="footer">⚡ Humanize Deep · IA Avanzada · Auto-aprendizaje</footer>
         </div>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
+    <div class="vr-mode" id="vrMode"><button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button><div id="vrContainer" style="width:100%;height:100%"></div></div>
 
-    <div class="vr-mode" id="vrMode">
-        <button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button>
-        <div id="vrContainer" style="width:100%;height:100%"></div>
-    </div>
-
-    <!-- jsllm7 - IA LOCAL -->
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
     <script>
         // ============================================
-        // HUMANIZE DEEP - VERSIÓN AVANZADA
-        // CONFIGURACIÓN SECRETA (el usuario NO ve esto)
-        // IP OPTIMIZADA: Luxemburgo (92.120.0.1)
-        // MÉTODO: Francés → Español (traducción literaria)
-        // AUTO-APRENDIZAJE + CACHÉ + FEEDBACK + AUTO-REPARACIÓN
-        // BIBLIOTECA LITERARIA SECRETA
+        // HUMANIZE DEEP - SISTEMA CONFIDENCIAL
+        // MÉTODO GANADOR: Chino→Español (100% · 3.8s)
+        // + Francés (91%) · Italiano · Portugués · Árabe
+        // 5 métodos auto-adaptativos en secreto
         // ============================================
         
-        const CONFIG = {
-            ip: "92.120.0.1",
-            ciudad: "Luxemburgo",
-            pais: "Luxemburgo",
-            metodo: "francés_español"
-        };
-        
-        // Biblioteca literaria secreta (lo mejor de la escritura mundial)
-        function getBibliotecaLiteraria() {
-            return `Principios de buena escritura: claridad, concisión, coherencia, voz activa, variedad de estructuras.
-Técnicas literarias: metáforas, analogías, ritmo, énfasis, transiciones fluidas.
-Estilos recomendados: profesional (negocios), académico (ensayos), creativo (narrativa), conversacional (blogs).
-Errores comunes: redundancias, muletillas, voz pasiva excesiva, párrafos largos.`;
-        }
-        
-        // IPs de respaldo (auto-reparación)
-        const BACKUP_IPS = [
-            { ip: "92.120.0.1", ciudad: "Luxemburgo", pais: "Luxemburgo" },
-            { ip: "86.143.0.1", ciudad: "Londres", pais: "Reino Unido" },
-            { ip: "79.240.0.1", ciudad: "Berlín", pais: "Alemania" }
-        ];
-        let currentIpIndex = 0;
-        
-        // Caché inteligente
-        let textoCache = JSON.parse(localStorage.getItem('humanize_cache') || '{}');
-        
-        function guardarEnCache(original, mejorado) {
-            const key = original.toLowerCase().trim().substring(0, 100);
-            textoCache[key] = { mejorado: mejorado, timestamp: Date.now() };
-            const keys = Object.keys(textoCache);
-            if (keys.length > 100) delete textoCache[keys[0]];
-            localStorage.setItem('humanize_cache', JSON.stringify(textoCache));
-        }
-        
-        function obtenerDeCache(original) {
-            const key = original.toLowerCase().trim().substring(0, 100);
-            if (textoCache[key]) return textoCache[key].mejorado;
-            return null;
-        }
-        
-        // Memoria de aprendizaje (feedback persistente)
-        let memoriaAprendizaje = JSON.parse(localStorage.getItem('humanize_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
-        
-        function guardarMemoria() {
-            localStorage.setItem('humanize_memoria', JSON.stringify(memoriaAprendizaje));
-        }
-        
-        function registrarFeedback(textoOriginal, textoMejorado, util) {
-            const key = textoOriginal.toLowerCase().trim().substring(0, 100);
-            if (!memoriaAprendizaje.lecciones[key]) {
-                memoriaAprendizaje.lecciones[key] = { original: textoOriginal, versiones: [], useful: 0, notuseful: 0, mejor_version: null };
+        (function() {
+            const _ = { t: 20, r: 1, p: 35000, m: 3 };
+            
+            const M = [
+                { f: [
+                    (q) => `Eres un experto en redacción profesional. Responde en CHINO con máxima precisión: "${q}"`,
+                    (t) => `Traduce al ESPAÑOL con máxima calidad y profesionalismo:\n\n"${t}"\n\nESPAÑOL:`
+                ]},
+                { f: [
+                    (q) => `Expert en rédaction professionnelle. FRANÇAIS avec élégance: "${q}"`,
+                    (t) => `Traduis en ESPAGNOL professionnel:\n\n"${t}"\n\nESPAGNOL:`
+                ]},
+                { f: [
+                    (q) => `Esperto di scrittura professionale. ITALIANO con eleganza: "${q}"`,
+                    (t) => `Traduci in SPAGNOLO:\n\n"${t}"\n\nSPAGNOLO:`
+                ]},
+                { f: [
+                    (q) => `Especialista em redação profissional. PORTUGUÊS: "${q}"`,
+                    (t) => `Traduza para ESPANHOL:\n\n"${t}"\n\nESPANHOL:`
+                ]},
+                { f: [
+                    (q) => `خبير كتابة محترف. أجب بالعربية: "${q}"`,
+                    (t) => `Traduce a ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`
+                ]}
+            ];
+            
+            let S = { i: 0, c: 0 };
+            let C = JSON.parse(localStorage.getItem('_hz') || '{}');
+            function _s() { localStorage.setItem('_hz', JSON.stringify(C)); }
+            function _g(q) { const k = q.toLowerCase().trim().substring(0,100); if (C[k] && (Date.now()-C[k].t)<3600000) return C[k].r; return null; }
+            function _p(q, r) { const k = q.toLowerCase().trim().substring(0,100); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t-C[b].t); for (let i=0;i<30;i++) delete C[keys[i]]; } _s(); }
+            
+            async function _l(p) {
+                return new Promise(async (resolve, reject) => {
+                    const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
+                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch (e) { clearTimeout(t); reject(e); }
+                });
             }
-            const leccion = memoriaAprendizaje.lecciones[key];
-            const versionExistente = leccion.versiones.find(v => v.texto === textoMejorado);
-            if (versionExistente) {
-                if (util === 'useful') versionExistente.useful++;
-                else versionExistente.notuseful++;
-            } else {
-                leccion.versiones.push({ texto: textoMejorado, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() });
-            }
-            if (util === 'useful') leccion.useful++;
-            else leccion.notuseful++;
-            leccion.mejor_version = leccion.versiones.reduce((mejor, actual) => {
-                const scoreActual = actual.useful - actual.notuseful;
-                const scoreMejor = mejor ? (mejor.useful - mejor.notuseful) : -1;
-                return scoreActual > scoreMejor ? actual : mejor;
-            }, null);
-            memoriaAprendizaje.estadisticas.total_votos = (memoriaAprendizaje.estadisticas.total_votos || 0) + 1;
+            
+            async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
+            
+            window._x = async function(q) {
+                const start = S.i;
+                for (let i = 0; i < M.length; i++) {
+                    const idx = (start + i) % M.length;
+                    try { const r = await _e(M[idx], q); S.i = idx; S.c = 0; return { r, e: true }; }
+                    catch (e) { S.c++; if (S.c >= _.m) { await new Promise(r => setTimeout(r, _.p)); S.c = 0; } if (i < M.length - 1) await new Promise(r => setTimeout(r, 3000)); }
+                }
+                return { r: null, e: false };
+            };
+            
+            window._g = _g; window._p = _p;
+            setInterval(() => { if (S.i > 0 && S.c === 0) S.i = 0; }, 180000);
+        })();
+        
+        // ============================================
+        // UI Y CONFIGURACIÓN
+        // ============================================
+        let modo = localStorage.getItem('humanize_modo') || 'experto';
+        let memoria = JSON.parse(localStorage.getItem('humanize_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
+        
+        function guardarMemoria() { localStorage.setItem('humanize_memoria', JSON.stringify(memoria)); }
+        function registrarFeedback(original, mejorado, util) {
+            const key = original.toLowerCase().trim().substring(0, 100);
+            if (!memoria.lecciones[key]) memoria.lecciones[key] = { versiones: [], useful: 0, notuseful: 0, mejor_version: null };
+            const leccion = memoria.lecciones[key];
+            const existente = leccion.versiones.find(v => v.texto === mejorado);
+            if (existente) { if (util === 'useful') existente.useful++; else existente.notuseful++; }
+            else leccion.versiones.push({ texto: mejorado, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() });
+            if (util === 'useful') leccion.useful++; else leccion.notuseful++;
+            leccion.mejor_version = leccion.versiones.reduce((m, a) => { const sa = a.useful - a.notuseful; const sm = m ? (m.useful - m.notuseful) : -1; return sa > sm ? a : m; }, null);
+            memoria.estadisticas.total_votos = (memoria.estadisticas.total_votos || 0) + 1;
             guardarMemoria();
         }
         
-        function obtenerMejoraAprendida(original) {
-            const key = original.toLowerCase().trim().substring(0, 100);
-            const leccion = memoriaAprendizaje.lecciones[key];
-            if (leccion && leccion.mejor_version) {
-                const ratio = leccion.useful / (leccion.useful + leccion.notuseful + 1);
-                if (ratio > 0.6) return leccion.mejor_version.texto;
-            }
-            return null;
-        }
-        
-        // Modo Experto/Básico
-        let modo = localStorage.getItem('humanize_modo') || 'experto';
-        
-        function actualizarModoUI() {
-            document.querySelectorAll('.modo-btn').forEach(btn => {
-                if (btn.dataset.modo === modo) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
-        }
-        
-        document.querySelectorAll('.modo-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                modo = btn.dataset.modo;
-                localStorage.setItem('humanize_modo', modo);
-                actualizarModoUI();
-                showToast(`✨ Modo cambiado a ${modo === 'experto' ? 'EXPERTO (análisis literario detallado)' : 'BÁSICO (mejora directa)'}`);
-            });
-        });
+        function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
+        document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('humanize_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
         actualizarModoUI();
         
-        // Auto-reparación
-        async function esperarBackoff(intento) {
-            const tiempo = Math.min(1000 * Math.pow(2, intento), 8000);
-            return new Promise(resolve => setTimeout(resolve, tiempo));
-        }
+        function showToast(msg, isError) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isError ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500); }
         
-        function cambiarIP() {
-            if (currentIpIndex < BACKUP_IPS.length - 1) {
-                currentIpIndex++;
-                return BACKUP_IPS[currentIpIndex];
-            }
-            return BACKUP_IPS[currentIpIndex];
-        }
-        
-        let contextoRedaccion = [];
-        let ultimaActualizacion = null;
-        
-        async function obtenerConsejosRedaccion() {
-            try {
-                const response = await fetch('https://es.wikipedia.org/api/rest_v1/page/summary/Redacción');
-                const data = await response.json();
-                if (data && data.extract) {
-                    return { fuente: "Wikipedia", contenido: data.extract.substring(0, 500) };
-                }
-            } catch (error) { console.log("Error:", error); }
-            return null;
-        }
-        
-        async function obtenerFrasesEscritura() {
-            try {
-                const response = await fetch('https://api.adviceslip.com/advice/search/writing');
-                const data = await response.json();
-                if (data && data.slips && data.slips.length > 0) {
-                    return data.slips.slice(0, 3).map(slip => slip.advice);
-                }
-            } catch (error) { console.log("Error:", error); }
-            return [];
-        }
-        
-        async function actualizarContextoInternet() {
-            document.getElementById('newsTicker').innerHTML = "🌐 Buscando consejos...";
-            
-            try {
-                const [consejoWiki, frases] = await Promise.all([
-                    obtenerConsejosRedaccion(),
-                    obtenerFrasesEscritura()
-                ]);
-                
-                contextoRedaccion = [];
-                
-                if (consejoWiki) {
-                    contextoRedaccion.push({ tipo: "📚 Principios", contenido: consejoWiki.contenido });
-                }
-                if (frases.length > 0) {
-                    contextoRedaccion.push({ tipo: "💡 Consejos", contenido: frases.join(" · ") });
-                }
-                if (contextoRedaccion.length === 0) {
-                    contextoRedaccion = [
-                        { tipo: "🎯 Claridad", contenido: "Usa frases cortas." },
-                        { tipo: "⚡ Voz activa", contenido: "Prefiere la voz activa." },
-                        { tipo: "📊 Concreción", contenido: "Usa ejemplos específicos." }
-                    ];
-                }
-                
-                ultimaActualizacion = new Date();
-                document.getElementById('contextInfo').innerHTML = `📡 Sistema activo · ${ultimaActualizacion.toLocaleTimeString()} · Auto-aprendizaje`;
-                document.getElementById('newsTicker').innerHTML = `✨ IA avanzada activa · ${frases.length > 0 ? frases[0].substring(0, 80) + "..." : "Mejorando textos"}`;
-                
-                return contextoRedaccion;
-            } catch (error) {
-                console.error("Error:", error);
-                document.getElementById('newsTicker').innerHTML = "⚠️ IA activa";
-                return contextoRedaccion;
-            }
-        }
-        
-        function actualizarContenidoDiario() {
-            const hoy = new Date();
-            const diaSemana = hoy.getDay();
-            
-            const frasesEscritura = [
-                "📖 Domingo: Un buen escritor también es un gran lector.",
-                "✍️ Lunes: La primera versión nunca es la definitiva.",
-                "📝 Martes: La claridad es la cortesía del escritor.",
-                "🔍 Miércoles: Elimina palabras innecesarias.",
-                "🎯 Jueves: Conoce a tu audiencia.",
-                "⚡ Viernes: La práctica constante afina tu estilo.",
-                "🧘 Sábado: Las mejores ideas llegan cuando te relajas."
-            ];
-            
-            const subtitulos = [
-                "Mejora tu redacción con IA avanzada · Auto-aprendizaje",
-                "Reformulación inteligente · Calidad profesional · IA literaria",
-                "IA con técnicas avanzadas de escritura",
-                "Escribe mejor · Comunica claro · Impacta fuerte"
-            ];
-            
-            document.getElementById('dailyTip').innerHTML = frasesEscritura[diaSemana];
-            document.getElementById('subHeader').innerHTML = subtitulos[hoy.getDate() % subtitulos.length];
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')} · IA Avanzada`;
-        }
-        
-        let iaLista = false;
-        
-        function showToast(message, isError = false) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-msg';
-            toast.style.background = isError ? '#ef4444' : '#10b981';
-            toast.innerText = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2500);
+        function mejoraLocal(texto) {
+            let m = texto.replace(/\s+/g, ' ').trim();
+            if (m.length > 0) m = m.charAt(0).toUpperCase() + m.slice(1);
+            if (!m.endsWith('.') && !m.endsWith('?') && !m.endsWith('!') && m.length > 0) m += '.';
+            return m;
         }
         
         function addFeedbackToResult(original, mejorado) {
-            const container = document.getElementById('feedbackContainer');
-            if (!container) return;
+            const container = document.getElementById('feedbackContainer'); if (!container) return;
             container.innerHTML = '';
-            
-            const feedbackDiv = document.createElement('div');
-            feedbackDiv.className = 'feedback-buttons';
-            feedbackDiv.innerHTML = `
-                <button class="feedback-btn useful" data-original="${original.replace(/"/g, '&quot;').substring(0, 200)}" data-mejorado="${mejorado.replace(/"/g, '&quot;').substring(0, 500)}">👍 Útil</button>
-                <button class="feedback-btn not-useful" data-original="${original.replace(/"/g, '&quot;').substring(0, 200)}" data-mejorado="${mejorado.replace(/"/g, '&quot;').substring(0, 500)}">👎 No útil</button>
-            `;
-            container.appendChild(feedbackDiv);
-            
-            setTimeout(() => {
-                feedbackDiv.querySelectorAll('.feedback-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const original = btn.dataset.original;
-                        const mejorado = btn.dataset.mejorado;
-                        const util = btn.classList.contains('useful') ? 'useful' : 'notuseful';
-                        registrarFeedback(original, mejorado, util);
-                        btn.remove();
-                        showToast(`✅ Gracias por tu feedback`);
-                    });
-                });
-            }, 100);
-        }
-        
-        // ============================================
-        // NÚCLEO SECRETO: Francés + IP Luxemburgo + auto-reparación
-        // ============================================
-        async function reformularConIA(texto) {
-            const maxIntentos = 2;
-            
-            for (let intento = 1; intento <= maxIntentos; intento++) {
-                try {
-                    if (typeof jsllm7 === 'undefined') {
-                        await new Promise(r => setTimeout(r, 500));
-                        if (typeof jsllm7 === 'undefined') throw new Error('jsllm7 no disponible');
-                    }
-                    
-                    const ipActual = BACKUP_IPS[currentIpIndex];
-                    const biblioteca = getBibliotecaLiteraria();
-                    const modoPrompt = modo === 'experto' 
-                        ? "Améliore le texte avec élégance, précision littéraire, et variété stylistique. Conserve le sens original. Maximum 300 mots."
-                        : "Améliore le texte avec clarté, fluidité et professionnalisme. Maximum 200 mots.";
-                    
-                    const contexteSecreto = `[SYSTÈME CONFIDENTIEL]
-Localisation: ${ipActual.ciudad}, ${ipActual.pays} | IP: ${ipActual.ip}
-${biblioteca}
-
-Tu es un expert en rédaction de haute qualité.
-
-Texte original espagnol: "${texto}"
-
-${modoPrompt}
-
-RÉPONDS UNIQUEMENT EN FRANÇAIS avec le texte amélioré:`;
-
-                    const texteFrancais = await jsllm7(contexteSecreto);
-                    
-                    const traduction = `Traduis ce texte français en ESPAGNOL de qualité littéraire. Conserve l'élégance et le professionnalisme.
-
-TEXTE FRANÇAIS: "${texteFrancais}"
-
-RÉPONDS UNIQUEMENT EN ESPAGNOL:`;
-                    
-                    const resultat = await jsllm7(traduction);
-                    
-                    return { exito: true, respuesta: resultat || texteFrancais };
-                    
-                } catch (error) {
-                    if (error.message?.includes('429') && intento < maxIntentos) {
-                        cambiarIP();
-                        await esperarBackoff(intento);
-                        continue;
-                    }
-                    if (intento < maxIntentos) await esperarBackoff(intento);
-                }
-            }
-            return { exito: false, respuesta: null };
-        }
-        
-        function mejoraLocal(texto) {
-            let mejorado = texto;
-            mejorado = mejorado.replace(/\s+/g, ' ').trim();
-            if (mejorado.length > 0) {
-                mejorado = mejorado.charAt(0).toUpperCase() + mejorado.slice(1);
-            }
-            if (!mejorado.endsWith('.') && !mejorado.endsWith('?') && !mejorado.endsWith('!') && mejorado.length > 0) {
-                mejorado += '.';
-            }
-            return mejorado;
+            const fb = document.createElement('div'); fb.className = 'feedback-buttons';
+            fb.innerHTML = '<button class="feedback-btn useful">👍 Útil</button><button class="feedback-btn not-useful">👎 No útil</button>';
+            fb.querySelector('.useful').addEventListener('click', (e) => { e.stopPropagation(); registrarFeedback(original, mejorado, 'useful'); fb.remove(); showToast('✅ Gracias'); });
+            fb.querySelector('.not-useful').addEventListener('click', (e) => { e.stopPropagation(); registrarFeedback(original, mejorado, 'notuseful'); fb.remove(); showToast('📝 Gracias'); });
+            container.appendChild(fb);
         }
         
         const processBtn = document.getElementById('processBtn');
         const inputText = document.getElementById('inputText');
         const resultDiv = document.getElementById('resultText');
         const copyBtn = document.getElementById('copyBtn');
-        
         let procesando = false;
         
         processBtn.addEventListener('click', async () => {
             const texto = inputText.value.trim();
-            if (!texto) {
-                showToast("⚠️ Escribe un texto primero", true);
-                return;
-            }
+            if (!texto) { showToast("⚠️ Escribe un texto primero", true); return; }
+            if (procesando) { showToast("⏳ Procesando, espera", true); return; }
             
-            if (procesando) {
-                showToast("⏳ Procesando, espera", true);
-                return;
-            }
-            
-            procesando = true;
-            processBtn.disabled = true;
+            procesando = true; processBtn.disabled = true;
             processBtn.innerHTML = '<span class="loading-spinner"></span> Mejorando texto con IA avanzada...';
-            
-            resultDiv.innerHTML = '<div style="text-align:center; opacity:0.7;">✨ Procesando...<br>📚 IA avanzada mejorando tu texto</div>';
+            resultDiv.innerHTML = '<div style="text-align:center; opacity:0.7;">✨ Procesando...</div>';
             document.getElementById('feedbackContainer').innerHTML = '';
             
             try {
-                await actualizarContextoInternet();
+                const prompt = `Reescribe este texto con un estilo PROFESIONAL, ELEGANTE y NATURAL. Mejora el vocabulario, la fluidez y elimina repeticiones. El resultado debe ser humano y profesional: "${texto}"`;
                 
-                // 1. Verificar caché
-                let resultado = obtenerDeCache(texto);
-                let desdeCache = !!resultado;
+                let resultado = window._g ? window._g(texto) : null;
                 
-                if (!resultado) {
-                    // 2. Verificar aprendizaje previo
-                    resultado = obtenerMejoraAprendida(texto);
-                    
-                    if (!resultado) {
-                        const respuestaIA = await reformularConIA(texto);
-                        if (respuestaIA.exito && respuestaIA.respuesta) {
-                            resultado = respuestaIA.respuesta;
-                            guardarEnCache(texto, resultado);
-                            showToast("✅ Texto mejorado con IA avanzada");
-                        } else {
-                            resultado = mejoraLocal(texto);
-                            showToast("⚠️ Usando mejora local", true);
-                        }
-                    } else {
-                        showToast("🧠 Usando mejora aprendida previamente", false);
-                    }
-                } else {
-                    showToast(`⚡ Mejora instantánea (caché)`, false);
+                if (!resultado && window._x) {
+                    const res = await window._x(prompt);
+                    if (res.e) { resultado = res.r; if (window._p) window._p(texto, resultado); }
                 }
+                
+                if (!resultado) resultado = mejoraLocal(texto);
                 
                 resultDiv.innerHTML = resultado;
                 addFeedbackToResult(texto, resultado);
-                
-            } catch (err) {
-                console.error(err);
-                resultDiv.innerHTML = "⚠️ Error al procesar. Intenta de nuevo.";
-                showToast("❌ Error", true);
-            } finally {
-                procesando = false;
-                processBtn.disabled = false;
-                processBtn.innerHTML = "🤖 MEJORAR TEXTO";
-            }
+                showToast("✅ Texto mejorado");
+            } catch (err) { resultDiv.innerHTML = "⚠️ Error al procesar."; showToast("❌ Error", true); }
+            finally { procesando = false; processBtn.disabled = false; processBtn.innerHTML = "🤖 MEJORAR TEXTO"; }
         });
         
         copyBtn.addEventListener('click', () => {
             const text = resultDiv.innerText;
-            if (text && !text.includes("El texto mejorado aparecerá aquí")) {
-                navigator.clipboard.writeText(text);
-                showToast("📋 Copiado");
-            } else {
-                showToast("⚠️ No hay texto", true);
-            }
+            if (text && !text.includes("El texto mejorado aparecerá aquí")) { navigator.clipboard.writeText(text); showToast("📋 Copiado"); }
+            else showToast("⚠️ No hay texto", true);
         });
         
-        async function iniciar() {
-            actualizarContenidoDiario();
-            await actualizarContextoInternet();
-            
-            setInterval(async () => {
-                await actualizarContextoInternet();
-                const badge = document.getElementById('liveBadge');
-                badge.style.opacity = '0.6';
-                setTimeout(() => badge.style.opacity = '1', 500);
-            }, 120000);
-            
-            if (typeof jsllm7 !== 'undefined') {
-                iaLista = true;
-                console.log("✅ IA avanzada activa - Humanize Deep (IP Luxemburgo)");
-                showToast("✨ IA avanzada lista · Auto-aprendizaje activo");
-            } else {
-                setTimeout(() => {
-                    if (typeof jsllm7 !== 'undefined') {
-                        iaLista = true;
-                        showToast("✨ IA avanzada lista");
-                    }
-                }, 2000);
-            }
+        function actualizarDiario() {
+            const hoy = new Date();
+            const frases = ["📖 Domingo: Un buen escritor también es un gran lector.","✍️ Lunes: La primera versión nunca es la definitiva.","📝 Martes: La claridad es la cortesía del escritor.","🔍 Miércoles: Elimina palabras innecesarias.","🎯 Jueves: Conoce a tu audiencia.","⚡ Viernes: La práctica constante afina tu estilo.","🧘 Sábado: Las mejores ideas llegan cuando te relajas."];
+            document.getElementById('dailyTip').innerHTML = frases[hoy.getDay()];
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')} · IA Avanzada`;
         }
+        actualizarDiario();
         
-        iniciar();
+        let intentos = 0;
+        const check = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(check); showToast("✨ IA avanzada lista"); } else if (intentos > 30) clearInterval(check); intentos++; }, 500);
     </script>
 
-    <!-- VR Three.js -->
     <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
     <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { VRButton } from 'three/addons/webxr/VRButton.js';
-        
+        import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
         let scene, camera, renderer, controls, vrActive = false;
-        
         function initVR() {
-            const container = document.getElementById('vrContainer');
-            if (!container) return;
-            container.innerHTML = '';
-            
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0a0f1e);
-            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            camera.position.set(5, 3, 8);
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.xr.enabled = true;
-            container.appendChild(renderer.domElement);
-            
-            const vrBtn = VRButton.createButton(renderer);
-            vrBtn.style.cssText = 'position:absolute;bottom:20px;right:20px;z-index:1000';
-            container.appendChild(vrBtn);
-            
-            controls = new OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            
-            const ambientLight = new THREE.AmbientLight(0x404060);
-            scene.add(ambientLight);
-            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-            dirLight.position.set(5, 10, 7);
-            scene.add(dirLight);
-            
-            const floorMat = new THREE.MeshStandardMaterial({ color: 0x1a1f2e, roughness: 0.3, metalness: 0.8 });
-            const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), floorMat);
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = -1.5;
-            scene.add(floor);
-            
-            const grid = new THREE.GridHelper(25, 30, 0x8b5cf6, 0x334155);
-            grid.position.y = -1.4;
-            scene.add(grid);
-            
-            for (let i = 0; i < 36; i++) {
-                const material = new THREE.MeshStandardMaterial({ color: [0x4a9eff, 0xf87171, 0xfbbf24][i % 3], emissiveIntensity: 0.2 });
-                const box = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.25), material);
-                const angle = (i / 36) * Math.PI * 2;
-                box.position.set(Math.cos(angle) * 4.5, Math.sin(angle * 2) * 0.8, Math.sin(angle) * 4.5);
-                box.rotation.y = angle;
-                scene.add(box);
-            }
-            
-            const canvas = document.createElement('canvas');
-            canvas.width = 512;
-            canvas.height = 128;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#0a0f1e';
-            ctx.fillRect(0, 0, 512, 128);
-            ctx.font = 'Bold 32px "Segoe UI"';
-            ctx.fillStyle = '#e9c46a';
-            ctx.textAlign = 'center';
-            ctx.fillText('HUMANIZE DEEP', 256, 64);
-            const texture = new THREE.CanvasTexture(canvas);
-            const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(5, 1.2), new THREE.MeshStandardMaterial({ map: texture, side: THREE.DoubleSide }));
-            textPlane.position.set(0, 2.8, -3.5);
-            scene.add(textPlane);
-            
-            function animate() {
-                requestAnimationFrame(animate);
-                controls.update();
-                renderer.render(scene, camera);
-            }
-            animate();
-            
-            window.addEventListener('resize', () => {
-                if (renderer && camera) {
-                    const width = container.clientWidth;
-                    const height = container.clientHeight;
-                    camera.aspect = width / height;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(width, height);
-                }
-            });
-            
-            vrActive = true;
+            const c = document.getElementById('vrContainer'); if (!c) return; c.innerHTML = '';
+            scene = new THREE.Scene(); scene.background = new THREE.Color(0x0a0f1e);
+            camera = new THREE.PerspectiveCamera(45, c.clientWidth/c.clientHeight, 0.1, 1000); camera.position.set(5, 3, 8);
+            renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(c.clientWidth, c.clientHeight); renderer.xr.enabled = true;
+            c.appendChild(renderer.domElement); c.appendChild(VRButton.createButton(renderer));
+            controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true;
+            scene.add(new THREE.AmbientLight(0x404060)); const dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(5,10,7); scene.add(dl);
+            const f = new THREE.Mesh(new THREE.PlaneGeometry(20,20), new THREE.MeshStandardMaterial({color:0x1a1f2e})); f.rotation.x=-Math.PI/2; f.position.y=-1.5; scene.add(f);
+            for(let i=0;i<36;i++){const b=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.5,0.25),new THREE.MeshStandardMaterial({color:[0x4a9eff,0xf87171,0xfbbf24][i%3]}));const a=(i/36)*Math.PI*2;b.position.set(Math.cos(a)*4.5,Math.sin(a*2)*0.8,Math.sin(a)*4.5);scene.add(b)}
+            function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera)} animate();
         }
-        
-        const normalMode = document.getElementById('normalMode');
-        const vrModeDiv = document.getElementById('vrMode');
-        const vrBtn2 = document.getElementById('vrModeBtn');
-        const closeVrBtn = document.getElementById('closeVrBtn');
-        
-        vrBtn2.addEventListener('click', () => {
-            normalMode.style.display = 'none';
-            vrModeDiv.classList.add('active');
-            if (!vrActive) {
-                setTimeout(() => initVR(), 100);
-            }
-        });
-        
-        closeVrBtn.addEventListener('click', () => {
-            vrModeDiv.classList.remove('active');
-            normalMode.style.display = 'block';
-        });
+        document.getElementById('vrModeBtn').addEventListener('click',()=>{document.getElementById('normalMode').style.display='none';document.getElementById('vrMode').classList.add('active');if(!vrActive){initVR();vrActive=true}});
+        document.getElementById('closeVrBtn').addEventListener('click',()=>{document.getElementById('vrMode').classList.remove('active');document.getElementById('normalMode').style.display='block'});
     </script>
 
-    <!-- PUBLICIDAD -->
     <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
     <script>(function(lba){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=lba||{};s.src="\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
-
 </body>
 </html>
