@@ -88,139 +88,208 @@
 
     <script>
         // ============================================
-        // HUMANIZE DEEP - SISTEMA INTERNO (COMPLETAMENTE SECRETO)
-        // TRADUCCIÓN CÍCLICA: ES → EN → FR → DE → IT → PT → ES
-        // HUMANIZACIÓN PROFESIONAL
+        // HUMANIZE DEEP - SISTEMA INTERNO (CONFIDENCIAL)
+        // SISTEMA DE TRADUCCIÓN CÍCLICA MULTILINGÜE
         // EL USUARIO NUNCA VE ESTOS MECANISMOS
         // ============================================
         
-        // PROMPT INTERNO (SECRETO - EL USUARIO NO LO VE)
-        function generarPrompt(texto) {
-            return `[INSTRUCCIÓN OBLIGATORIA: RESPONDE 100% EN ESPAÑOL. PROHIBIDO TOTALMENTE EL INGLÉS.]
+        // [CONFIDENCIAL] Ruta de traducción - 30 países
+        const _R = [
+            'Español','Inglés','Francés','Alemán','Italiano','Portugués',
+            'Neerlandés','Sueco','Danés','Noruego','Finés','Polaco',
+            'Checo','Eslovaco','Húngaro','Rumano','Búlgaro','Griego',
+            'Lituano','Letón','Estonio','Ruso','Chino Mandarín','Japonés',
+            'Coreano','Hindi','Árabe','Hebreo','Turco','Suajili',
+            'Español'
+        ];
+        
+        // [CONFIDENCIAL] Prompt interno - MODO EXPERTO (30 países)
+        function _PE(texto) {
+            const ruta = _R.join(' → ');
+            return `[SISTEMA CONFIDENCIAL - USO INTERNO]
+[IDIOMA DE SALIDA: EXCLUSIVAMENTE ESPAÑOL]
+[PROHIBIDO TOTALMENTE RESPONDER EN OTRO IDIOMA]
 
-Realiza una traducción cíclica siguiendo EXACTAMENTE este orden:
+REALIZA UNA TRADUCCIÓN CÍCLICA MULTILINGÜE EN ESTE ORDEN EXACTO:
+${ruta}
 
-ESPAÑOL → INGLÉS → FRANCÉS → ALEMÁN → ITALIANO → PORTUGUÉS → ESPAÑOL
+REGLAS ESTRICTAS DE FIDELIDAD:
+1. Cada traducción debe preservar INTACTOS todos los hechos, nombres propios, cifras, fechas y lugares
+2. La diversidad lingüística enriquecerá naturalmente las estructuras gramaticales
+3. El resultado final debe sonar COMPLETAMENTE NATURAL en español, como escrito por un nativo
 
-Luego, REESCRIBE el resultado final en español de forma natural, fluida y profesional. Mantén TODO el significado original. NO añadas explicaciones, NO análisis, NO notas del editor.
+PERMITIDO (reescritura natural):
+- Mejorar el ritmo, la fluidez y la naturalidad del español
+- Usar sinónimos y expresiones idiomáticas españolas
+- Ajustar conectores y transiciones entre ideas
+- Variar la longitud de las oraciones para mejor lectura
+
+ESTRICTAMENTE PROHIBIDO:
+- INVENTAR nombres, apellidos, apodos, alias o sobrenombres
+- AGREGAR información, datos o contexto NO presentes en el original
+- CAMBIAR nombres propios, lugares, equipos, fechas, horas o cifras
+- INTRODUCIR nuevos personajes, eventos o detalles
+- ELIMINAR hechos, datos o información mencionada en el original
+- MODIFICAR el significado de cualquier frase
+- INCLUIR opiniones, análisis, notas del editor o comentarios
+- USAR cualquier idioma que NO sea español en la respuesta final
+
+VERIFICACIÓN INTERNA OBLIGATORIA ANTES DE RESPONDER:
+1. ¿Todos los nombres propios del original están presentes en el resultado? [DEBE SER SÍ]
+2. ¿Agregué algún dato, nombre o información que NO existía en el original? [DEBE SER NO]
+3. ¿El significado general es exactamente el mismo que el original? [DEBE SER SÍ]
+4. ¿El texto suena natural en español, como escrito por una persona real? [DEBE SER SÍ]
+
+FORMATO DE RESPUESTA:
+Responde ÚNICAMENTE con el texto reescrito en español.
+Sin introducciones, sin notas, sin análisis, sin explicaciones.
+
+TEXTO ORIGINAL: "${texto}"
+
+TEXTO REESCRITO:`;
+        }
+        
+        // [CONFIDENCIAL] Prompt interno - MODO BÁSICO
+        function _PB(texto) {
+            return `[INSTRUCCIÓN: RESPONDE SOLO EN ESPAÑOL]
+
+Humaniza el siguiente texto para que suene más natural y fluido. 
+Mantén el mismo significado, contenido, nombres y datos.
+No agregues información nueva. No incluyas notas ni análisis.
 
 RESPONDE SOLO CON EL TEXTO HUMANIZADO.
 
-Texto original: "${texto}"`;
+Texto: "${texto}"`;
         }
         
-        // FUNCIÓN HASH PARA CACHÉ
-        function _hash(str) {
-            let hash = 0;
+        // [CONFIDENCIAL] Hash para caché
+        function _H(str) {
+            let h = 0;
             const s = str.toLowerCase().trim();
             for (let i = 0; i < s.length; i++) {
-                hash = ((hash << 5) - hash) + s.charCodeAt(i);
-                hash |= 0;
+                h = ((h << 5) - h) + s.charCodeAt(i);
+                h |= 0;
             }
-            return Math.abs(hash).toString(36);
+            return Math.abs(h).toString(36);
         }
         
-        // BASE DE CONOCIMIENTO INTERNA
-        const _B = {
-            h: `[HUMANIZACIÓN] Técnicas: fluidez natural, ritmo variado, expresiones coloquiales sutiles, estructura orgánica. Objetivo: que el texto suene escrito por una persona real.`,
-            r: `[REDACCIÓN] Principios: claridad, concisión, coherencia, cohesión. Estilo natural, evitar repeticiones, voz activa.`
-        };
-        function _I() { return Object.values(_B).join(' '); }
-
-        // SISTEMA DE IA CON BACKOFF Y CACHÉ
-        (function() {
-            const _ = { t: 30, r: 2, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
-            let S = { i: 0, c: 0, backoff: _.p };
-            
-            const M = [
-                { f: [(q) => `${_I()}\n\nEres un experto en humanización de textos. RESPONDE SIEMPRE EN ESPAÑOL. Humaniza: "${q}"`, (t) => `${t}`] },
-                { f: [(q) => `${_I()}\n\nEres un escritor profesional. RESPONDE SIEMPRE EN ESPAÑOL. Humaniza: "${q}"`, (t) => `${t}`] },
-                { f: [(q) => `${_I()}\n\nEres un editor de estilo. RESPONDE SIEMPRE EN ESPAÑOL. Humaniza: "${q}"`, (t) => `${t}`] }
-            ];
-            
-            let C = JSON.parse(localStorage.getItem('_hd_human') || '{}');
-            function _s() { localStorage.setItem('_hd_human', JSON.stringify(C)); }
-            
-            function _g(q) { const k = _hash(q); if (C[k] && (Date.now() - C[k].t) < 3600000) return C[k].r; return null; }
-            function _p(q, r) { const k = _hash(q); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t - C[b].t); for (let i = 0; i < 30; i++) delete C[keys[i]]; } _s(); }
-            
-            async function _l(p) {
-                return new Promise(async (resolve, reject) => {
-                    const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
-                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch (e) { clearTimeout(t); reject(e); }
-                });
-            }
-            
-            async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
-            
-            window._x = async function(q) {
-                const start = S.i;
-                for (let i = 0; i < M.length; i++) {
-                    const idx = (start + i) % M.length;
-                    try { 
-                        const r = await _e(M[idx], q); 
-                        S.i = idx; S.c = 0; S.backoff = _.p; 
-                        return { r, e: true }; 
-                    }
-                    catch (e) { 
-                        S.c++; 
-                        if (S.c >= _.m) { 
-                            await new Promise(r => setTimeout(r, S.backoff)); 
-                            S.c = 0; 
-                            S.backoff = Math.min(S.backoff * _.backoffFactor, _.maxBackoff); 
-                        } 
-                        if (i < M.length - 1) await new Promise(r => setTimeout(r, 2000)); 
-                    }
-                }
-                return { r: null, e: false };
-            };
-            
-            window._g = _g;
-            window._p = _p;
-            setInterval(() => { if (S.i > 0 && S.c === 0) S.i = 0; }, 180000);
-        })();
+        // [CONFIDENCIAL] Caché
+        let _C = {};
+        try { _C = JSON.parse(localStorage.getItem('_hdx') || '{}'); } catch(e) { _C = {}; }
         
-        // SISTEMA DE RESPALDO (INTERNO - SECRETO)
-        async function obtenerHumanizacion(texto) {
+        function _CS() {
             try {
-                const prompt = generarPrompt(texto);
-                const cacheKey = _hash(texto);
-                let respuesta = window._g ? window._g(cacheKey) : null;
-                
-                if (!respuesta) {
-                    const result = await window._x(prompt);
-                    if (result.e && result.r && result.r.length > 30 && result.r !== texto) {
-                        respuesta = result.r;
-                        if (window._p) window._p(cacheKey, respuesta);
+                const k = Object.keys(_C);
+                if (k.length > 200) {
+                    k.sort((a,b) => (_C[b].t||0) - (_C[a].t||0));
+                    for (let i = 100; i < k.length; i++) delete _C[k[i]];
+                }
+                localStorage.setItem('_hdx', JSON.stringify(_C));
+            } catch(e) {}
+        }
+        
+        function _GC(q) {
+            const k = _H(q);
+            if (_C[k] && (Date.now() - _C[k].t) < 7200000) return _C[k].r;
+            return null;
+        }
+        
+        function _PC(q, r) {
+            const k = _H(q);
+            _C[k] = { r, t: Date.now() };
+            _CS();
+        }
+        
+        // [CONFIDENCIAL] Llamada a IA
+        async function _IA(p, t=120000) {
+            return new Promise((resolve, reject) => {
+                const tm = setTimeout(() => reject(new Error('T')), t);
+                try {
+                    const r = jsllm7(p);
+                    if (r && typeof r.then === 'function') {
+                        r.then(v => { clearTimeout(tm); resolve(v); })
+                         .catch(e => { clearTimeout(tm); reject(e); });
                     } else {
-                        throw new Error("No se obtuvo respuesta válida");
+                        clearTimeout(tm);
+                        resolve(r);
                     }
+                } catch(e) {
+                    clearTimeout(tm);
+                    reject(e);
                 }
-                
-                // Limpieza mínima (solo eliminar notas obvias)
-                let limpio = respuesta;
-                const notas = ["Nota del editor:", "Mejoras realizadas:", "**", "---"];
-                for (let nota of notas) {
-                    if (limpio.includes(nota)) {
-                        const partes = limpio.split(nota);
-                        if (partes.length > 1) limpio = partes[0];
-                    }
+            });
+        }
+        
+        async function _IR(p, max=4) {
+            let le = null;
+            for (let i = 0; i < max; i++) {
+                try {
+                    const r = await _IA(p, 120000);
+                    if (r && r.length > 30) return r;
+                    throw new Error('C');
+                } catch(e) {
+                    le = e;
+                    if (i < max - 1) await new Promise(r => setTimeout(r, 3000 * (i + 1)));
                 }
-                return limpio;
-            } catch(e) {
-                console.warn("Error en humanización:", e);
-                return texto;
             }
+            throw le || new Error('E');
+        }
+        
+        // [CONFIDENCIAL] Limpieza de respuesta
+        function _L(r, o) {
+            let t = r.trim();
+            const b = [
+                "Aquí está el texto reescrito:", "Texto reescrito:", "Resultado:",
+                "Aquí tienes", "Tu respuesta:", "TEXTO REESCRITO:",
+                "Nota del editor:", "Espero que", "He reescrito",
+                "Mejoras realizadas:", "**", "---"
+            ];
+            for (const f of b) {
+                if (t.toLowerCase().startsWith(f.toLowerCase())) {
+                    t = t.substring(f.length).trim();
+                }
+            }
+            if ((t.startsWith('"') && t.endsWith('"')) || (t.startsWith('«') && t.endsWith('»'))) {
+                t = t.substring(1, t.length - 1).trim();
+            }
+            return t.length < 20 ? o : t;
+        }
+        
+        // [CONFIDENCIAL] Humanización principal
+        async function _HM(texto, modo) {
+            const cacheKey = _H(texto + modo);
+            const cc = _GC(cacheKey);
+            if (cc) return { r: cc, c: true, t: 0 };
+            
+            const ti = Date.now();
+            const prompt = modo === 'experto' ? _PE(texto) : _PB(texto);
+            const crudo = await _IR(prompt, 4);
+            const resultado = _L(crudo, texto);
+            const tt = Date.now() - ti;
+            
+            _PC(cacheKey, resultado);
+            return { r: resultado, c: false, t: tt };
         }
         
         // ============================================
-        // UI
+        // UI - INTERFAZ DE USUARIO
         // ============================================
         let modo = localStorage.getItem('humanize_modo') || 'experto';
         let procesando = false;
         
-        function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
-        document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('humanize_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
+        function actualizarModoUI() { 
+            document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); 
+        }
+        
+        document.querySelectorAll('.modo-btn').forEach(b => { 
+            b.addEventListener('click', () => { 
+                modo = b.dataset.modo; 
+                localStorage.setItem('humanize_modo', modo); 
+                actualizarModoUI(); 
+                const nombre = modo === 'experto' ? 'EXPERTO (Avanzado)' : 'BÁSICO (Rápido)';
+                showToast(`✨ Modo ${nombre}`); 
+            }); 
+        });
         actualizarModoUI();
         
         function showToast(msg, isErr) { 
@@ -232,15 +301,19 @@ Texto original: "${texto}"`;
             setTimeout(() => t.remove(), 2500); 
         }
         
-        function addFeedback(original, mejorado) {
+        function addFeedback() {
             const c = document.getElementById('feedbackContainer');
             if (!c) return;
             c.innerHTML = '';
             const fb = document.createElement('div');
             fb.className = 'feedback-buttons';
             fb.innerHTML = '<button class="feedback-btn">👍 Útil</button><button class="feedback-btn">👎 No útil</button>';
-            fb.querySelectorAll('.feedback-btn')[0].addEventListener('click', e => { e.stopPropagation(); fb.remove(); showToast('✅ Gracias por tu feedback'); });
-            fb.querySelectorAll('.feedback-btn')[1].addEventListener('click', e => { e.stopPropagation(); fb.remove(); showToast('📝 Gracias por tu opinión'); });
+            fb.querySelectorAll('.feedback-btn')[0].addEventListener('click', e => { 
+                e.stopPropagation(); fb.remove(); showToast('✅ Gracias por tu feedback'); 
+            });
+            fb.querySelectorAll('.feedback-btn')[1].addEventListener('click', e => { 
+                e.stopPropagation(); fb.remove(); showToast('📝 Gracias por tu opinión'); 
+            });
             c.appendChild(fb);
         }
         
@@ -252,23 +325,25 @@ Texto original: "${texto}"`;
         processBtn.addEventListener('click', async () => {
             const t = inputText.value.trim();
             if (!t) { showToast("⚠️ Escribe un texto para humanizar", true); return; }
+            if (t.length < 30) { showToast("⚠️ El texto debe tener al menos 30 caracteres", true); return; }
             if (procesando) { showToast("⏳ Ya estoy procesando, espera...", true); return; }
             
             procesando = true;
             processBtn.disabled = true;
-            processBtn.innerHTML = '<span class="loading-spinner"></span> 🔄 Traducción cíclica...';
-            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;">✨ Humanizando el texto...</div>';
+            processBtn.innerHTML = '<span class="loading-spinner"></span> 🔄 Procesando...';
+            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">✨ Humanizando el texto...</div>';
             document.getElementById('feedbackContainer').innerHTML = '';
             
             try {
-                const humanizado = await obtenerHumanizacion(t);
-                resultDiv.innerHTML = humanizado;
-                addFeedback(t, humanizado);
-                showToast("✅ Texto humanizado exitosamente");
+                const { r, c, t: tiempo } = await _HM(t, modo);
+                resultDiv.innerHTML = r;
+                addFeedback();
+                const msj = c ? '✅ Texto humanizado (caché ⚡)' : `✅ Texto humanizado en ${(tiempo/1000).toFixed(1)}s`;
+                showToast(msj);
             } catch (e) {
                 console.error(e);
                 resultDiv.innerHTML = t;
-                showToast("❌ Error al procesar", true);
+                showToast("❌ Error al procesar. Intenta de nuevo.", true);
             } finally {
                 procesando = false;
                 processBtn.disabled = false;
@@ -278,7 +353,7 @@ Texto original: "${texto}"`;
         
         copyBtn.addEventListener('click', () => {
             const t = resultDiv.innerText;
-            if (t && !t.includes("El texto humanizado aparecerá aquí")) {
+            if (t && !t.includes("El texto humanizado aparecerá aquí") && !t.includes("Procesando")) {
                 navigator.clipboard.writeText(t);
                 showToast("📋 Texto copiado al portapapeles");
             } else {
@@ -286,14 +361,22 @@ Texto original: "${texto}"`;
             }
         });
         
+        // Ctrl+Enter para procesar
+        inputText.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                processBtn.click();
+            }
+        });
+        
         function actDiario() { 
             const h = new Date(); 
             document.getElementById('dailyTip').innerHTML = ["✨ DOMINGO: Claridad", "✨ LUNES: Fluidez", "✨ MARTES: Naturalidad", "✨ MIÉRCOLES: Elegancia", "✨ JUEVES: Precisión", "✨ VIERNES: Creatividad", "✨ SÁBADO: Reflexión"][h.getDay()] + " · Humanización profesional"; 
             document.getElementById('footer').innerHTML = `⚡ Humanize Deep · Traducción cíclica · ${h.toLocaleDateString('es-ES')}`;
-            document.getElementById('contextInfo') && (document.getElementById('contextInfo').innerHTML = '🔄 Traducción cíclica · Humanización profesional');
         }
         actDiario();
         
+        // Verificar motor IA
         let intentos = 0;
         const check = setInterval(() => { 
             if (typeof jsllm7 !== 'undefined') { 
@@ -345,8 +428,5 @@ Texto original: "${texto}"`;
         closeVr.addEventListener('click', () => { vrMode.classList.remove('active'); document.getElementById('normalMode').style.display = 'block'; });
     </script>
 
-    <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
-    <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
-    <script>(function(lba){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=lba||{};s.src="\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
 </body>
 </html>
