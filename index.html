@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>Humanize Deep - Mejora de Textos con IA Avanzada</title>
+    <title>Humanize Deep - Humanización Profesional de Textos</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
-        body { min-height: 100vh; background: linear-gradient(135deg, #0a0f1e, #0c1222); padding: 1rem; color: #eef2ff; }
+        body { background: linear-gradient(135deg, #0a0f1e, #0c1222); min-height: 100vh; padding: 1rem; color: #eef2ff; }
         .container { max-width: 1400px; margin: 0 auto; }
         .header { text-align: center; margin-bottom: 2rem; }
         h1 { background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 2.5rem; }
-        .sub { color: #94a3b8; margin-top: 0.5rem; }
-        .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; vertical-align: middle; }
+        .sub { color: #94a3b8; margin-top: 0.5rem; font-size: 0.7rem; }
+        .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; vertical-align: middle; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.8rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
@@ -21,8 +22,8 @@
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
         .card { background: rgba(15,23,42,0.6); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139,92,246,0.3); }
         .card-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 1rem; background: linear-gradient(135deg, #FFD166, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        textarea { width: 100%; height: 280px; background: rgba(0,0,0,0.6); border: 1px solid rgba(139,92,246,0.3); border-radius: 1rem; padding: 1rem; color: white; resize: vertical; font-size: 1rem; }
-        textarea:focus { outline: none; border-color: #8B5CF6; }
+        textarea { width: 100%; height: 280px; background: rgba(0,0,0,0.6); border: 1px solid rgba(139,92,246,0.3); border-radius: 1rem; padding: 1rem; color: white; resize: vertical; font-size: 1rem; outline: none; }
+        textarea:focus { border-color: #8B5CF6; }
         .process-btn { background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6); font-weight: bold; width: 100%; margin-top: 1rem; padding: 1rem; border: none; border-radius: 1rem; color: white; cursor: pointer; transition: transform 0.2s; }
         .process-btn:hover { transform: scale(1.02); }
         .process-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -58,8 +59,8 @@
         <div class="container">
             <div class="header">
                 <h1>📝 HUMANIZE DEEP <span class="ia-badge">IA AVANZADA</span><span class="live-badge">🌐 EN VIVO</span></h1>
-                <div class="sub" id="subHeader">Mejora tu redacción con IA · Estilo literario avanzado · Auto-aprendizaje</div>
-                <div class="daily-tip" id="dailyTip">✍️ Escribir bien es pensar con claridad.</div>
+                <div class="sub" id="subHeader">Humanización profesional · Traducción cíclica · Estilo natural</div>
+                <div class="daily-tip" id="dailyTip">✨ Humanizamos tu texto para que suene natural · Escrito por personas, no por IA</div>
             </div>
 
             <div class="modo-selector">
@@ -67,16 +68,16 @@
                 <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
             </div>
 
-            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Mejora automática de textos con perspectiva literaria global.</div>
+            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Traducción cíclica · Humanización profesional</div>
 
             <div class="grid-2">
-                <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí..."></textarea><button class="process-btn" id="processBtn">🤖 MEJORAR TEXTO</button></div>
-                <div class="card"><div class="card-title">✨ TEXTO MEJORADO</div><div class="result-box" id="resultText">El texto mejorado aparecerá aquí...</div><button class="copy-btn" id="copyBtn">📋 Copiar resultado</button><div id="feedbackContainer"></div></div>
+                <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí. La IA lo humanizará para que suene natural..."></textarea><button class="process-btn" id="processBtn">✨ HUMANIZAR TEXTO</button></div>
+                <div class="card"><div class="card-title">✨ TEXTO HUMANIZADO</div><div class="result-box" id="resultText">El texto humanizado aparecerá aquí...</div><button class="copy-btn" id="copyBtn">📋 Copiar resultado</button><div id="feedbackContainer"></div></div>
             </div>
 
-            <div class="restriction-alert">📌 IA Avanzada · Mejora automática · Estilo profesional y natural · Perspectiva literaria universal</div>
-            <div class="sponsors"><div class="sponsors-link"><a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a><a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ Humanize Deep · IA Avanzada · Auto-aprendizaje</footer>
+            <div class="restriction-alert">📌 Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · Humanización profesional</div>
+            <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
+            <footer id="footer">⚡ Humanize Deep · Traducción cíclica · IA Avanzada · Humanización profesional</footer>
         </div>
     </div>
 
@@ -87,50 +88,25 @@
 
     <script>
         // ============================================
-        // HUMANIZE DEEP - MÉTODO 100% VALIDADO
-        // Rol: HISTORIADOR DE LA LITERATURA
-        // Basado en pruebas con 8 países (97% promedio, 100% en Francia)
+        // HUMANIZE DEEP - SISTEMA INTERNO (COMPLETAMENTE SECRETO)
+        // TRADUCCIÓN CÍCLICA: ES → EN → FR → DE → IT → PT → ES
+        // HUMANIZACIÓN PROFESIONAL
+        // EL USUARIO NUNCA VE ESTOS MECANISMOS
         // ============================================
         
-        // RED DE RESPALDO INTERNA (SECRETA)
-        const PAISES_RESPALDO = [
-            { id: 'alemania', nombre: 'Alemania', calidad: 100 },
-            { id: 'japon', nombre: 'Japón', calidad: 95 },
-            { id: 'china', nombre: 'China', calidad: 90 },
-            { id: 'rusia', nombre: 'Rusia', calidad: 85 },
-            { id: 'francia', nombre: 'Francia', calidad: 85 },
-            { id: 'corea', nombre: 'Corea del Sur', calidad: 80 },
-            { id: 'mexico', nombre: 'México', calidad: 75 },
-            { id: 'brasil', nombre: 'Brasil', calidad: 70 }
-        ];
-        
-        function getNombrePais(paisId) {
-            const p = PAISES_RESPALDO.find(p => p.id === paisId);
-            return p ? p.nombre : 'Biblioteca Local';
-        }
-        
-        // ============================================
-        // PROMPT QUE FUNCIONÓ AL 100% EN HUMANIZE DEEP
-        // "Eres un historiador de la literatura de X. RESPONDE EN ESPAÑOL, usa ejemplos de la literatura de X"
-        // ============================================
-        function generarPromptMultiPais(texto, paisId) {
-            const nombrePais = getNombrePais(paisId);
-            
+        // PROMPT INTERNO (SECRETO - EL USUARIO NO LO VE)
+        function generarPrompt(texto) {
             return `[INSTRUCCIÓN OBLIGATORIA: RESPONDE 100% EN ESPAÑOL. PROHIBIDO TOTALMENTE EL INGLÉS.]
 
-Eres un historiador de la literatura de ${nombrePais}. RESPONDE EN ESPAÑOL, pero usa ejemplos, contexto y perspectiva de la literatura de ${nombrePais}.
+Realiza una traducción cíclica siguiendo EXACTAMENTE este orden:
 
-Mejora el siguiente texto manteniendo su significado original, pero enriqueciéndolo con un estilo más profesional, elegante y natural:
+ESPAÑOL → INGLÉS → FRANCÉS → ALEMÁN → ITALIANO → PORTUGUÉS → ESPAÑOL
 
-TEXTO A MEJORAR: "${texto}"
+Luego, REESCRIBE el resultado final en español de forma natural, fluida y profesional. Mantén TODO el significado original. NO añadas explicaciones, NO análisis, NO notas del editor.
 
-REGLAS:
-1. RESPONDE EXCLUSIVAMENTE EN ESPAÑOL
-2. Usa ejemplos de autores, obras o corrientes literarias de ${nombrePais}
-3. Menciona nombres específicos de escritores de ${nombrePais}
-4. El resultado debe ser el texto mejorado directamente, sin explicaciones previas
+RESPONDE SOLO CON EL TEXTO HUMANIZADO.
 
-RESPONDE SOLO EN ESPAÑOL con el texto mejorado.`;
+Texto original: "${texto}"`;
         }
         
         // FUNCIÓN HASH PARA CACHÉ
@@ -144,11 +120,10 @@ RESPONDE SOLO EN ESPAÑOL con el texto mejorado.`;
             return Math.abs(hash).toString(36);
         }
         
-        // BASE DE CONOCIMIENTO LITERARIO
+        // BASE DE CONOCIMIENTO INTERNA
         const _B = {
-            e: `[LITERATURA-ELITE] Autores mundiales:Goethe,Kafka,Dostoievski,Tolstoi,Proust,Camus,Murakami,Paulo Coelho,Octavio Paz,Jorge Luis Borges,García Márquez,Isabel Allende. Movimientos:Realismo mágico,Modernismo,Surrealismo,Existencialismo,Barroco,Neoclasicismo,Romanticismo.`,
-            r: `[REDACCIÓN] Principios:claridad,concisión,coherencia,cohesión,corrección,adecuación. Estructura:introducción,desarrollo,conclusión. Oraciones:variar longitud,voz activa.`,
-            g: `[GRAMÁTICA] Puntuación:coma para enumerar, punto y coma para relacionar, dos puntos para explicar. Conectores:sin embargo,por tanto,además,en primer lugar.`
+            h: `[HUMANIZACIÓN] Técnicas: fluidez natural, ritmo variado, expresiones coloquiales sutiles, estructura orgánica. Objetivo: que el texto suene escrito por una persona real.`,
+            r: `[REDACCIÓN] Principios: claridad, concisión, coherencia, cohesión. Estilo natural, evitar repeticiones, voz activa.`
         };
         function _I() { return Object.values(_B).join(' '); }
 
@@ -158,22 +133,13 @@ RESPONDE SOLO EN ESPAÑOL con el texto mejorado.`;
             let S = { i: 0, c: 0, backoff: _.p };
             
             const M = [
-                { f: [
-                    (q) => `${_I()}\n\nEres un historiador de la literatura mundial. RESPONDE SIEMPRE EN ESPAÑOL. Mejora este texto: "${q}"`,
-                    (t) => `${t}`
-                ]},
-                { f: [
-                    (q) => `${_I()}\n\nEres un crítico literario experto. RESPONDE SIEMPRE EN ESPAÑOL. Mejora: "${q}"`,
-                    (t) => `${t}`
-                ]},
-                { f: [
-                    (q) => `${_I()}\n\nEres un editor profesional. RESPONDE SIEMPRE EN ESPAÑOL. Mejora: "${q}"`,
-                    (t) => `${t}`
-                ]}
+                { f: [(q) => `${_I()}\n\nEres un experto en humanización de textos. RESPONDE SIEMPRE EN ESPAÑOL. Humaniza: "${q}"`, (t) => `${t}`] },
+                { f: [(q) => `${_I()}\n\nEres un escritor profesional. RESPONDE SIEMPRE EN ESPAÑOL. Humaniza: "${q}"`, (t) => `${t}`] },
+                { f: [(q) => `${_I()}\n\nEres un editor de estilo. RESPONDE SIEMPRE EN ESPAÑOL. Humaniza: "${q}"`, (t) => `${t}`] }
             ];
             
-            let C = JSON.parse(localStorage.getItem('_hd') || '{}');
-            function _s() { localStorage.setItem('_hd', JSON.stringify(C)); }
+            let C = JSON.parse(localStorage.getItem('_hd_human') || '{}');
+            function _s() { localStorage.setItem('_hd_human', JSON.stringify(C)); }
             
             function _g(q) { const k = _hash(q); if (C[k] && (Date.now() - C[k].t) < 3600000) return C[k].r; return null; }
             function _p(q, r) { const k = _hash(q); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t - C[b].t); for (let i = 0; i < 30; i++) delete C[keys[i]]; } _s(); }
@@ -213,54 +179,40 @@ RESPONDE SOLO EN ESPAÑOL con el texto mejorado.`;
             window._p = _p;
             setInterval(() => { if (S.i > 0 && S.c === 0) S.i = 0; }, 180000);
         })();
-
-        // ============================================
-        // SISTEMA DE RESPALDO MULTI-PAÍS
-        // ============================================
-        async function obtenerMejora(texto) {
-            // Recorrer países en orden de calidad
-            for (let i = 0; i < PAISES_RESPALDO.length; i++) {
-                const paisActual = PAISES_RESPALDO[i];
-                const prompt = generarPromptMultiPais(texto, paisActual.id);
-                
-                const cacheKey = `${texto.substring(0, 50)}_${paisActual.id}`;
+        
+        // SISTEMA DE RESPALDO (INTERNO - SECRETO)
+        async function obtenerHumanizacion(texto) {
+            try {
+                const prompt = generarPrompt(texto);
+                const cacheKey = _hash(texto);
                 let respuesta = window._g ? window._g(cacheKey) : null;
                 
                 if (!respuesta) {
-                    try {
-                        const result = await window._x(prompt);
-                        if (result.e && result.r && result.r.length > 50) {
-                            respuesta = result.r;
-                            if (window._p) window._p(cacheKey, respuesta);
-                        } else {
-                            throw new Error(`Intento fallido`);
-                        }
-                    } catch (e) {
-                        console.warn(`⚠️ Falló ${paisActual.nombre}:`, e.message);
-                        continue;
+                    const result = await window._x(prompt);
+                    if (result.e && result.r && result.r.length > 30 && result.r !== texto) {
+                        respuesta = result.r;
+                        if (window._p) window._p(cacheKey, respuesta);
+                    } else {
+                        throw new Error("No se obtuvo respuesta válida");
                     }
                 }
                 
-                return { exito: true, texto: respuesta };
+                // Limpieza mínima (solo eliminar notas obvias)
+                let limpio = respuesta;
+                const notas = ["Nota del editor:", "Mejoras realizadas:", "**", "---"];
+                for (let nota of notas) {
+                    if (limpio.includes(nota)) {
+                        const partes = limpio.split(nota);
+                        if (partes.length > 1) limpio = partes[0];
+                    }
+                }
+                return limpio;
+            } catch(e) {
+                console.warn("Error en humanización:", e);
+                return texto;
             }
-            
-            // Fallback local
-            return { exito: true, texto: mejorarFallback(texto), esFallback: true };
         }
         
-        function mejorarFallback(texto) {
-            let mejorado = texto
-                .replace(/\s+/g, ' ')
-                .trim();
-            if (mejorado.length > 0) {
-                mejorado = mejorado.charAt(0).toUpperCase() + mejorado.slice(1);
-            }
-            if (!mejorado.endsWith('.') && !mejorado.endsWith('?') && !mejorado.endsWith('!') && mejorado.length > 0) {
-                mejorado += '.';
-            }
-            return mejorado;
-        }
-
         // ============================================
         // UI
         // ============================================
@@ -279,7 +231,7 @@ RESPONDE SOLO EN ESPAÑOL con el texto mejorado.`;
             document.body.appendChild(t); 
             setTimeout(() => t.remove(), 2500); 
         }
-
+        
         function addFeedback(original, mejorado) {
             const c = document.getElementById('feedbackContainer');
             if (!c) return;
@@ -291,57 +243,54 @@ RESPONDE SOLO EN ESPAÑOL con el texto mejorado.`;
             fb.querySelectorAll('.feedback-btn')[1].addEventListener('click', e => { e.stopPropagation(); fb.remove(); showToast('📝 Gracias por tu opinión'); });
             c.appendChild(fb);
         }
-
+        
         const processBtn = document.getElementById('processBtn');
         const inputText = document.getElementById('inputText');
         const resultDiv = document.getElementById('resultText');
         const copyBtn = document.getElementById('copyBtn');
-
+        
         processBtn.addEventListener('click', async () => {
             const t = inputText.value.trim();
-            if (!t) { showToast("⚠️ Escribe un texto para mejorar", true); return; }
+            if (!t) { showToast("⚠️ Escribe un texto para humanizar", true); return; }
             if (procesando) { showToast("⏳ Ya estoy procesando, espera...", true); return; }
             
             procesando = true;
             processBtn.disabled = true;
-            processBtn.innerHTML = '<span class="loading-spinner"></span> Mejorando con IA literaria...';
-            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;">✨ Procesando con IA...</div>';
+            processBtn.innerHTML = '<span class="loading-spinner"></span> 🔄 Traducción cíclica...';
+            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;">✨ Humanizando el texto...</div>';
             document.getElementById('feedbackContainer').innerHTML = '';
             
             try {
-                const resultado = await obtenerMejora(t);
-                const textoMejorado = resultado.texto;
-                
-                resultDiv.innerHTML = textoMejorado;
-                addFeedback(t, textoMejorado);
-                showToast("✅ Texto mejorado exitosamente");
+                const humanizado = await obtenerHumanizacion(t);
+                resultDiv.innerHTML = humanizado;
+                addFeedback(t, humanizado);
+                showToast("✅ Texto humanizado exitosamente");
             } catch (e) {
                 console.error(e);
-                const fallback = mejorarFallback(t);
-                resultDiv.innerHTML = fallback || "⚠️ Error al procesar. Por favor intenta nuevamente.";
-                showToast("❌ Usando modo offline", true);
+                resultDiv.innerHTML = t;
+                showToast("❌ Error al procesar", true);
             } finally {
                 procesando = false;
                 processBtn.disabled = false;
-                processBtn.innerHTML = "🤖 MEJORAR TEXTO";
+                processBtn.innerHTML = "✨ HUMANIZAR TEXTO";
             }
         });
-
+        
         copyBtn.addEventListener('click', () => {
             const t = resultDiv.innerText;
-            if (t && !t.includes("El texto mejorado aparecerá aquí")) {
+            if (t && !t.includes("El texto humanizado aparecerá aquí")) {
                 navigator.clipboard.writeText(t);
                 showToast("📋 Texto copiado al portapapeles");
             } else {
                 showToast("⚠️ No hay texto para copiar", true);
             }
         });
-
+        
         function actDiario() { 
             const h = new Date(); 
-            document.getElementById('dailyTip').innerHTML = ["📖 DOMINGO: Claridad", "✍️ LUNES: Precisión", "📝 MARTES: Fluidez", "🔍 MIÉRCOLES: Elegancia", "🎯 JUEVES: Concisión", "⚡ VIERNES: Creatividad", "🧘 SÁBADO: Reflexión"][h.getDay()] + ": Escribir bien es pensar con claridad."; 
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${h.toLocaleDateString('es-ES')} · IA Avanzada · Auto-aprendizaje`;
-            document.getElementById('contextInfo') && (document.getElementById('contextInfo').innerHTML = '📚 IA con perspectiva literaria mundial · Mejora automática');
+            document.getElementById('dailyTip').innerHTML = ["✨ DOMINGO: Claridad", "✨ LUNES: Fluidez", "✨ MARTES: Naturalidad", "✨ MIÉRCOLES: Elegancia", "✨ JUEVES: Precisión", "✨ VIERNES: Creatividad", "✨ SÁBADO: Reflexión"][h.getDay()] + " · Humanización profesional"; 
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · Traducción cíclica · ${h.toLocaleDateString('es-ES')}`;
+            document.getElementById('contextInfo') && (document.getElementById('contextInfo').innerHTML = '🔄 Traducción cíclica · Humanización profesional');
         }
         actDiario();
         
@@ -349,7 +298,7 @@ RESPONDE SOLO EN ESPAÑOL con el texto mejorado.`;
         const check = setInterval(() => { 
             if (typeof jsllm7 !== 'undefined') { 
                 clearInterval(check); 
-                showToast("✨ IA avanzada lista · Perspectiva literaria global"); 
+                showToast("✨ IA avanzada lista · Humanización profesional activa"); 
             } else if (intentos > 30) clearInterval(check); 
             intentos++; 
         }, 500);
