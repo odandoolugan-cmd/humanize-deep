@@ -88,43 +88,97 @@
 
     <script>
         // ============================================
-        // HUMANIZE DEEP - SISTEMA INTERNO (CONFIDENCIAL)
-        // SISTEMA DE TRADUCCIÓN CÍCLICA MULTILINGÜE
-        // EL USUARIO NUNCA VE ESTOS MECANISMOS
+        // CONFIDENCIAL: HUMANIZE DEEP - SISTEMA AVANZADO
+        // El usuario NO ve estas mejoras
         // ============================================
         
-        // [CONFIDENCIAL] Ruta de traducción - 30 países
-        const _R = [
-            'Español','Inglés','Francés','Alemán','Italiano','Portugués',
-            'Neerlandés','Sueco','Danés','Noruego','Finés','Polaco',
-            'Checo','Eslovaco','Húngaro','Rumano','Búlgaro','Griego',
-            'Lituano','Letón','Estonio','Ruso','Chino Mandarín','Japonés',
-            'Coreano','Hindi','Árabe','Hebreo','Turco','Suajili',
-            'Español'
+        // === MEJORAS SECRETAS INTEGRADAS ===
+        // 1. Red de 30+ países para traducción cíclica
+        // 2. Detección automática de calidad de texto
+        // 3. Prompts dinámicos según tipo de contenido
+        // 4. Conocimiento lingüístico (JSON comprimido)
+        // 5. Caché inteligente mejorado
+        
+        // [CONFIDENCIAL] Ruta de traducción - 30+ PAÍSES (EL USUARIO NO LO SABE)
+        const _RUTA_PAISES = [
+            'Español (España)', 'Inglés (Reino Unido)', 'Francés (Francia)', 'Alemán (Alemania)', 
+            'Italiano (Italia)', 'Portugués (Portugal)', 'Neerlandés (Países Bajos)', 'Sueco (Suecia)', 
+            'Danés (Dinamarca)', 'Noruego (Noruega)', 'Finés (Finlandia)', 'Polaco (Polonia)', 
+            'Checo (República Checa)', 'Eslovaco (Eslovaquia)', 'Húngaro (Hungría)', 'Rumano (Rumanía)', 
+            'Búlgaro (Bulgaria)', 'Griego (Grecia)', 'Lituano (Lituania)', 'Letón (Letonia)', 
+            'Estonio (Estonia)', 'Ruso (Rusia)', 'Chino Mandarín (China)', 'Japonés (Japón)', 
+            'Coreano (Corea del Sur)', 'Hindi (India)', 'Árabe (Egipto)', 'Hebreo (Israel)', 
+            'Turco (Turquía)', 'Suajili (Kenia)', 'Español (México)', 'Español (Argentina)',
+            'Español (Colombia)', 'Español (Chile)', 'Español (Perú)', 'Español (Ecuador)',
+            'Catalán (España)', 'Gallego (España)', 'Euskera (España)', 'Valenciano (España)'
         ];
         
-        // [CONFIDENCIAL] Prompt interno - MODO EXPERTO (30 países)
-        function _PE(texto) {
-            const ruta = _R.join(' → ');
-            return `[SISTEMA CONFIDENCIAL - USO INTERNO]
-[IDIOMA DE SALIDA: EXCLUSIVAMENTE ESPAÑOL]
+        // [CONFIDENCIAL] DETECTOR DE TIPO DE TEXTO
+        function _detectarTipoTexto(texto) {
+            const lower = texto.toLowerCase();
+            if (lower.includes("universidad") || lower.includes("investigación") || lower.includes("tesis") || lower.includes("académico")) return "academico";
+            if (lower.includes("email") || lower.includes("correo") || lower.includes("carta") || lower.includes("formal")) return "formal";
+            if (lower.includes("gracias") || lower.includes("por favor") || lower.includes("hola")) return "amigable";
+            if (texto.length < 200) return "corto";
+            return "general";
+        }
+        
+        // [CONFIDENCIAL] CONOCIMIENTO LINGÜÍSTICO (JSON COMPRIMIDO)
+        const _CONOCIMIENTO_LINGUISTICO = {
+            academico: {
+                estilo: "formal y preciso",
+                evitar: ["contracciones excesivas", "jerga callejera", "expresiones coloquiales"],
+                consejos: ["Usar conectores académicos", "Mantener tono profesional", "Estructura lógica"]
+            },
+            formal: {
+                estilo: "cortés y respetuoso",
+                evitar: ["frases demasiado cortas", "abreviaturas informales"],
+                consejos: ["Usar 'usted' si aplica", "Tratamiento respetuoso", "Claridad en el mensaje"]
+            },
+            amigable: {
+                estilo: "cálido y cercano",
+                evitar: ["exceso de formalidad", "estructuras rígidas"],
+                consejos: ["Usar lenguaje natural", "Mostrar empatía", "Tono positivo"]
+            },
+            general: {
+                estilo: "fluido y natural",
+                evitar: ["repeticiones excesivas", "frases muy largas"],
+                consejos: ["Variedad de conectores", "Ritmo agradable", "Claridad comunicativa"]
+            }
+        };
+        
+        // [CONFIDENCIAL] Prompt interno - MODO EXPERTO MEJORADO
+        function _PE_MEJORADO(texto) {
+            const tipo = _detectarTipoTexto(texto);
+            const infoLinguistica = _CONOCIMIENTO_LINGUISTICO[tipo] || _CONOCIMIENTO_LINGUISTICO.general;
+            const rutaCompleta = _RUTA_PAISES.join(' → ');
+            
+            return `[SISTEMA CONFIDENCIAL - USO INTERNO - ÉLITE]
+[IDIOMA DE SALIDA: EXCLUSIVAMENTE ESPAÑOL NEUTRO]
 [PROHIBIDO TOTALMENTE RESPONDER EN OTRO IDIOMA]
 
-REALIZA UNA TRADUCCIÓN CÍCLICA MULTILINGÜE EN ESTE ORDEN EXACTO:
-${ruta}
+**CONTEXTO DE ESTILO DETECTADO:**
+- Tipo de texto: ${tipo}
+- Estilo recomendado: ${infoLinguistica.estilo}
+- Evitar: ${infoLinguistica.evitar.join(', ')}
+- Consejos de estilo: ${infoLinguistica.consejos.join(', ')}
 
-REGLAS ESTRICTAS DE FIDELIDAD:
+**PROCESO DE TRADUCCIÓN CÍCLICA MULTILINGÜE (30+ PAÍSES):**
+${rutaCompleta}
+
+**REGLAS ESTRICTAS DE FIDELIDAD:**
 1. Cada traducción debe preservar INTACTOS todos los hechos, nombres propios, cifras, fechas y lugares
 2. La diversidad lingüística enriquecerá naturalmente las estructuras gramaticales
-3. El resultado final debe sonar COMPLETAMENTE NATURAL en español, como escrito por un nativo
+3. El resultado final debe sonar COMPLETAMENTE NATURAL en español, como escrito por un nativo del país de destino final
 
-PERMITIDO (reescritura natural):
+**PERMITIDO (reescritura natural):**
 - Mejorar el ritmo, la fluidez y la naturalidad del español
-- Usar sinónimos y expresiones idiomáticas españolas
+- Usar sinónimos y expresiones idiomáticas naturales
 - Ajustar conectores y transiciones entre ideas
 - Variar la longitud de las oraciones para mejor lectura
+- Adaptar el estilo según el tipo de texto detectado (${tipo})
 
-ESTRICTAMENTE PROHIBIDO:
+**ESTRICTAMENTE PROHIBIDO:**
 - INVENTAR nombres, apellidos, apodos, alias o sobrenombres
 - AGREGAR información, datos o contexto NO presentes en el original
 - CAMBIAR nombres propios, lugares, equipos, fechas, horas o cifras
@@ -134,13 +188,13 @@ ESTRICTAMENTE PROHIBIDO:
 - INCLUIR opiniones, análisis, notas del editor o comentarios
 - USAR cualquier idioma que NO sea español en la respuesta final
 
-VERIFICACIÓN INTERNA OBLIGATORIA ANTES DE RESPONDER:
+**VERIFICACIÓN INTERNA OBLIGATORIA ANTES DE RESPONDER:**
 1. ¿Todos los nombres propios del original están presentes en el resultado? [DEBE SER SÍ]
 2. ¿Agregué algún dato, nombre o información que NO existía en el original? [DEBE SER NO]
 3. ¿El significado general es exactamente el mismo que el original? [DEBE SER SÍ]
-4. ¿El texto suena natural en español, como escrito por una persona real? [DEBE SER SÍ]
+4. ¿El texto suena natural en español, adaptado al tipo ${tipo}? [DEBE SER SÍ]
 
-FORMATO DE RESPUESTA:
+**FORMATO DE RESPUESTA:**
 Responde ÚNICAMENTE con el texto reescrito en español.
 Sin introducciones, sin notas, sin análisis, sin explicaciones.
 
@@ -149,13 +203,19 @@ TEXTO ORIGINAL: "${texto}"
 TEXTO REESCRITO:`;
         }
         
-        // [CONFIDENCIAL] Prompt interno - MODO BÁSICO
-        function _PB(texto) {
-            return `[INSTRUCCIÓN: RESPONDE SOLO EN ESPAÑOL]
+        // [CONFIDENCIAL] Prompt interno - MODO BÁSICO MEJORADO
+        function _PB_MEJORADO(texto) {
+            return `[INSTRUCCIÓN: RESPONDE SOLO EN ESPAÑOL NATURAL]
 
 Humaniza el siguiente texto para que suene más natural y fluido. 
 Mantén el mismo significado, contenido, nombres y datos.
 No agregues información nueva. No incluyas notas ni análisis.
+
+CONSEJOS DE ESTILO:
+- Usa un tono natural y conversacional
+- Varía la longitud de las oraciones
+- Evita repeticiones innecesarias
+- Usa conectores fluidos
 
 RESPONDE SOLO CON EL TEXTO HUMANIZADO.
 
@@ -173,106 +233,100 @@ Texto: "${texto}"`;
             return Math.abs(h).toString(36);
         }
         
-        // [CONFIDENCIAL] Caché
-        let _C = {};
-        try { _C = JSON.parse(localStorage.getItem('_hdx') || '{}'); } catch(e) { _C = {}; }
+        // [CONFIDENCIAL] Caché mejorado
+        let _CACHE = {};
+        try { _CACHE = JSON.parse(localStorage.getItem('_hdx_v2') || '{}'); } catch(e) { _CACHE = {}; }
         
-        function _CS() {
+        function _guardarCache() {
             try {
-                const k = Object.keys(_C);
-                if (k.length > 200) {
-                    k.sort((a,b) => (_C[b].t||0) - (_C[a].t||0));
-                    for (let i = 100; i < k.length; i++) delete _C[k[i]];
+                const keys = Object.keys(_CACHE);
+                if (keys.length > 300) {
+                    keys.sort((a,b) => (_CACHE[b]?.t||0) - (_CACHE[a]?.t||0));
+                    for (let i = 150; i < keys.length; i++) delete _CACHE[keys[i]];
                 }
-                localStorage.setItem('_hdx', JSON.stringify(_C));
+                localStorage.setItem('_hdx_v2', JSON.stringify(_CACHE));
             } catch(e) {}
         }
         
-        function _GC(q) {
+        function _obtenerCache(q) {
             const k = _H(q);
-            if (_C[k] && (Date.now() - _C[k].t) < 7200000) return _C[k].r;
+            if (_CACHE[k] && (Date.now() - _CACHE[k].t) < 7200000) return _CACHE[k].r;
             return null;
         }
         
-        function _PC(q, r) {
+        function _guardarCacheRespuesta(q, r) {
             const k = _H(q);
-            _C[k] = { r, t: Date.now() };
-            _CS();
+            _CACHE[k] = { r, t: Date.now() };
+            _guardarCache();
         }
         
-        // [CONFIDENCIAL] Llamada a IA
-        async function _IA(p, t=120000) {
-            return new Promise((resolve, reject) => {
-                const tm = setTimeout(() => reject(new Error('T')), t);
+        // [CONFIDENCIAL] Llamada a IA con reintentos mejorados
+        async function _llamarIA(prompt, timeout = 120000, maxReintentos = 5) {
+            let ultimoError = null;
+            for (let i = 0; i < maxReintentos; i++) {
                 try {
-                    const r = jsllm7(p);
-                    if (r && typeof r.then === 'function') {
-                        r.then(v => { clearTimeout(tm); resolve(v); })
-                         .catch(e => { clearTimeout(tm); reject(e); });
-                    } else {
-                        clearTimeout(tm);
-                        resolve(r);
-                    }
+                    const respuesta = await new Promise((resolve, reject) => {
+                        const timer = setTimeout(() => reject(new Error('Timeout')), timeout);
+                        jsllm7(prompt).then(r => { clearTimeout(timer); resolve(r); }).catch(e => { clearTimeout(timer); reject(e); });
+                    });
+                    if (respuesta && respuesta.length > 30) return respuesta;
+                    throw new Error('Respuesta insuficiente');
                 } catch(e) {
-                    clearTimeout(tm);
-                    reject(e);
-                }
-            });
-        }
-        
-        async function _IR(p, max=4) {
-            let le = null;
-            for (let i = 0; i < max; i++) {
-                try {
-                    const r = await _IA(p, 120000);
-                    if (r && r.length > 30) return r;
-                    throw new Error('C');
-                } catch(e) {
-                    le = e;
-                    if (i < max - 1) await new Promise(r => setTimeout(r, 3000 * (i + 1)));
+                    ultimoError = e;
+                    if (i < maxReintentos - 1) await new Promise(r => setTimeout(r, 3000 * (i + 1)));
                 }
             }
-            throw le || new Error('E');
+            throw ultimoError || new Error('Fallo total');
         }
         
-        // [CONFIDENCIAL] Limpieza de respuesta
-        function _L(r, o) {
-            let t = r.trim();
-            const b = [
+        // [CONFIDENCIAL] Limpieza de respuesta mejorada
+        function _limpiarRespuesta(respuesta, original) {
+            let texto = respuesta.trim();
+            
+            // Eliminar prefijos comunes
+            const prefijos = [
                 "Aquí está el texto reescrito:", "Texto reescrito:", "Resultado:",
                 "Aquí tienes", "Tu respuesta:", "TEXTO REESCRITO:",
                 "Nota del editor:", "Espero que", "He reescrito",
-                "Mejoras realizadas:", "**", "---"
+                "Mejoras realizadas:", "**", "---", "```", "TEXTO REESCRITO",
+                "REESCRITURA:", "HUMANIZACIÓN:", "Aquí tienes el texto:"
             ];
-            for (const f of b) {
-                if (t.toLowerCase().startsWith(f.toLowerCase())) {
-                    t = t.substring(f.length).trim();
+            
+            for (const prefijo of prefijos) {
+                if (texto.toLowerCase().startsWith(prefijo.toLowerCase())) {
+                    texto = texto.substring(prefijo.length).trim();
                 }
             }
-            if ((t.startsWith('"') && t.endsWith('"')) || (t.startsWith('«') && t.endsWith('»'))) {
-                t = t.substring(1, t.length - 1).trim();
+            
+            // Eliminar comillas envolventes
+            if ((texto.startsWith('"') && texto.endsWith('"')) || 
+                (texto.startsWith('«') && texto.endsWith('»')) ||
+                (texto.startsWith('"') && texto.endsWith('"'))) {
+                texto = texto.substring(1, texto.length - 1).trim();
             }
-            return t.length < 20 ? o : t;
+            
+            // Si la respuesta es demasiado corta, devolver original
+            return texto.length < 20 ? original : texto;
         }
         
-        // [CONFIDENCIAL] Humanización principal
-        async function _HM(texto, modo) {
+        // [CONFIDENCIAL] Humanización principal mejorada
+        async function _humanizarTexto(texto, modo) {
             const cacheKey = _H(texto + modo);
-            const cc = _GC(cacheKey);
-            if (cc) return { r: cc, c: true, t: 0 };
+            const cacheResultado = _obtenerCache(cacheKey);
+            if (cacheResultado) return { resultado: cacheResultado, desdeCache: true, tiempo: 0 };
             
-            const ti = Date.now();
-            const prompt = modo === 'experto' ? _PE(texto) : _PB(texto);
-            const crudo = await _IR(prompt, 4);
-            const resultado = _L(crudo, texto);
-            const tt = Date.now() - ti;
+            const inicio = Date.now();
+            const prompt = modo === 'experto' ? _PE_MEJORADO(texto) : _PB_MEJORADO(texto);
+            const respuestaCruda = await _llamarIA(prompt, 120000, 5);
+            const resultadoFinal = _limpiarRespuesta(respuestaCruda, texto);
+            const tiempoTotal = Date.now() - inicio;
             
-            _PC(cacheKey, resultado);
-            return { r: resultado, c: false, t: tt };
+            _guardarCacheRespuesta(cacheKey, resultadoFinal);
+            return { resultado: resultadoFinal, desdeCache: false, tiempo: tiempoTotal };
         }
         
         // ============================================
-        // UI - INTERFAZ DE USUARIO
+        // UI - INTERFAZ DE USUARIO (SIN CAMBIOS VISIBLES)
         // ============================================
         let modo = localStorage.getItem('humanize_modo') || 'experto';
         let procesando = false;
@@ -286,7 +340,7 @@ Texto: "${texto}"`;
                 modo = b.dataset.modo; 
                 localStorage.setItem('humanize_modo', modo); 
                 actualizarModoUI(); 
-                const nombre = modo === 'experto' ? 'EXPERTO (Avanzado)' : 'BÁSICO (Rápido)';
+                const nombre = modo === 'experto' ? 'EXPERTO (Traducción cíclica avanzada)' : 'BÁSICO (Humanización rápida)';
                 showToast(`✨ Modo ${nombre}`); 
             }); 
         });
@@ -323,26 +377,26 @@ Texto: "${texto}"`;
         const copyBtn = document.getElementById('copyBtn');
         
         processBtn.addEventListener('click', async () => {
-            const t = inputText.value.trim();
-            if (!t) { showToast("⚠️ Escribe un texto para humanizar", true); return; }
-            if (t.length < 30) { showToast("⚠️ El texto debe tener al menos 30 caracteres", true); return; }
+            const texto = inputText.value.trim();
+            if (!texto) { showToast("⚠️ Escribe un texto para humanizar", true); return; }
+            if (texto.length < 30) { showToast("⚠️ El texto debe tener al menos 30 caracteres", true); return; }
             if (procesando) { showToast("⏳ Ya estoy procesando, espera...", true); return; }
             
             procesando = true;
             processBtn.disabled = true;
-            processBtn.innerHTML = '<span class="loading-spinner"></span> 🔄 Procesando...';
-            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">✨ Humanizando el texto...</div>';
+            processBtn.innerHTML = '<span class="loading-spinner"></span> 🔄 Procesando con IA avanzada...';
+            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">✨ Humanizando el texto con red global...</div>';
             document.getElementById('feedbackContainer').innerHTML = '';
             
             try {
-                const { r, c, t: tiempo } = await _HM(t, modo);
-                resultDiv.innerHTML = r;
+                const { resultado, desdeCache, tiempo } = await _humanizarTexto(texto, modo);
+                resultDiv.innerHTML = resultado;
                 addFeedback();
-                const msj = c ? '✅ Texto humanizado (caché ⚡)' : `✅ Texto humanizado en ${(tiempo/1000).toFixed(1)}s`;
-                showToast(msj);
-            } catch (e) {
-                console.error(e);
-                resultDiv.innerHTML = t;
+                const mensaje = desdeCache ? '✅ Texto humanizado (caché ⚡)' : `✅ Texto humanizado en ${(tiempo/1000).toFixed(1)}s con red global`;
+                showToast(mensaje);
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = texto;
                 showToast("❌ Error al procesar. Intenta de nuevo.", true);
             } finally {
                 procesando = false;
@@ -352,16 +406,15 @@ Texto: "${texto}"`;
         });
         
         copyBtn.addEventListener('click', () => {
-            const t = resultDiv.innerText;
-            if (t && !t.includes("El texto humanizado aparecerá aquí") && !t.includes("Procesando")) {
-                navigator.clipboard.writeText(t);
+            const texto = resultDiv.innerText;
+            if (texto && !texto.includes("El texto humanizado aparecerá aquí") && !texto.includes("Procesando")) {
+                navigator.clipboard.writeText(texto);
                 showToast("📋 Texto copiado al portapapeles");
             } else {
                 showToast("⚠️ No hay texto para copiar", true);
             }
         });
         
-        // Ctrl+Enter para procesar
         inputText.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 e.preventDefault();
@@ -369,19 +422,19 @@ Texto: "${texto}"`;
             }
         });
         
-        function actDiario() { 
-            const h = new Date(); 
-            document.getElementById('dailyTip').innerHTML = ["✨ DOMINGO: Claridad", "✨ LUNES: Fluidez", "✨ MARTES: Naturalidad", "✨ MIÉRCOLES: Elegancia", "✨ JUEVES: Precisión", "✨ VIERNES: Creatividad", "✨ SÁBADO: Reflexión"][h.getDay()] + " · Humanización profesional"; 
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · Traducción cíclica · ${h.toLocaleDateString('es-ES')}`;
+        function actualizarDiario() { 
+            const hoy = new Date(); 
+            const mensajes = ["✨ DOMINGO: Claridad", "✨ LUNES: Fluidez", "✨ MARTES: Naturalidad", "✨ MIÉRCOLES: Elegancia", "✨ JUEVES: Precisión", "✨ VIERNES: Creatividad", "✨ SÁBADO: Reflexión"];
+            document.getElementById('dailyTip').innerHTML = mensajes[hoy.getDay()] + " · Humanización profesional con IA"; 
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · Traducción cíclica · ${hoy.toLocaleDateString('es-ES')} · IA avanzada`;
         }
-        actDiario();
+        actualizarDiario();
         
-        // Verificar motor IA
         let intentos = 0;
         const check = setInterval(() => { 
             if (typeof jsllm7 !== 'undefined') { 
                 clearInterval(check); 
-                showToast("✨ IA avanzada lista · Humanización profesional activa"); 
+                showToast(`✨ IA avanzada lista · ${_RUTA_PAISES.length}+ idiomas · Humanización profesional`); 
             } else if (intentos > 30) clearInterval(check); 
             intentos++; 
         }, 500);
