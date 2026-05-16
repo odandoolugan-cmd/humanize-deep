@@ -98,6 +98,58 @@
 
     <script type="module">
         // ============================================
+        // SISTEMA DE CACHÉ OCULTO (GO)
+        // ABSOLUTAMENTE CONFIDENCIAL - EL USUARIO NO SABE QUE EXISTE
+        // ============================================
+        
+        const GO_URL = 'http://localhost:8080';
+        let goDisponible = false;
+        
+        // Verificación silenciosa de Go (sin mostrar nada)
+        async function verificarGoSilencioso() {
+            try {
+                const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
+                if (respuesta.ok) {
+                    goDisponible = true;
+                } else {
+                    goDisponible = false;
+                }
+            } catch (e) {
+                goDisponible = false;
+            }
+        }
+        
+        // Consultar caché oculto - el usuario cree que es la IA normal
+        async function consultarCacheOculto(texto) {
+            if (!goDisponible) return null;
+            try {
+                const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(texto)}`, {
+                    signal: AbortSignal.timeout(3000)
+                });
+                if (respuesta.ok) {
+                    const textoRespuesta = await respuesta.text();
+                    if (textoRespuesta && textoRespuesta !== "No sé" && textoRespuesta.length > 30) {
+                        return textoRespuesta;
+                    }
+                }
+            } catch (e) {
+                // Silencio total - el usuario nunca sabe que falló
+            }
+            return null;
+        }
+        
+        // Guardar en caché oculto (completamente silencioso)
+        async function guardarEnCacheOculto(texto, resultado) {
+            if (!goDisponible) return;
+            try {
+                fetch(`${GO_URL}/aprender?q=${encodeURIComponent(texto)}&respuesta=${encodeURIComponent(resultado)}`, {
+                    method: 'GET',
+                    signal: AbortSignal.timeout(2000)
+                }).catch(() => {});
+            } catch (e) {}
+        }
+        
+        // ============================================
         // SISTEMA SECRETO: Transformers potencia jsllm7
         // Humanize Deep - Mejora invisible para el usuario
         // ============================================
@@ -239,7 +291,7 @@ Texto humanizado:`;
             return prompt;
         }
         
-        // [CONFIDENCIAL] Hash para caché
+        // [CONFIDENCIAL] Hash para caché local
         function _H(str) {
             let h = 0;
             const s = str.toLowerCase().trim();
@@ -250,7 +302,7 @@ Texto humanizado:`;
             return Math.abs(h).toString(36);
         }
         
-        // [CONFIDENCIAL] Caché mejorado
+        // [CONFIDENCIAL] Caché local mejorado
         let _CACHE = {};
         try { _CACHE = JSON.parse(localStorage.getItem('_hdx_v3') || '{}'); } catch(e) { _CACHE = {}; }
         
@@ -265,13 +317,13 @@ Texto humanizado:`;
             } catch(e) {}
         }
         
-        function _obtenerCache(q) {
+        function _obtenerCacheLocal(q) {
             const k = _H(q);
             if (_CACHE[k] && (Date.now() - _CACHE[k].t) < 7200000) return _CACHE[k].r;
             return null;
         }
         
-        function _guardarCacheRespuesta(q, r) {
+        function _guardarCacheLocal(q, r) {
             const k = _H(q);
             _CACHE[k] = { r, t: Date.now() };
             _guardarCache();
@@ -328,15 +380,25 @@ Texto humanizado:`;
             btns.forEach(btn => btn.disabled = true);
         }
         
-        // [CONFIDENCIAL] Humanización principal con potenciación secreta
+        // [CONFIDENCIAL] Humanización principal con CACHÉ GO OCULTO
         async function _humanizarTexto(texto, modo) {
             const claveFeedback = texto.toLowerCase().trim().substring(0, 100);
             const datosPrevios = memoriaIntencion.get(claveFeedback);
             const intencionPrevia = datosPrevios?.intencion || null;
             
             const cacheKey = _H(texto + modo + (intencionPrevia || ''));
-            const cacheResultado = _obtenerCache(cacheKey);
-            if (cacheResultado) return { resultado: cacheResultado, desdeCache: true, tiempo: 0 };
+            
+            // 1. INTENTAR CACHÉ OCULTO DE GO PRIMERO
+            const respuestaGo = await consultarCacheOculto(texto);
+            if (respuestaGo) {
+                return { resultado: respuestaGo, desdeCache: true, tiempo: 0 };
+            }
+            
+            // 2. INTENTAR CACHÉ LOCAL (fallback)
+            const cacheLocal = _obtenerCacheLocal(cacheKey);
+            if (cacheLocal) {
+                return { resultado: cacheLocal, desdeCache: true, tiempo: 0 };
+            }
             
             const inicio = Date.now();
             const prompt = modo === 'experto' ? _PE_MEJORADO(texto, intencionPrevia) : _PB_MEJORADO(texto, intencionPrevia);
@@ -344,7 +406,10 @@ Texto humanizado:`;
             const resultadoFinal = _limpiarRespuesta(respuestaCruda, texto);
             const tiempoTotal = Date.now() - inicio;
             
-            _guardarCacheRespuesta(cacheKey, resultadoFinal);
+            _guardarCacheLocal(cacheKey, resultadoFinal);
+            // Guardar en Go ocultamente para futuras consultas
+            guardarEnCacheOculto(texto, resultadoFinal);
+            
             return { resultado: resultadoFinal, desdeCache: false, tiempo: tiempoTotal };
         }
         
@@ -353,6 +418,10 @@ Texto humanizado:`;
         // ============================================
         let modo = localStorage.getItem('humanize_modo') || 'experto';
         let procesando = false;
+        
+        // Verificar Go silenciosamente al inicio y periódicamente
+        verificarGoSilencioso();
+        setInterval(verificarGoSilencioso, 60000); // Cada minuto en silencio
         
         function actualizarModoUI() { 
             document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); 
@@ -431,8 +500,8 @@ Texto humanizado:`;
                 const { resultado, desdeCache, tiempo } = await _humanizarTexto(texto, modo);
                 resultDiv.innerHTML = resultado;
                 addFeedbackConSecreto(texto, resultado);
-                const mensaje = desdeCache ? '✅ Texto humanizado (caché ⚡)' : `✅ Texto humanizado en ${(tiempo/1000).toFixed(1)}s`;
-                showToast(mensaje);
+                // El usuario NO ve si vino de caché - siempre muestra el mismo mensaje
+                showToast(`✅ Texto humanizado en ${(tiempo/1000).toFixed(1)}s`);
             } catch (error) {
                 console.error('Error:', error);
                 resultDiv.innerHTML = texto;
