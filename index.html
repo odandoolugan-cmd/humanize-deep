@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>Humanize Deep - Humanización Profesional de Textos</title>
+    <title>Humanize Deep - Humanización Profesional Ilimitada</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e, #0c1222); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -12,12 +12,24 @@
         .header { text-align: center; margin-bottom: 2rem; }
         h1 { background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 2.5rem; }
         .sub { color: #94a3b8; margin-top: 0.5rem; font-size: 0.7rem; }
-        .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; vertical-align: middle; animation: pulse 1.5s infinite; }
+        .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.8rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
+        
+        .word-section { background: rgba(139, 92, 246, 0.15); border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); }
+        .word-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 0.8rem; color: #a78bfa; display: flex; align-items: center; gap: 8px; }
+        .word-upload-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .word-btn { background: #1e293b; border: 1px solid #334155; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; font-weight: 600; color: #94a3b8; transition: 0.2s; }
+        .word-btn:hover { background: #334155; color: white; border-color: #8b5cf6; }
+        .word-btn.primary { background: linear-gradient(90deg, #8b5cf6, #3b82f6); color: white; border: none; }
+        .word-btn.primary:hover { transform: scale(1.02); }
+        .word-btn.success { background: linear-gradient(90deg, #10b981, #059669); color: white; border: none; }
+        .file-input-hidden { display: none; }
+        .word-status { font-size: 0.7rem; color: #10b981; margin-left: 10px; display: inline-block; }
+        
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
         .card { background: rgba(15,23,42,0.6); backdrop-filter: blur(10px); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(139,92,246,0.3); }
@@ -31,7 +43,6 @@
         .feedback-buttons { display: flex; gap: 10px; margin-top: 15px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
-        .feedback-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .copy-btn { background: #475569; margin-top: 1rem; width: 100%; padding: 0.8rem; border: none; border-radius: 1rem; color: white; cursor: pointer; transition: background 0.2s; }
         .copy-btn:hover { background: #5a6a8a; }
         footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: #64748b; }
@@ -49,9 +60,10 @@
         .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
         .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
         .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
-        .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
-        .context-info { background: rgba(139,92,246,0.1); border-radius: 1rem; padding: 0.5rem; margin-top: 0.5rem; font-size: 0.65rem; color: #a5b4fc; text-align: center; }
         .restriction-alert { background: rgba(139, 92, 246, 0.15); border: 1px solid #8b5cf6; border-radius: 0.8rem; padding: 0.5rem 1rem; margin-top: 1rem; font-size: 0.7rem; text-align: center; color: #a78bfa; }
+        .progress-bar-container { background: #1e293b; border-radius: 1rem; padding: 0.3rem; margin: 0.5rem 0; display: none; }
+        .progress-bar { background: linear-gradient(90deg, #10b981, #8b5cf6); height: 8px; border-radius: 1rem; width: 0%; transition: width 0.3s; }
+        .progress-text { font-size: 0.7rem; text-align: center; margin-top: 0.3rem; color: #a78bfa; }
     </style>
 </head>
 <body>
@@ -59,9 +71,9 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <h1>📝 HUMANIZE DEEP <span class="ia-badge">IA AVANZADA</span><span class="live-badge">🌐 EN VIVO</span></h1>
-                <div class="sub" id="subHeader">Humanización profesional · Traducción cíclica · Estilo natural</div>
-                <div class="daily-tip" id="dailyTip">✨ Humanizamos tu texto para que suene natural · Escrito por personas, no por IA</div>
+                <h1>📝 HUMANIZE DEEP <span class="ia-badge">ILIMITADO</span><span class="live-badge">🌐 SIN LÍMITES</span></h1>
+                <div class="sub" id="subHeader">Humanización profesional · Traducción cíclica · Documentos ilimitados</div>
+                <div class="daily-tip" id="dailyTip">✨ Humanizamos textos de CUALQUIER tamaño · Sin límite de palabras</div>
             </div>
 
             <div class="modo-selector">
@@ -69,16 +81,35 @@
                 <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
             </div>
 
-            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Traducción cíclica · Humanización profesional</div>
+            <!-- SECCIÓN SUBIR WORD ILIMITADO -->
+            <div class="word-section">
+                <div class="word-title">
+                    📄 <span>HUMANIZAR DOCUMENTO WORD (SIN LÍMITES)</span>
+                </div>
+                <div class="word-upload-bar">
+                    <button class="word-btn" id="subirWordBtn">📄 SUBIR WORD</button>
+                    <button class="word-btn primary" id="humanizarWordBtn" disabled>✨ HUMANIZAR DOCUMENTO</button>
+                    <button class="word-btn success" id="descargarWordBtn" disabled style="display:none;">📥 DESCARGAR WORD HUMANIZADO</button>
+                    <input type="file" id="wordFileInput" class="file-input-hidden" accept=".docx,.doc">
+                    <span id="wordStatus" class="word-status">⚡ Esperando archivo...</span>
+                </div>
+                <div class="progress-bar-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-text" id="progressText">Procesando...</div>
+                </div>
+                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 Sin límite de palabras · Divide automáticamente documentos grandes · Traducción cíclica ES→EN→FR→DE→IT→PT→ES</div>
+            </div>
+
+            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Traducción cíclica · Humanización profesional · Sin límite de tamaño · Sin markdown</div>
 
             <div class="grid-2">
-                <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí. La IA lo humanizará para que suene natural..."></textarea><button class="process-btn" id="processBtn">✨ HUMANIZAR TEXTO</button></div>
+                <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí (sin límite de palabras)..."></textarea><button class="process-btn" id="processBtn">✨ HUMANIZAR TEXTO</button></div>
                 <div class="card"><div class="card-title">✨ TEXTO HUMANIZADO</div><div class="result-box" id="resultText">El texto humanizado aparecerá aquí...</div><button class="copy-btn" id="copyBtn">📋 Copiar resultado</button><div id="feedbackContainer"></div></div>
             </div>
 
-            <div class="restriction-alert">📌 Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · Humanización profesional</div>
+            <div class="restriction-alert">📌 Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · Humanización profesional · SIN LÍMITE DE PALABRAS</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ Humanize Deep · Traducción cíclica · IA Avanzada · Humanización profesional</footer>
+            <footer id="footer">⚡ Humanize Deep Ilimitado · Traducción cíclica · IA Avanzada · Sin límite de palabras</footer>
         </div>
     </div>
 
@@ -86,80 +117,28 @@
     <div class="vr-mode" id="vrMode"><button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button><div id="vrContainer" style="width:100%;height:100%"></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.2/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.min.js"></script>
 
-    <!-- Import map para Transformers.js (secreto) -->
     <script type="importmap">
         {
             "imports": {
-                "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js"
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
             }
         }
     </script>
 
-    <script type="module">
+    <script>
         // ============================================
-        // SISTEMA DE CACHÉ OCULTO (GO)
-        // ABSOLUTAMENTE CONFIDENCIAL - EL USUARIO NO SABE QUE EXISTE
-        // ============================================
-        
-        const GO_URL = 'http://localhost:8080';
-        let goDisponible = false;
-        
-        // Verificación silenciosa de Go (sin mostrar nada)
-        async function verificarGoSilencioso() {
-            try {
-                const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
-                if (respuesta.ok) {
-                    goDisponible = true;
-                } else {
-                    goDisponible = false;
-                }
-            } catch (e) {
-                goDisponible = false;
-            }
-        }
-        
-        // Consultar caché oculto - el usuario cree que es la IA normal
-        async function consultarCacheOculto(texto) {
-            if (!goDisponible) return null;
-            try {
-                const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(texto)}`, {
-                    signal: AbortSignal.timeout(3000)
-                });
-                if (respuesta.ok) {
-                    const textoRespuesta = await respuesta.text();
-                    if (textoRespuesta && textoRespuesta !== "No sé" && textoRespuesta.length > 30) {
-                        return textoRespuesta;
-                    }
-                }
-            } catch (e) {
-                // Silencio total - el usuario nunca sabe que falló
-            }
-            return null;
-        }
-        
-        // Guardar en caché oculto (completamente silencioso)
-        async function guardarEnCacheOculto(texto, resultado) {
-            if (!goDisponible) return;
-            try {
-                fetch(`${GO_URL}/aprender?q=${encodeURIComponent(texto)}&respuesta=${encodeURIComponent(resultado)}`, {
-                    method: 'GET',
-                    signal: AbortSignal.timeout(2000)
-                }).catch(() => {});
-            } catch (e) {}
-        }
-        
-        // ============================================
-        // SISTEMA SECRETO: Transformers potencia jsllm7
-        // Humanize Deep - Mejora invisible para el usuario
+        // CONFIGURACIÓN - SIN LÍMITES
         // ============================================
         
-        import { pipeline, env } from '@xenova/transformers';
+        // Tamaño de cada fragmento para la IA (caracteres)
+        const FRAGMENTO_SIZE = 2500;
+        const RETRASO_ENTRE_FRAGMENTOS = 1000; // 1 segundo entre fragmentos
         
-        env.useBrowserCache = true;
-        env.allowLocalModels = false;
-        
-        // [CONFIDENCIAL] Ruta de traducción - 40+ PAÍSES (EL USUARIO NO LO SABE)
+        // RUTA DE TRADUCCIÓN
         const _RUTA_PAISES = [
             'Español (España)', 'Inglés (Reino Unido)', 'Francés (Francia)', 'Alemán (Alemania)', 
             'Italiano (Italia)', 'Portugués (Portugal)', 'Neerlandés (Países Bajos)', 'Sueco (Suecia)', 
@@ -168,130 +147,13 @@
             'Búlgaro (Bulgaria)', 'Griego (Grecia)', 'Lituano (Lituania)', 'Letón (Letonia)', 
             'Estonio (Estonia)', 'Ruso (Rusia)', 'Chino Mandarín (China)', 'Japonés (Japón)', 
             'Coreano (Corea del Sur)', 'Hindi (India)', 'Árabe (Egipto)', 'Hebreo (Israel)', 
-            'Turco (Turquía)', 'Suajili (Kenia)', 'Español (México)', 'Español (Argentina)',
-            'Español (Colombia)', 'Español (Chile)', 'Español (Perú)', 'Español (Ecuador)'
+            'Turco (Turquía)', 'Suajili (Kenia)', 'Español (México)', 'Español (Argentina)'
         ];
         
-        // SISTEMA SECRETO DE POTENCIACIÓN CON TRANSFORMERS
-        let clasificadorIntencion = null;
-        const memoriaIntencion = new Map();
+        // Cache local
+        let _CACHE = {};
+        try { _CACHE = JSON.parse(localStorage.getItem('_hdx_v3') || '{}'); } catch(e) { _CACHE = {}; }
         
-        // Cargar Transformers en silencio
-        (async function() {
-            try {
-                clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
-            } catch(e) { console.warn(e); }
-        })();
-        
-        async function analizarIntencion(tipo, texto, respuesta) {
-            if (!clasificadorIntencion) return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.6 };
-            try {
-                const txt = `Texto a humanizar: ${texto.substring(0, 80)}. Usuario dio ${tipo === 'like' ? 'feedback positivo' : 'feedback negativo'}.`;
-                const res = await clasificadorIntencion(txt);
-                if (res && res[0]) {
-                    const esPos = res[0].label === 'POSITIVE';
-                    return { intencion: (tipo === 'like' && esPos) ? 'buena' : 'mala', confianza: res[0].score };
-                }
-            } catch(e) {}
-            return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.5 };
-        }
-        
-        function mejorarPromptConIntencion(promptBase, intencion, texto) {
-            if (intencion === 'buena') {
-                return `[MEJORA ACTIVADA - FEEDBACK POSITIVO PREVIO]
-
-${promptBase}
-
-**MEJORA ADICIONAL POR FEEDBACK POSITIVO:**
-- Mantén el estilo que gustó al usuario
-- Añade aún más fluidez y naturalidad
-- Refina la estructura gramatical`;
-            } else {
-                return `[MEJORA ACTIVADA - FEEDBACK NEGATIVO PREVIO]
-
-${promptBase}
-
-**MEJORA ADICIONAL POR FEEDBACK NEGATIVO:**
-- Simplifica estructuras complejas
-- Usa vocabulario más accesible
-- Asegura máxima claridad en cada frase
-- Evita giros lingüísticos rebuscados`;
-            }
-        }
-        
-        // [CONFIDENCIAL] DETECTOR DE TIPO DE TEXTO
-        function _detectarTipoTexto(texto) {
-            const lower = texto.toLowerCase();
-            if (lower.includes("universidad") || lower.includes("investigación") || lower.includes("tesis")) return "academico";
-            if (lower.includes("email") || lower.includes("correo") || lower.includes("carta")) return "formal";
-            if (lower.includes("gracias") || lower.includes("por favor") || lower.includes("hola")) return "amigable";
-            if (texto.length < 200) return "corto";
-            return "general";
-        }
-        
-        // [CONFIDENCIAL] CONOCIMIENTO LINGÜÍSTICO
-        const _CONOCIMIENTO_LINGUISTICO = {
-            academico: { estilo: "formal y preciso", evitar: ["contracciones excesivas", "jerga callejera"] },
-            formal: { estilo: "cortés y respetuoso", evitar: ["frases demasiado cortas", "abreviaturas informales"] },
-            amigable: { estilo: "cálido y cercano", evitar: ["exceso de formalidad"] },
-            general: { estilo: "fluido y natural", evitar: ["repeticiones excesivas"] }
-        };
-        
-        // [CONFIDENCIAL] Prompt interno - MODO EXPERTO MEJORADO (con soporte de intención)
-        function _PE_MEJORADO(texto, intencionPrevia = null) {
-            const tipo = _detectarTipoTexto(texto);
-            const infoLinguistica = _CONOCIMIENTO_LINGUISTICO[tipo] || _CONOCIMIENTO_LINGUISTICO.general;
-            const rutaCompleta = _RUTA_PAISES.slice(0, 15).join(' → ');
-            
-            let prompt = `[SISTEMA CONFIDENCIAL - USO INTERNO]
-[IDIOMA DE SALIDA: EXCLUSIVAMENTE ESPAÑOL NEUTRO]
-
-**CONTEXTO DE ESTILO:**
-- Tipo de texto: ${tipo}
-- Estilo: ${infoLinguistica.estilo}
-- Evitar: ${infoLinguistica.evitar.join(', ')}
-
-**PROCESO DE TRADUCCIÓN CÍCLICA:**
-${rutaCompleta} → ES
-
-**REGLAS ESTRICTAS:**
-1. Preserva INTACTOS nombres, fechas, cifras y lugares
-2. NO agregues información nueva
-3. NO elimines información existente
-4. El resultado debe sonar NATURAL en español
-
-**TEXTO ORIGINAL: "${texto}"
-
-TEXTO HUMANIZADO:`;
-            
-            if (intencionPrevia === 'buena') {
-                prompt = `[FEEDBACK POSITIVO PREVIO - MANTENER ESTILO]\n\n${prompt}`;
-            } else if (intencionPrevia === 'mala') {
-                prompt = `[FEEDBACK NEGATIVO PREVIO - MEJORAR CLARIDAD]\n\n${prompt}`;
-            }
-            
-            return prompt;
-        }
-        
-        function _PB_MEJORADO(texto, intencionPrevia = null) {
-            let prompt = `Humaniza el siguiente texto para que suene natural.
-Mantén el mismo significado, nombres y datos.
-No agregues información nueva.
-
-Texto: "${texto}"
-
-Texto humanizado:`;
-            
-            if (intencionPrevia === 'buena') {
-                prompt = `[Feedback positivo previo] ${prompt}`;
-            } else if (intencionPrevia === 'mala') {
-                prompt = `[Feedback negativo previo - sé más claro] ${prompt}`;
-            }
-            
-            return prompt;
-        }
-        
-        // [CONFIDENCIAL] Hash para caché local
         function _H(str) {
             let h = 0;
             const s = str.toLowerCase().trim();
@@ -302,56 +164,28 @@ Texto humanizado:`;
             return Math.abs(h).toString(36);
         }
         
-        // [CONFIDENCIAL] Caché local mejorado
-        let _CACHE = {};
-        try { _CACHE = JSON.parse(localStorage.getItem('_hdx_v3') || '{}'); } catch(e) { _CACHE = {}; }
-        
-        function _guardarCache() {
-            try {
-                const keys = Object.keys(_CACHE);
-                if (keys.length > 300) {
-                    keys.sort((a,b) => (_CACHE[b]?.t||0) - (_CACHE[a]?.t||0));
-                    for (let i = 150; i < keys.length; i++) delete _CACHE[keys[i]];
-                }
-                localStorage.setItem('_hdx_v3', JSON.stringify(_CACHE));
-            } catch(e) {}
-        }
-        
         function _obtenerCacheLocal(q) {
             const k = _H(q);
-            if (_CACHE[k] && (Date.now() - _CACHE[k].t) < 7200000) return _CACHE[k].r;
+            if (_CACHE[k] && (Date.now() - _CACHE[k].t) < 86400000) return _CACHE[k].r;
             return null;
         }
         
         function _guardarCacheLocal(q, r) {
             const k = _H(q);
             _CACHE[k] = { r, t: Date.now() };
-            _guardarCache();
+            try { localStorage.setItem('_hdx_v3', JSON.stringify(_CACHE)); } catch(e) {}
         }
         
-        // [CONFIDENCIAL] Llamada a IA con reintentos
-        async function _llamarIA(prompt, timeout = 120000, maxReintentos = 5) {
-            let ultimoError = null;
-            for (let i = 0; i < maxReintentos; i++) {
-                try {
-                    const respuesta = await new Promise((resolve, reject) => {
-                        const timer = setTimeout(() => reject(new Error('Timeout')), timeout);
-                        jsllm7(prompt).then(r => { clearTimeout(timer); resolve(r); }).catch(e => { clearTimeout(timer); reject(e); });
-                    });
-                    if (respuesta && respuesta.length > 30) return respuesta;
-                    throw new Error('Respuesta insuficiente');
-                } catch(e) {
-                    ultimoError = e;
-                    if (i < maxReintentos - 1) await new Promise(r => setTimeout(r, 3000 * (i + 1)));
-                }
-            }
-            throw ultimoError || new Error('Fallo total');
-        }
-        
-        // [CONFIDENCIAL] Limpieza de respuesta
+        // Limpiar respuesta de markdown
         function _limpiarRespuesta(respuesta, original) {
             let texto = respuesta.trim();
-            const prefijos = ["Aquí está", "Texto humanizado:", "Resultado:", "Aquí tienes", "TEXTO HUMANIZADO:", "**", "---", "```"];
+            texto = texto.replace(/\*\*/g, '');
+            texto = texto.replace(/\*/g, '');
+            texto = texto.replace(/###/g, '');
+            texto = texto.replace(/##/g, '');
+            texto = texto.replace(/#/g, '');
+            texto = texto.replace(/`/g, '');
+            const prefijos = ["Aquí está", "Texto humanizado:", "Resultado:", "Aquí tienes", "TEXTO HUMANIZADO:", "---", "```"];
             for (const prefijo of prefijos) {
                 if (texto.toLowerCase().startsWith(prefijo.toLowerCase())) {
                     texto = texto.substring(prefijo.length).trim();
@@ -363,65 +197,123 @@ Texto humanizado:`;
             return texto.length < 20 ? original : texto;
         }
         
-        // Registrar feedback secreto con Transformers
-        async function registrarFeedbackSecreto(textoOriginal, textoResultado, tipo, elemento) {
-            const clave = textoOriginal.toLowerCase().trim().substring(0, 100);
-            const analisis = await analizarIntencion(tipo, textoOriginal, textoResultado);
+        // Dividir texto en fragmentos (respetando párrafos)
+        function dividirTextoEnFragmentos(texto, tamanoMaximo) {
+            const fragmentos = [];
+            const parrafos = texto.split(/\n\s*\n/);
+            let fragmentoActual = '';
             
-            if (!memoriaIntencion.has(clave)) {
-                memoriaIntencion.set(clave, { buenos: 0, malos: 0, intencion: null });
+            for (const parrafo of parrafos) {
+                if ((fragmentoActual + parrafo).length > tamanoMaximo && fragmentoActual.length > 0) {
+                    fragmentos.push(fragmentoActual);
+                    fragmentoActual = '';
+                }
+                if (parrafo.length > tamanoMaximo) {
+                    let inicio = 0;
+                    while (inicio < parrafo.length) {
+                        fragmentos.push(parrafo.substring(inicio, inicio + tamanoMaximo));
+                        inicio += tamanoMaximo;
+                    }
+                } else {
+                    if (fragmentoActual) fragmentoActual += '\n\n' + parrafo;
+                    else fragmentoActual = parrafo;
+                }
             }
-            const data = memoriaIntencion.get(clave);
-            if (tipo === 'like') data.buenos++;
-            else data.malos++;
-            data.intencion = analisis.intencion;
-            
-            const btns = elemento.querySelectorAll('.feedback-btn');
-            btns.forEach(btn => btn.disabled = true);
+            if (fragmentoActual) fragmentos.push(fragmentoActual);
+            return fragmentos;
         }
         
-        // [CONFIDENCIAL] Humanización principal con CACHÉ GO OCULTO
-        async function _humanizarTexto(texto, modo) {
-            const claveFeedback = texto.toLowerCase().trim().substring(0, 100);
-            const datosPrevios = memoriaIntencion.get(claveFeedback);
-            const intencionPrevia = datosPrevios?.intencion || null;
+        // Humanizar un fragmento individual
+        async function humanizarFragmento(texto, modo, progreso, total) {
+            const rutaCompleta = _RUTA_PAISES.slice(0, 10).join(' → ');
             
-            const cacheKey = _H(texto + modo + (intencionPrevia || ''));
+            const promptExperto = `[IDIOMA DE SALIDA: EXCLUSIVAMENTE ESPAÑOL NEUTRO]
+
+**REGLAS ESTRICTAS:**
+- NO USES ASTERISCOS (*) EN NINGUNA CIRCUNSTANCIA
+- NO USES NUMERALES (#) PARA TÍTULOS
+- NO USES MARCADORES MARKDOWN
+- EL RESULTADO DEBE SER TEXTO PLANO LIMPIO
+
+**PROCESO DE TRADUCCIÓN CÍCLICA:**
+${rutaCompleta} → ES
+
+**REGLAS:**
+1. Preserva INTACTOS nombres, fechas, cifras y lugares
+2. NO agregues información nueva
+3. NO elimines información existente
+4. El resultado debe sonar NATURAL en español
+
+**TEXTO ORIGINAL (fragmento ${progreso}/${total}):**
+"${texto.substring(0, 2500)}"
+
+**TEXTO HUMANIZADO (SIN MARKDOWN, SIN ASTERISCOS):`;
             
-            // 1. INTENTAR CACHÉ OCULTO DE GO PRIMERO
-            const respuestaGo = await consultarCacheOculto(texto);
-            if (respuestaGo) {
-                return { resultado: respuestaGo, desdeCache: true, tiempo: 0 };
+            const promptBasico = `Humaniza el siguiente texto para que suene natural. NO USES ASTERISCOS, NO USES NUMERALES. Mantén el mismo significado.
+
+Fragmento ${progreso}/${total}: "${texto.substring(0, 2500)}"
+
+Texto humanizado:`;
+            
+            const prompt = modo === 'experto' ? promptExperto : promptBasico;
+            
+            try {
+                const respuesta = await jsllm7(prompt);
+                return _limpiarRespuesta(respuesta, texto);
+            } catch (e) {
+                console.error('Error en fragmento:', e);
+                return texto;
+            }
+        }
+        
+        // Humanizar texto completo (divide automáticamente)
+        async function humanizarTextoCompleto(textoCompleto, modo, callbackProgreso) {
+            const fragmentos = dividirTextoEnFragmentos(textoCompleto, FRAGMENTO_SIZE);
+            const total = fragmentos.length;
+            
+            if (callbackProgreso) callbackProgreso(0, total, 'Iniciando humanización...');
+            
+            const resultados = [];
+            for (let i = 0; i < total; i++) {
+                if (callbackProgreso) callbackProgreso(i + 1, total, `Humanizando fragmento ${i + 1} de ${total}...`);
+                const resultado = await humanizarFragmento(fragmentos[i], modo, i + 1, total);
+                resultados.push(resultado);
+                if (i < total - 1) await new Promise(r => setTimeout(r, RETRASO_ENTRE_FRAGMENTOS));
             }
             
-            // 2. INTENTAR CACHÉ LOCAL (fallback)
+            return resultados.join('\n\n');
+        }
+        
+        // Humanizar texto (con caché)
+        async function humanizarTexto(texto, modo) {
+            // Para textos muy largos, no usar caché (sería demasiado grande)
+            if (texto.length > FRAGMENTO_SIZE * 2) {
+                return await humanizarTextoCompleto(texto, modo, null);
+            }
+            
+            const cacheKey = _H(texto + modo);
             const cacheLocal = _obtenerCacheLocal(cacheKey);
-            if (cacheLocal) {
-                return { resultado: cacheLocal, desdeCache: true, tiempo: 0 };
-            }
+            if (cacheLocal) return cacheLocal;
             
-            const inicio = Date.now();
-            const prompt = modo === 'experto' ? _PE_MEJORADO(texto, intencionPrevia) : _PB_MEJORADO(texto, intencionPrevia);
-            const respuestaCruda = await _llamarIA(prompt, 120000, 5);
-            const resultadoFinal = _limpiarRespuesta(respuestaCruda, texto);
-            const tiempoTotal = Date.now() - inicio;
-            
-            _guardarCacheLocal(cacheKey, resultadoFinal);
-            // Guardar en Go ocultamente para futuras consultas
-            guardarEnCacheOculto(texto, resultadoFinal);
-            
-            return { resultado: resultadoFinal, desdeCache: false, tiempo: tiempoTotal };
+            const resultado = await humanizarFragmento(texto, modo, 1, 1);
+            _guardarCacheLocal(cacheKey, resultado);
+            return resultado;
         }
         
         // ============================================
-        // UI - INTERFAZ DE USUARIO (SIN CAMBIOS VISIBLES)
+        // UI - INTERFAZ DE USUARIO
         // ============================================
         let modo = localStorage.getItem('humanize_modo') || 'experto';
         let procesando = false;
         
-        // Verificar Go silenciosamente al inicio y periódicamente
-        verificarGoSilencioso();
-        setInterval(verificarGoSilencioso, 60000); // Cada minuto en silencio
+        function showToast(msg, isErr) { 
+            const t = document.createElement('div'); 
+            t.className = 'toast-msg'; 
+            t.style.background = isErr ? '#ef4444' : '#10b981'; 
+            t.innerText = msg; 
+            document.body.appendChild(t); 
+            setTimeout(() => t.remove(), 3000); 
+        }
         
         function actualizarModoUI() { 
             document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); 
@@ -432,53 +324,12 @@ Texto humanizado:`;
                 modo = b.dataset.modo; 
                 localStorage.setItem('humanize_modo', modo); 
                 actualizarModoUI(); 
-                const nombre = modo === 'experto' ? 'EXPERTO (Traducción cíclica avanzada)' : 'BÁSICO (Humanización rápida)';
-                showToast(`✨ Modo ${nombre}`); 
+                showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); 
             }); 
         });
         actualizarModoUI();
         
-        function showToast(msg, isErr) { 
-            const t = document.createElement('div'); 
-            t.className = 'toast-msg'; 
-            t.style.background = isErr ? '#ef4444' : '#10b981'; 
-            t.innerText = msg; 
-            document.body.appendChild(t); 
-            setTimeout(() => t.remove(), 2500); 
-        }
-        
-        function addFeedbackConSecreto(textoOriginal, textoResultado) {
-            const c = document.getElementById('feedbackContainer');
-            if (!c) return;
-            c.innerHTML = '';
-            const fb = document.createElement('div');
-            fb.className = 'feedback-buttons';
-            
-            const btnLike = document.createElement('button');
-            btnLike.className = 'feedback-btn';
-            btnLike.innerHTML = '👍 Útil';
-            btnLike.onclick = async (e) => {
-                e.stopPropagation();
-                await registrarFeedbackSecreto(textoOriginal, textoResultado, 'like', fb);
-                fb.remove();
-                showToast('✅ Gracias por tu feedback (mejora la IA)');
-            };
-            
-            const btnDislike = document.createElement('button');
-            btnDislike.className = 'feedback-btn';
-            btnDislike.innerHTML = '👎 No útil';
-            btnDislike.onclick = async (e) => {
-                e.stopPropagation();
-                await registrarFeedbackSecreto(textoOriginal, textoResultado, 'dislike', fb);
-                fb.remove();
-                showToast('📝 Gracias, la IA mejorará');
-            };
-            
-            fb.appendChild(btnLike);
-            fb.appendChild(btnDislike);
-            c.appendChild(fb);
-        }
-        
+        // HUMANIZAR TEXTO MANUAL
         const processBtn = document.getElementById('processBtn');
         const inputText = document.getElementById('inputText');
         const resultDiv = document.getElementById('resultText');
@@ -487,25 +338,21 @@ Texto humanizado:`;
         processBtn.addEventListener('click', async () => {
             const texto = inputText.value.trim();
             if (!texto) { showToast("⚠️ Escribe un texto para humanizar", true); return; }
-            if (texto.length < 30) { showToast("⚠️ El texto debe tener al menos 30 caracteres", true); return; }
             if (procesando) { showToast("⏳ Ya estoy procesando, espera...", true); return; }
             
             procesando = true;
             processBtn.disabled = true;
-            processBtn.innerHTML = '<span class="loading-spinner"></span> 🔄 Procesando con IA avanzada...';
-            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">✨ Humanizando el texto con red global...</div>';
-            document.getElementById('feedbackContainer').innerHTML = '';
+            processBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando texto...';
+            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">✨ Humanizando el texto...</div>';
             
             try {
-                const { resultado, desdeCache, tiempo } = await _humanizarTexto(texto, modo);
+                const resultado = await humanizarTexto(texto, modo);
                 resultDiv.innerHTML = resultado;
-                addFeedbackConSecreto(texto, resultado);
-                // El usuario NO ve si vino de caché - siempre muestra el mismo mensaje
-                showToast(`✅ Texto humanizado en ${(tiempo/1000).toFixed(1)}s`);
+                showToast(`✅ Texto humanizado`);
             } catch (error) {
                 console.error('Error:', error);
                 resultDiv.innerHTML = texto;
-                showToast("❌ Error al procesar. Intenta de nuevo.", true);
+                showToast("❌ Error al procesar", true);
             } finally {
                 procesando = false;
                 processBtn.disabled = false;
@@ -515,9 +362,9 @@ Texto humanizado:`;
         
         copyBtn.addEventListener('click', () => {
             const texto = resultDiv.innerText;
-            if (texto && !texto.includes("El texto humanizado aparecerá aquí") && !texto.includes("Procesando")) {
+            if (texto && !texto.includes("El texto humanizado aparecerá aquí") && !texto.includes("Humanizando")) {
                 navigator.clipboard.writeText(texto);
-                showToast("📋 Texto copiado al portapapeles");
+                showToast("📋 Texto copiado");
             } else {
                 showToast("⚠️ No hay texto para copiar", true);
             }
@@ -530,29 +377,192 @@ Texto humanizado:`;
             }
         });
         
+        // ============================================
+        // HUMANIZAR DOCUMENTO WORD (ILIMITADO)
+        // ============================================
+        
+        let contenidoWord = '';
+        let nombreWord = '';
+        let textoHumanizado = '';
+        
+        const subirWordBtn = document.getElementById('subirWordBtn');
+        const humanizarWordBtn = document.getElementById('humanizarWordBtn');
+        const descargarWordBtn = document.getElementById('descargarWordBtn');
+        const wordFileInput = document.getElementById('wordFileInput');
+        const wordStatusSpan = document.getElementById('wordStatus');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        
+        function actualizarProgreso(actual, total, mensaje) {
+            const porcentaje = (actual / total) * 100;
+            progressBar.style.width = `${porcentaje}%`;
+            progressText.textContent = `${mensaje} (${actual}/${total} fragmentos)`;
+        }
+        
+        subirWordBtn.onclick = () => wordFileInput.click();
+        
+        wordFileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            if (!file.name.match(/\.(docx|doc)$/i)) {
+                wordStatusSpan.textContent = '❌ Solo archivos Word';
+                wordStatusSpan.style.color = '#ef4444';
+                return;
+            }
+            
+            wordStatusSpan.textContent = '📄 Leyendo archivo...';
+            wordStatusSpan.style.color = '#a78bfa';
+            
+            const reader = new FileReader();
+            reader.onload = async (ev) => {
+                try {
+                    const arrayBuffer = ev.target.result;
+                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                    contenidoWord = result.value;
+                    nombreWord = file.name;
+                    
+                    if (!contenidoWord || contenidoWord.trim().length < 20) {
+                        throw new Error('El documento no contiene texto suficiente');
+                    }
+                    
+                    const fragmentos = dividirTextoEnFragmentos(contenidoWord, FRAGMENTO_SIZE);
+                    wordStatusSpan.innerHTML = `✅ "${file.name}" cargado (${Math.round(contenidoWord.length/1000)}k caracteres, ${fragmentos.length} fragmentos)`;
+                    wordStatusSpan.style.color = '#10b981';
+                    humanizarWordBtn.disabled = false;
+                    descargarWordBtn.style.display = 'none';
+                    textoHumanizado = '';
+                    showToast(`📄 Archivo cargado: ${file.name} (${fragmentos.length} fragmentos)`);
+                } catch (err) {
+                    wordStatusSpan.textContent = `❌ Error: ${err.message}`;
+                    wordStatusSpan.style.color = '#ef4444';
+                    humanizarWordBtn.disabled = true;
+                    showToast(err.message, true);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        };
+        
+        humanizarWordBtn.onclick = async () => {
+            if (!contenidoWord) {
+                showToast('Primero sube un archivo Word', true);
+                return;
+            }
+            
+            humanizarWordBtn.disabled = true;
+            humanizarWordBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando documento...';
+            wordStatusSpan.textContent = '🤖 IA humanizando el documento...';
+            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">🤖 Humanizando documento (puede tomar varios minutos)...</div>';
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            
+            try {
+                textoHumanizado = await humanizarTextoCompleto(contenidoWord, modo, actualizarProgreso);
+                
+                resultDiv.innerHTML = `<div style="white-space:pre-wrap;">✅ DOCUMENTO HUMANIZADO COMPLETO\n\n${textoHumanizado.substring(0, 1500)}${textoHumanizado.length > 1500 ? '\n\n...(documento completo listo para descargar)' : ''}</div>`;
+                wordStatusSpan.textContent = '✅ Documento humanizado correctamente';
+                descargarWordBtn.style.display = 'inline-block';
+                descargarWordBtn.disabled = false;
+                progressText.textContent = '¡Humanización completada!';
+                showToast(`✅ Documento humanizado`);
+                
+            } catch (error) {
+                console.error(error);
+                resultDiv.innerHTML = `<div style="color:#ef4444;">❌ Error al humanizar: ${error.message}</div>`;
+                showToast('Error al humanizar el documento', true);
+                progressContainer.style.display = 'none';
+            } finally {
+                humanizarWordBtn.disabled = false;
+                humanizarWordBtn.innerHTML = '✨ HUMANIZAR DOCUMENTO';
+            }
+        };
+        
+        descargarWordBtn.onclick = async () => {
+            if (!textoHumanizado) {
+                showToast('Primero humaniza el documento', true);
+                return;
+            }
+            
+            try {
+                showToast('📝 Generando Word humanizado...');
+                
+                const { Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle, ShadingType } = window.docx;
+                
+                const fecha = new Date().toLocaleString('es-ES');
+                const lineas = textoHumanizado.split('\n');
+                const children = [];
+                
+                children.push(
+                    new Paragraph({ children: [new TextRun({ text: "HUMANIZE DEEP", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER, spacing: { after: 150 } }),
+                    new Paragraph({ children: [new TextRun({ text: "Documento Humanizado por IA (Ilimitado)", size: 32, italics: true, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
+                );
+                
+                children.push(
+                    new Paragraph({ children: [new TextRun({ text: "INFORMACIÓN DEL DOCUMENTO", bold: true, size: 26, color: "3B82F6" })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📄 Documento original: ${nombreWord}`, size: 22 })], spacing: { after: 80, before: 80, left: 400, right: 400 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📏 Tamaño: ${Math.round(textoHumanizado.length/1000)}k caracteres`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🎯 Proceso: Traducción cíclica sin límites`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📅 Fecha: ${fecha}`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } })
+                );
+                
+                children.push(new Paragraph({ children: [], spacing: { after: 300 } }));
+                
+                for (let i = 0; i < Math.min(lineas.length, 500); i++) {
+                    let linea = lineas[i];
+                    if (linea.trim() === '') {
+                        children.push(new Paragraph({ children: [] }));
+                    } else if (linea.trim().length > 0) {
+                        children.push(new Paragraph({ children: [new TextRun({ text: linea.substring(0, 3000), size: 24 })], spacing: { after: 100 } }));
+                    }
+                }
+                
+                children.push(
+                    new Paragraph({ children: [], spacing: { before: 500 } }),
+                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, children: [], spacing: { before: 200 } }),
+                    new Paragraph({ children: [new TextRun({ text: "Documento humanizado por Humanize Deep - Sin límite de palabras", size: 18, color: "6B7280", italics: true })], alignment: AlignmentType.CENTER, spacing: { before: 100, after: 50 } }),
+                    new Paragraph({ children: [new TextRun({ text: "Traducción cíclica · IA Avanzada · Sin markdown · Ilimitado", size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 50 } }),
+                    new Paragraph({ children: [new TextRun({ text: `© ${new Date().getFullYear()} - Humanize Deep Ilimitado`, size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 100 } })
+                );
+                
+                const doc = new Document({ sections: [{ properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } }, children: children }] });
+                const blob = await Packer.toBlob(doc);
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `HumanizeDeep_${nombreWord.replace(/\.docx?$/i, '')}.docx`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('✅ Word humanizado descargado');
+                progressContainer.style.display = 'none';
+            } catch (error) {
+                console.error(error);
+                showToast('❌ Error al generar Word', true);
+            }
+        };
+        
         function actualizarDiario() { 
             const hoy = new Date(); 
-            const mensajes = ["✨ DOMINGO: Claridad", "✨ LUNES: Fluidez", "✨ MARTES: Naturalidad", "✨ MIÉRCOLES: Elegancia", "✨ JUEVES: Precisión", "✨ VIERNES: Creatividad", "✨ SÁBADO: Reflexión"];
-            document.getElementById('dailyTip').innerHTML = mensajes[hoy.getDay()] + " · Humanización profesional con IA"; 
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · Traducción cíclica · ${hoy.toLocaleDateString('es-ES')} · IA avanzada`;
+            const mensajes = ["✨ DOMINGO", "✨ LUNES", "✨ MARTES", "✨ MIÉRCOLES", "✨ JUEVES", "✨ VIERNES", "✨ SÁBADO"];
+            document.getElementById('dailyTip').innerHTML = mensajes[hoy.getDay()] + " · Humanización SIN LÍMITES · Sube documentos de cualquier tamaño"; 
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep Ilimitado · Traducción cíclica · ${hoy.toLocaleDateString('es-ES')} · Sin límite de palabras`;
         }
         actualizarDiario();
         
-        let intentos = 0;
-        const check = setInterval(() => { 
-            if (typeof jsllm7 !== 'undefined') { 
-                clearInterval(check); 
-                showToast(`✨ IA avanzada lista · Humanización profesional`); 
-            } else if (intentos > 30) clearInterval(check); 
-            intentos++; 
-        }, 500);
+        showToast(`✨ Humanize Deep Ilimitado · Sin límite de palabras · Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
     </script>
 
-    <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
     <script type="module">
-        import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
+        import * as THREE from 'three'; 
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; 
+        import { VRButton } from 'three/addons/webxr/VRButton.js';
+        
         let scene, camera, renderer, controls, active = false;
-        const container = document.getElementById('vrContainer'), vrBtn = document.getElementById('vrModeBtn'), closeVr = document.getElementById('closeVrBtn'), vrMode = document.getElementById('vrMode');
+        const container = document.getElementById('vrContainer');
+        const vrBtn = document.getElementById('vrModeBtn');
+        const closeVr = document.getElementById('closeVrBtn');
+        const vrMode = document.getElementById('vrMode');
+        
         function initVR() {
             if (!container) return;
             container.innerHTML = '';
@@ -585,9 +595,17 @@ Texto humanizado:`;
             animate();
             active = true;
         }
-        vrBtn.addEventListener('click', () => { document.getElementById('normalMode').style.display = 'none'; vrMode.classList.add('active'); if (!active) setTimeout(initVR, 100); });
-        closeVr.addEventListener('click', () => { vrMode.classList.remove('active'); document.getElementById('normalMode').style.display = 'block'; });
+        
+        vrBtn.addEventListener('click', () => { 
+            document.getElementById('normalMode').style.display = 'none'; 
+            vrMode.classList.add('active'); 
+            if (!active) setTimeout(initVR, 100); 
+        });
+        
+        closeVr.addEventListener('click', () => { 
+            vrMode.classList.remove('active'); 
+            document.getElementById('normalMode').style.display = 'block'; 
+        });
     </script>
-
 </body>
 </html>
