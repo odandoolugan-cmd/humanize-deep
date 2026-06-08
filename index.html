@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>Humanize Deep - Humanización Profesional Ilimitada</title>
+    <title>Humanize Deep - Humanización Profesional Ilimitada + 10 Herramientas IA</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e, #0c1222); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -18,6 +18,11 @@
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
+        
+        /* BARRA DE HERRAMIENTAS */
+        .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
+        .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
+        .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
         
         .word-section { background: rgba(139, 92, 246, 0.15); border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); }
         .word-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 0.8rem; color: #a78bfa; display: flex; align-items: center; gap: 8px; }
@@ -64,6 +69,21 @@
         .progress-bar-container { background: #1e293b; border-radius: 1rem; padding: 0.3rem; margin: 0.5rem 0; display: none; }
         .progress-bar { background: linear-gradient(90deg, #10b981, #8b5cf6); height: 8px; border-radius: 1rem; width: 0%; transition: width 0.3s; }
         .progress-text { font-size: 0.7rem; text-align: center; margin-top: 0.3rem; color: #a78bfa; }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
+        .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
+        .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
+        
+        /* Sidebar historial */
+        #sidebarHistorial { position: fixed; left: 10px; top: 100px; background: #1e293b; border-radius: 1rem; padding: 0.8rem; width: 180px; z-index: 1000; font-size: 0.7rem; border: 1px solid #8b5cf6; backdrop-filter: blur(10px); max-height: 80vh; overflow-y: auto; }
+        #sidebarHistorial strong { color: #a78bfa; }
+        #sidebarHistorial hr { margin: 5px 0; border-color: #334155; }
+        .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
+        .historial-item:hover { background: #334155; color: #a78bfa; }
+        
+        @media (max-width: 700px) { #sidebarHistorial { display: none; } }
     </style>
 </head>
 <body>
@@ -71,14 +91,28 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <h1>📝 HUMANIZE DEEP <span class="ia-badge">ILIMITADO</span><span class="live-badge">🌐 SIN LÍMITES</span></h1>
+                <h1>📝 HUMANIZE DEEP <span class="ia-badge">ILIMITADO</span><span class="live-badge">🌐 10 HERRAMIENTAS</span></h1>
                 <div class="sub" id="subHeader">Humanización profesional · Traducción cíclica · Documentos ilimitados</div>
-                <div class="daily-tip" id="dailyTip">✨ Humanizamos textos de CUALQUIER tamaño · Sin límite de palabras</div>
+                <div class="daily-tip" id="dailyTip">✨ Humanizamos textos de CUALQUIER tamaño · 10 herramientas adicionales</div>
             </div>
 
             <div class="modo-selector">
                 <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
                 <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
+            </div>
+
+            <!-- BARRA DE HERRAMIENTAS (10 MECANISMOS) -->
+            <div class="tools-bar">
+                <button class="tool-btn" id="btnResumen">📋 Resumen</button>
+                <button class="tool-btn" id="btnDetectorAI">🤖 Detector IA</button>
+                <button class="tool-btn" id="btnComparador">🔄 Comparador</button>
+                <button class="tool-btn" id="btnTitulos">💡 Generar Títulos</button>
+                <button class="tool-btn" id="btnCorrector">✏️ Corrector</button>
+                <button class="tool-btn" id="btnTono">🎭 Cambiar Tono</button>
+                <button class="tool-btn" id="btnPalabrasClave">🔑 Palabras Clave</button>
+                <button class="tool-btn" id="btnTraducir">🌍 Traducir</button>
+                <button class="tool-btn" id="btnExpandir">📖 Expandir</button>
+                <button class="tool-btn" id="btnSimplificar">📝 Simplificar</button>
             </div>
 
             <!-- SECCIÓN SUBIR WORD ILIMITADO -->
@@ -100,16 +134,16 @@
                 <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 Sin límite de palabras · Divide automáticamente documentos grandes · Traducción cíclica ES→EN→FR→DE→IT→PT→ES</div>
             </div>
 
-            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Traducción cíclica · Humanización profesional · Sin límite de tamaño · Sin markdown</div>
+            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Traducción cíclica · Humanización profesional · Sin límite de tamaño · Sin markdown · 10 herramientas</div>
 
             <div class="grid-2">
                 <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí (sin límite de palabras)..."></textarea><button class="process-btn" id="processBtn">✨ HUMANIZAR TEXTO</button></div>
                 <div class="card"><div class="card-title">✨ TEXTO HUMANIZADO</div><div class="result-box" id="resultText">El texto humanizado aparecerá aquí...</div><button class="copy-btn" id="copyBtn">📋 Copiar resultado</button><div id="feedbackContainer"></div></div>
             </div>
 
-            <div class="restriction-alert">📌 Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · Humanización profesional · SIN LÍMITE DE PALABRAS</div>
+            <div class="restriction-alert">📌 Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · Humanización profesional · SIN LÍMITE DE PALABRAS · 10 herramientas</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ Humanize Deep Ilimitado · Traducción cíclica · IA Avanzada · Sin límite de palabras</footer>
+            <footer id="footer">⚡ Humanize Deep Ilimitado · Traducción cíclica · IA Avanzada · Sin límite de palabras · 10 herramientas</footer>
         </div>
     </div>
 
@@ -134,23 +168,14 @@
         // CONFIGURACIÓN - SIN LÍMITES
         // ============================================
         
-        // Tamaño de cada fragmento para la IA (caracteres)
         const FRAGMENTO_SIZE = 2500;
-        const RETRASO_ENTRE_FRAGMENTOS = 1000; // 1 segundo entre fragmentos
+        const RETRASO_ENTRE_FRAGMENTOS = 1000;
         
-        // RUTA DE TRADUCCIÓN
         const _RUTA_PAISES = [
             'Español (España)', 'Inglés (Reino Unido)', 'Francés (Francia)', 'Alemán (Alemania)', 
-            'Italiano (Italia)', 'Portugués (Portugal)', 'Neerlandés (Países Bajos)', 'Sueco (Suecia)', 
-            'Danés (Dinamarca)', 'Noruego (Noruega)', 'Finés (Finlandia)', 'Polaco (Polonia)', 
-            'Checo (República Checa)', 'Eslovaco (Eslovaquia)', 'Húngaro (Hungría)', 'Rumano (Rumanía)', 
-            'Búlgaro (Bulgaria)', 'Griego (Grecia)', 'Lituano (Lituania)', 'Letón (Letonia)', 
-            'Estonio (Estonia)', 'Ruso (Rusia)', 'Chino Mandarín (China)', 'Japonés (Japón)', 
-            'Coreano (Corea del Sur)', 'Hindi (India)', 'Árabe (Egipto)', 'Hebreo (Israel)', 
-            'Turco (Turquía)', 'Suajili (Kenia)', 'Español (México)', 'Español (Argentina)'
+            'Italiano (Italia)', 'Portugués (Portugal)', 'Neerlandés (Países Bajos)', 'Sueco (Suecia)'
         ];
         
-        // Cache local
         let _CACHE = {};
         try { _CACHE = JSON.parse(localStorage.getItem('_hdx_v3') || '{}'); } catch(e) { _CACHE = {}; }
         
@@ -176,7 +201,6 @@
             try { localStorage.setItem('_hdx_v3', JSON.stringify(_CACHE)); } catch(e) {}
         }
         
-        // Limpiar respuesta de markdown
         function _limpiarRespuesta(respuesta, original) {
             let texto = respuesta.trim();
             texto = texto.replace(/\*\*/g, '');
@@ -191,18 +215,13 @@
                     texto = texto.substring(prefijo.length).trim();
                 }
             }
-            if ((texto.startsWith('"') && texto.endsWith('"'))) {
-                texto = texto.substring(1, texto.length - 1).trim();
-            }
             return texto.length < 20 ? original : texto;
         }
         
-        // Dividir texto en fragmentos (respetando párrafos)
         function dividirTextoEnFragmentos(texto, tamanoMaximo) {
             const fragmentos = [];
             const parrafos = texto.split(/\n\s*\n/);
             let fragmentoActual = '';
-            
             for (const parrafo of parrafos) {
                 if ((fragmentoActual + parrafo).length > tamanoMaximo && fragmentoActual.length > 0) {
                     fragmentos.push(fragmentoActual);
@@ -223,78 +242,50 @@
             return fragmentos;
         }
         
-        // Humanizar un fragmento individual
         async function humanizarFragmento(texto, modo, progreso, total) {
-            const rutaCompleta = _RUTA_PAISES.slice(0, 10).join(' → ');
-            
+            const rutaCompleta = _RUTA_PAISES.slice(0, 5).join(' → ');
             const promptExperto = `[IDIOMA DE SALIDA: EXCLUSIVAMENTE ESPAÑOL NEUTRO]
 
-**REGLAS ESTRICTAS:**
-- NO USES ASTERISCOS (*) EN NINGUNA CIRCUNSTANCIA
-- NO USES NUMERALES (#) PARA TÍTULOS
-- NO USES MARCADORES MARKDOWN
-- EL RESULTADO DEBE SER TEXTO PLANO LIMPIO
+REGLAS: NO USES ASTERISCOS, NO USES NUMERALES, TEXTO PLANO LIMPIO.
 
-**PROCESO DE TRADUCCIÓN CÍCLICA:**
-${rutaCompleta} → ES
+PROCESO: ${rutaCompleta} → ES
 
-**REGLAS:**
-1. Preserva INTACTOS nombres, fechas, cifras y lugares
-2. NO agregues información nueva
-3. NO elimines información existente
-4. El resultado debe sonar NATURAL en español
+TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"
 
-**TEXTO ORIGINAL (fragmento ${progreso}/${total}):**
-"${texto.substring(0, 2500)}"
-
-**TEXTO HUMANIZADO (SIN MARKDOWN, SIN ASTERISCOS):`;
+TEXTO HUMANIZADO:`;
             
-            const promptBasico = `Humaniza el siguiente texto para que suene natural. NO USES ASTERISCOS, NO USES NUMERALES. Mantén el mismo significado.
-
-Fragmento ${progreso}/${total}: "${texto.substring(0, 2500)}"
-
-Texto humanizado:`;
+            const promptBasico = `Humaniza el siguiente texto para que suene natural. NO USES ASTERISCOS. Fragmento ${progreso}/${total}: "${texto.substring(0, 2500)}" Texto humanizado:`;
             
             const prompt = modo === 'experto' ? promptExperto : promptBasico;
-            
             try {
                 const respuesta = await jsllm7(prompt);
                 return _limpiarRespuesta(respuesta, texto);
             } catch (e) {
-                console.error('Error en fragmento:', e);
                 return texto;
             }
         }
         
-        // Humanizar texto completo (divide automáticamente)
         async function humanizarTextoCompleto(textoCompleto, modo, callbackProgreso) {
             const fragmentos = dividirTextoEnFragmentos(textoCompleto, FRAGMENTO_SIZE);
             const total = fragmentos.length;
-            
-            if (callbackProgreso) callbackProgreso(0, total, 'Iniciando humanización...');
-            
+            if (callbackProgreso) callbackProgreso(0, total, 'Iniciando...');
             const resultados = [];
             for (let i = 0; i < total; i++) {
-                if (callbackProgreso) callbackProgreso(i + 1, total, `Humanizando fragmento ${i + 1} de ${total}...`);
+                if (callbackProgreso) callbackProgreso(i + 1, total, `Fragmento ${i+1}/${total}`);
                 const resultado = await humanizarFragmento(fragmentos[i], modo, i + 1, total);
                 resultados.push(resultado);
                 if (i < total - 1) await new Promise(r => setTimeout(r, RETRASO_ENTRE_FRAGMENTOS));
             }
-            
             return resultados.join('\n\n');
         }
         
-        // Humanizar texto (con caché)
         async function humanizarTexto(texto, modo) {
-            // Para textos muy largos, no usar caché (sería demasiado grande)
             if (texto.length > FRAGMENTO_SIZE * 2) {
                 return await humanizarTextoCompleto(texto, modo, null);
             }
-            
             const cacheKey = _H(texto + modo);
             const cacheLocal = _obtenerCacheLocal(cacheKey);
             if (cacheLocal) return cacheLocal;
-            
             const resultado = await humanizarFragmento(texto, modo, 1, 1);
             _guardarCacheLocal(cacheKey, resultado);
             return resultado;
@@ -315,6 +306,20 @@ Texto humanizado:`;
             setTimeout(() => t.remove(), 3000); 
         }
         
+        function mostrarModal(titulo, contenido) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>${titulo}</h3>
+                    <div style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
+                    <button class="modal-close">Cerrar</button>
+                </div>
+            `;
+            modal.querySelector('.modal-close').onclick = () => modal.remove();
+            document.body.appendChild(modal);
+        }
+        
         function actualizarModoUI() { 
             document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); 
         }
@@ -329,7 +334,165 @@ Texto humanizado:`;
         });
         actualizarModoUI();
         
+        // ============================================
+        // 10 HERRAMIENTAS AVANZADAS
+        // ============================================
+        
+        // 1. RESUMEN AUTOMÁTICO
+        async function generarResumen() {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            showToast('📋 Generando resumen...');
+            const prompt = `Resume el siguiente texto de forma clara y concisa. Mantén las ideas principales. Texto: "${texto.substring(0, 3000)}" Resumen (máximo 200 palabras):`;
+            const resumen = await jsllm7(prompt);
+            mostrarModal('📋 RESUMEN DEL TEXTO', resumen);
+        }
+        
+        // 2. DETECTOR DE IA
+        async function detectorIA() {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            showToast('🤖 Analizando texto...');
+            const prompt = `Analiza si el siguiente texto parece generado por IA o escrito por humano. Da un porcentaje de probabilidad de IA y explica las señales detectadas. Texto: "${texto.substring(0, 2500)}"`;
+            const analisis = await jsllm7(prompt);
+            mostrarModal('🤖 DETECTOR DE IA', analisis);
+        }
+        
+        // 3. COMPARADOR DE VERSIONES
+        async function comparadorVersiones() {
+            const original = document.getElementById('inputText').value.trim();
+            const humanizado = document.getElementById('resultText').innerText;
+            if (!original || humanizado === 'El texto humanizado aparecerá aquí...') { showToast('Primero humaniza un texto', true); return; }
+            showToast('🔄 Comparando versiones...');
+            const prompt = `Compara estas dos versiones del mismo texto y explica las diferencias clave, mejoras y cambios. Version original: "${original.substring(0, 1500)}" Version humanizada: "${humanizado.substring(0, 1500)}"`;
+            const comparacion = await jsllm7(prompt);
+            mostrarModal('🔄 COMPARACIÓN DE VERSIONES', comparacion);
+        }
+        
+        // 4. GENERADOR DE TÍTULOS
+        async function generarTitulos() {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            showToast('💡 Generando títulos...');
+            const prompt = `Genera 10 títulos atractivos y profesionales para el siguiente texto. Texto: "${texto.substring(0, 1500)}" Títulos:`;
+            const titulos = await jsllm7(prompt);
+            mostrarModal('💡 TÍTULOS SUGERIDOS', titulos);
+        }
+        
+        // 5. CORRECTOR ORTOGRÁFICO AVANZADO
+        async function correctorOrtografico() {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            showToast('✏️ Corrigiendo texto...');
+            const prompt = `Corrige los errores ortográficos, gramaticales y de puntuación del siguiente texto. Mantén el significado original. Texto: "${texto.substring(0, 3000)}" Texto corregido:`;
+            const corregido = await jsllm7(prompt);
+            mostrarModal('✏️ TEXTO CORREGIDO', corregido);
+        }
+        
+        // 6. CAMBIAR TONO
+        async function cambiarTono() {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            const tono = prompt('¿Qué tono deseas? (formal, informal, persuasivo, emocional, técnico, humorístico):', 'formal');
+            if (!tono) return;
+            showToast(`🎭 Cambiando a tono ${tono}...`);
+            const prompt = `Reescribe el siguiente texto con un tono ${tono}. Mantén el contenido pero adapta el estilo. Texto: "${texto.substring(0, 2500)}" Texto reescrito con tono ${tono}:`;
+            const reescrito = await jsllm7(prompt);
+            mostrarModal(`🎭 TONO ${tono.toUpperCase()}`, reescrito);
+        }
+        
+        // 7. EXTRACTOR DE PALABRAS CLAVE
+        async function palabrasClave() {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            showToast('🔑 Extrayendo palabras clave...');
+            const prompt = `Extrae las 15 palabras clave más importantes del siguiente texto. Devuelve solo la lista. Texto: "${texto.substring(0, 3000)}" Palabras clave:`;
+            const keywords = await jsllm7(prompt);
+            mostrarModal('🔑 PALABRAS CLAVE', keywords);
+        }
+        
+        // 8. TRADUCTOR MULTI-IDIOMA
+        async function traducirTexto() {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            const idioma = prompt('¿A qué idioma quieres traducir? (inglés, francés, alemán, italiano, portugués, ruso, chino, japonés):', 'inglés');
+            if (!idioma) return;
+            showToast(`🌍 Traduciendo a ${idioma}...`);
+            const prompt = `Traduce el siguiente texto al ${idioma}. Mantén el significado y formato. Texto: "${texto.substring(0, 2500)}" Traducción al ${idioma}:`;
+            const traducido = await jsllm7(prompt);
+            mostrarModal(`🌍 TRADUCCIÓN AL ${idioma.toUpperCase()}`, traducido);
+        }
+        
+        // 9. EXPANDIR TEXTO
+        async function expandirTexto() {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            const porcentaje = prompt('¿Cuánto expandir? (25%, 50%, 100%):', '50%');
+            if (!porcentaje) return;
+            showToast(`📖 Expandiendo texto ${porcentaje}...`);
+            const prompt = `Expande el siguiente texto en un ${porcentaje} aproximadamente. Añade detalles, ejemplos o explicaciones sin cambiar el significado central. Texto: "${texto.substring(0, 2000)}" Texto expandido:`;
+            const expandido = await jsllm7(prompt);
+            mostrarModal(`📖 TEXTO EXPANDIDO (+${porcentaje})`, expandido);
+        }
+        
+        // 10. SIMPLIFICAR TEXTO
+        async function simplificarTexto() {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            const nivel = prompt('Nivel de simplificación (básico, medio, avanzado):', 'medio');
+            if (!nivel) return;
+            showToast(`📝 Simplificando texto (nivel ${nivel})...`);
+            const prompt = `Simplifica el siguiente texto para que sea más fácil de entender (nivel ${nivel}). Usa palabras más comunes y oraciones más cortas. Texto: "${texto.substring(0, 2500)}" Texto simplificado:`;
+            const simplificado = await jsllm7(prompt);
+            mostrarModal(`📝 TEXTO SIMPLIFICADO (${nivel})`, simplificado);
+        }
+        
+        // ASIGNAR BOTONES
+        document.getElementById('btnResumen').onclick = generarResumen;
+        document.getElementById('btnDetectorAI').onclick = detectorIA;
+        document.getElementById('btnComparador').onclick = comparadorVersiones;
+        document.getElementById('btnTitulos').onclick = generarTitulos;
+        document.getElementById('btnCorrector').onclick = correctorOrtografico;
+        document.getElementById('btnTono').onclick = cambiarTono;
+        document.getElementById('btnPalabrasClave').onclick = palabrasClave;
+        document.getElementById('btnTraducir').onclick = traducirTexto;
+        document.getElementById('btnExpandir').onclick = expandirTexto;
+        document.getElementById('btnSimplificar').onclick = simplificarTexto;
+        
+        // ============================================
+        // HISTORIAL
+        // ============================================
+        
+        let historial = JSON.parse(localStorage.getItem('humanize_historial') || '[]');
+        
+        function guardarEnHistorial(texto) {
+            const resumen = texto.substring(0, 50) + (texto.length > 50 ? '...' : '');
+            historial = [resumen, ...historial.filter(p => p !== resumen)].slice(0, 10);
+            localStorage.setItem('humanize_historial', JSON.stringify(historial));
+            actualizarSidebarHistorial();
+        }
+        
+        function actualizarSidebarHistorial() {
+            let sidebar = document.getElementById('sidebarHistorial');
+            if (!sidebar && historial.length > 0) {
+                sidebar = document.createElement('div');
+                sidebar.id = 'sidebarHistorial';
+                document.body.appendChild(sidebar);
+            }
+            if (sidebar && historial.length > 0) {
+                sidebar.innerHTML = `<strong>📜 HISTORIAL</strong><hr>${historial.map(t => `<button class="historial-item" onclick="cargarHistorial('${t.replace(/'/g, "\\'")}')">📝 ${t}</button>`).join('')}`;
+            }
+        }
+        
+        window.cargarHistorial = function(texto) {
+            document.getElementById('inputText').value = texto.replace('...', '');
+            showToast('📜 Texto cargado del historial');
+        };
+        
+        // ============================================
         // HUMANIZAR TEXTO MANUAL
+        // ============================================
+        
         const processBtn = document.getElementById('processBtn');
         const inputText = document.getElementById('inputText');
         const resultDiv = document.getElementById('resultText');
@@ -338,8 +501,9 @@ Texto humanizado:`;
         processBtn.addEventListener('click', async () => {
             const texto = inputText.value.trim();
             if (!texto) { showToast("⚠️ Escribe un texto para humanizar", true); return; }
-            if (procesando) { showToast("⏳ Ya estoy procesando, espera...", true); return; }
+            if (procesando) { showToast("⏳ Ya estoy procesando...", true); return; }
             
+            guardarEnHistorial(texto);
             procesando = true;
             processBtn.disabled = true;
             processBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando texto...';
@@ -350,7 +514,6 @@ Texto humanizado:`;
                 resultDiv.innerHTML = resultado;
                 showToast(`✅ Texto humanizado`);
             } catch (error) {
-                console.error('Error:', error);
                 resultDiv.innerHTML = texto;
                 showToast("❌ Error al procesar", true);
             } finally {
@@ -378,7 +541,7 @@ Texto humanizado:`;
         });
         
         // ============================================
-        // HUMANIZAR DOCUMENTO WORD (ILIMITADO)
+        // HUMANIZAR DOCUMENTO WORD
         // ============================================
         
         let contenidoWord = '';
@@ -397,7 +560,7 @@ Texto humanizado:`;
         function actualizarProgreso(actual, total, mensaje) {
             const porcentaje = (actual / total) * 100;
             progressBar.style.width = `${porcentaje}%`;
-            progressText.textContent = `${mensaje} (${actual}/${total} fragmentos)`;
+            progressText.textContent = `${mensaje} (${actual}/${total})`;
         }
         
         subirWordBtn.onclick = () => wordFileInput.click();
@@ -405,16 +568,12 @@ Texto humanizado:`;
         wordFileInput.onchange = (e) => {
             const file = e.target.files[0];
             if (!file) return;
-            
             if (!file.name.match(/\.(docx|doc)$/i)) {
                 wordStatusSpan.textContent = '❌ Solo archivos Word';
                 wordStatusSpan.style.color = '#ef4444';
                 return;
             }
-            
             wordStatusSpan.textContent = '📄 Leyendo archivo...';
-            wordStatusSpan.style.color = '#a78bfa';
-            
             const reader = new FileReader();
             reader.onload = async (ev) => {
                 try {
@@ -422,56 +581,40 @@ Texto humanizado:`;
                     const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
                     contenidoWord = result.value;
                     nombreWord = file.name;
-                    
-                    if (!contenidoWord || contenidoWord.trim().length < 20) {
-                        throw new Error('El documento no contiene texto suficiente');
-                    }
-                    
+                    if (!contenidoWord || contenidoWord.trim().length < 20) throw new Error('Texto insuficiente');
                     const fragmentos = dividirTextoEnFragmentos(contenidoWord, FRAGMENTO_SIZE);
-                    wordStatusSpan.innerHTML = `✅ "${file.name}" cargado (${Math.round(contenidoWord.length/1000)}k caracteres, ${fragmentos.length} fragmentos)`;
+                    wordStatusSpan.innerHTML = `✅ "${file.name}" (${fragmentos.length} fragmentos)`;
                     wordStatusSpan.style.color = '#10b981';
                     humanizarWordBtn.disabled = false;
                     descargarWordBtn.style.display = 'none';
                     textoHumanizado = '';
-                    showToast(`📄 Archivo cargado: ${file.name} (${fragmentos.length} fragmentos)`);
                 } catch (err) {
                     wordStatusSpan.textContent = `❌ Error: ${err.message}`;
                     wordStatusSpan.style.color = '#ef4444';
                     humanizarWordBtn.disabled = true;
-                    showToast(err.message, true);
                 }
             };
             reader.readAsArrayBuffer(file);
         };
         
         humanizarWordBtn.onclick = async () => {
-            if (!contenidoWord) {
-                showToast('Primero sube un archivo Word', true);
-                return;
-            }
-            
+            if (!contenidoWord) { showToast('Primero sube un archivo', true); return; }
             humanizarWordBtn.disabled = true;
-            humanizarWordBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando documento...';
-            wordStatusSpan.textContent = '🤖 IA humanizando el documento...';
-            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">🤖 Humanizando documento (puede tomar varios minutos)...</div>';
+            humanizarWordBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando...';
+            resultDiv.innerHTML = '<div style="text-align:center;padding:3rem;">🤖 Humanizando documento...</div>';
             progressContainer.style.display = 'block';
             progressBar.style.width = '0%';
             
             try {
                 textoHumanizado = await humanizarTextoCompleto(contenidoWord, modo, actualizarProgreso);
-                
-                resultDiv.innerHTML = `<div style="white-space:pre-wrap;">✅ DOCUMENTO HUMANIZADO COMPLETO\n\n${textoHumanizado.substring(0, 1500)}${textoHumanizado.length > 1500 ? '\n\n...(documento completo listo para descargar)' : ''}</div>`;
-                wordStatusSpan.textContent = '✅ Documento humanizado correctamente';
+                resultDiv.innerHTML = `✅ Documento humanizado\n\n${textoHumanizado.substring(0, 800)}${textoHumanizado.length > 800 ? '...' : ''}`;
                 descargarWordBtn.style.display = 'inline-block';
                 descargarWordBtn.disabled = false;
-                progressText.textContent = '¡Humanización completada!';
-                showToast(`✅ Documento humanizado`);
-                
+                progressText.textContent = '¡Completado!';
+                showToast('✅ Documento humanizado');
             } catch (error) {
-                console.error(error);
-                resultDiv.innerHTML = `<div style="color:#ef4444;">❌ Error al humanizar: ${error.message}</div>`;
-                showToast('Error al humanizar el documento', true);
-                progressContainer.style.display = 'none';
+                resultDiv.innerHTML = `<div style="color:#ef4444;">❌ Error: ${error.message}</div>`;
+                showToast('Error', true);
             } finally {
                 humanizarWordBtn.disabled = false;
                 humanizarWordBtn.innerHTML = '✨ HUMANIZAR DOCUMENTO';
@@ -479,53 +622,20 @@ Texto humanizado:`;
         };
         
         descargarWordBtn.onclick = async () => {
-            if (!textoHumanizado) {
-                showToast('Primero humaniza el documento', true);
-                return;
-            }
-            
+            if (!textoHumanizado) { showToast('Primero humaniza el documento', true); return; }
             try {
-                showToast('📝 Generando Word humanizado...');
-                
-                const { Document, Packer, Paragraph, TextRun, AlignmentType, BorderStyle, ShadingType } = window.docx;
-                
-                const fecha = new Date().toLocaleString('es-ES');
+                showToast('📝 Generando Word...');
+                const { Document, Packer, Paragraph, TextRun, AlignmentType } = window.docx;
+                const children = [
+                    new Paragraph({ children: [new TextRun({ text: "HUMANIZE DEEP", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER }),
+                    new Paragraph({ children: [new TextRun({ text: "Documento Humanizado", size: 28 })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
+                ];
                 const lineas = textoHumanizado.split('\n');
-                const children = [];
-                
-                children.push(
-                    new Paragraph({ children: [new TextRun({ text: "HUMANIZE DEEP", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER, spacing: { after: 150 } }),
-                    new Paragraph({ children: [new TextRun({ text: "Documento Humanizado por IA (Ilimitado)", size: 32, italics: true, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
-                );
-                
-                children.push(
-                    new Paragraph({ children: [new TextRun({ text: "INFORMACIÓN DEL DOCUMENTO", bold: true, size: 26, color: "3B82F6" })], alignment: AlignmentType.CENTER, spacing: { after: 200 } }),
-                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📄 Documento original: ${nombreWord}`, size: 22 })], spacing: { after: 80, before: 80, left: 400, right: 400 } }),
-                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📏 Tamaño: ${Math.round(textoHumanizado.length/1000)}k caracteres`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
-                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `🎯 Proceso: Traducción cíclica sin límites`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } }),
-                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, bottom: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, left: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" }, right: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, shading: { type: ShadingType.CLEAR, fill: "F3F4F6" }, children: [new TextRun({ text: `📅 Fecha: ${fecha}`, size: 22 })], spacing: { after: 80, before: 0, left: 400, right: 400 } })
-                );
-                
-                children.push(new Paragraph({ children: [], spacing: { after: 300 } }));
-                
-                for (let i = 0; i < Math.min(lineas.length, 500); i++) {
-                    let linea = lineas[i];
-                    if (linea.trim() === '') {
-                        children.push(new Paragraph({ children: [] }));
-                    } else if (linea.trim().length > 0) {
-                        children.push(new Paragraph({ children: [new TextRun({ text: linea.substring(0, 3000), size: 24 })], spacing: { after: 100 } }));
-                    }
+                for (let linea of lineas.slice(0, 500)) {
+                    if (linea.trim()) children.push(new Paragraph({ children: [new TextRun({ text: linea.substring(0, 2000), size: 24 })], spacing: { after: 100 } }));
+                    else children.push(new Paragraph({ children: [] }));
                 }
-                
-                children.push(
-                    new Paragraph({ children: [], spacing: { before: 500 } }),
-                    new Paragraph({ border: { top: { style: BorderStyle.SINGLE, size: 2, color: "8B5CF6" } }, children: [], spacing: { before: 200 } }),
-                    new Paragraph({ children: [new TextRun({ text: "Documento humanizado por Humanize Deep - Sin límite de palabras", size: 18, color: "6B7280", italics: true })], alignment: AlignmentType.CENTER, spacing: { before: 100, after: 50 } }),
-                    new Paragraph({ children: [new TextRun({ text: "Traducción cíclica · IA Avanzada · Sin markdown · Ilimitado", size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 50 } }),
-                    new Paragraph({ children: [new TextRun({ text: `© ${new Date().getFullYear()} - Humanize Deep Ilimitado`, size: 18, color: "6B7280" })], alignment: AlignmentType.CENTER, spacing: { after: 100 } })
-                );
-                
-                const doc = new Document({ sections: [{ properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } }, children: children }] });
+                const doc = new Document({ sections: [{ children }] });
                 const blob = await Packer.toBlob(doc);
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -533,23 +643,22 @@ Texto humanizado:`;
                 a.download = `HumanizeDeep_${nombreWord.replace(/\.docx?$/i, '')}.docx`;
                 a.click();
                 URL.revokeObjectURL(url);
-                showToast('✅ Word humanizado descargado');
                 progressContainer.style.display = 'none';
+                showToast('✅ Word descargado');
             } catch (error) {
-                console.error(error);
                 showToast('❌ Error al generar Word', true);
             }
         };
         
         function actualizarDiario() { 
-            const hoy = new Date(); 
-            const mensajes = ["✨ DOMINGO", "✨ LUNES", "✨ MARTES", "✨ MIÉRCOLES", "✨ JUEVES", "✨ VIERNES", "✨ SÁBADO"];
-            document.getElementById('dailyTip').innerHTML = mensajes[hoy.getDay()] + " · Humanización SIN LÍMITES · Sube documentos de cualquier tamaño"; 
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep Ilimitado · Traducción cíclica · ${hoy.toLocaleDateString('es-ES')} · Sin límite de palabras`;
+            const dias = ["DOMINGO", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO"];
+            const hoy = new Date();
+            document.getElementById('dailyTip').innerHTML = `✨ ${dias[hoy.getDay()]} · Humanización SIN LÍMITES · 10 herramientas incluidas`; 
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep Ilimitado · ${hoy.toLocaleDateString('es-ES')} · 10 herramientas`;
         }
         actualizarDiario();
-        
-        showToast(`✨ Humanize Deep Ilimitado · Sin límite de palabras · Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
+        actualizarSidebarHistorial();
+        showToast(`✨ 10 herramientas activas · Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
     </script>
 
     <script type="module">
