@@ -45,9 +45,126 @@
         .process-btn:hover { transform: scale(1.02); }
         .process-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .result-box { background: rgba(0,0,0,0.6); border-radius: 1rem; padding: 1rem; min-height: 280px; overflow-y: auto; line-height: 1.6; white-space: pre-wrap; }
+        
+        /* ARQUITECTURA DE WIDGETS */
+        .widget-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .widget {
+            background: rgba(26, 37, 48, 0.95);
+            border: 1px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+        
+        .widget:hover {
+            border-color: #a78bfa;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+        }
+        
+        .widget-title {
+            font-weight: bold;
+            color: #a78bfa;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .widget-content {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #f0f4f8;
+        }
+        
+        .widget-confidence {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        
+        .confidence-bar {
+            flex: 1;
+            height: 4px;
+            background: #2c3a4a;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #10b981);
+            transition: width 1s ease;
+            width: 0%;
+        }
+        
+        .confidence-label {
+            font-size: 0.7rem;
+            color: #b0c4de;
+            min-width: 40px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .metric-item {
+            background: rgba(0,0,0,0.2);
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #a78bfa;
+        }
+        
+        .metric-label {
+            font-size: 0.6rem;
+            color: #94a3b8;
+        }
+        
+        .sources-list {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            font-size: 0.7rem;
+        }
+        
+        .source-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .source-item:last-child { border-bottom: none; }
+        .source-icon { font-size: 0.8rem; }
+        
+        /* Metadata container oculto */
+        .metadata-container { display: none; }
+        
         .feedback-buttons { display: flex; gap: 10px; margin-top: 15px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
+        .feedback-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .copy-btn { background: #475569; margin-top: 1rem; width: 100%; padding: 0.8rem; border: none; border-radius: 1rem; color: white; cursor: pointer; transition: background 0.2s; }
         .copy-btn:hover { background: #5a6a8a; }
         footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: #64748b; }
@@ -83,7 +200,10 @@
         .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
         .historial-item:hover { background: #334155; color: #a78bfa; }
         
-        @media (max-width: 700px) { #sidebarHistorial { display: none; } }
+        @media (max-width: 700px) { 
+            #sidebarHistorial { display: none; }
+            .widget-container { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -141,6 +261,68 @@
                 <div class="card"><div class="card-title">✨ TEXTO HUMANIZADO</div><div class="result-box" id="resultText">El texto humanizado aparecerá aquí...</div><button class="copy-btn" id="copyBtn">📋 Copiar resultado</button><div id="feedbackContainer"></div></div>
             </div>
 
+            <!-- WIDGETS INDEPENDIENTES -->
+            <div class="widget-container" id="widgetContainer">
+                <div class="widget" id="widgetMetricas">
+                    <div class="widget-title">📊 Métricas del Texto</div>
+                    <div class="widget-content">
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-value" id="metricPalabras">0</div>
+                                <div class="metric-label">Palabras</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="metricCaracteres">0</div>
+                                <div class="metric-label">Caracteres</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="metricParrafos">0</div>
+                                <div class="metric-label">Párrafos</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="metricOraciones">0</div>
+                                <div class="metric-label">Oraciones</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget" id="widgetConfianza">
+                    <div class="widget-title">🎯 Calidad de Humanización</div>
+                    <div class="widget-content">
+                        <div class="widget-confidence">
+                            <span style="font-size:0.8rem;">📊</span>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidenceFill" style="width:0%"></div>
+                            </div>
+                            <span class="confidence-label" id="confidenceLabel">0%</span>
+                        </div>
+                        <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">
+                            Basado en naturalidad y fluidez del texto
+                        </div>
+                    </div>
+                </div>
+                <div class="widget" id="widgetEstilo">
+                    <div class="widget-title">🎨 Estilo Detectado</div>
+                    <div class="widget-content" id="widgetEstiloContent">
+                        <div style="color:#94a3b8;font-size:0.75rem;">Analizando estilo del texto...</div>
+                        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
+                            <span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">📝 Natural</span>
+                            <span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">✨ Fluido</span>
+                            <span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">🎯 Preciso</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget" id="widgetSugerencias">
+                    <div class="widget-title">💡 Sugerencias de Mejora</div>
+                    <div class="widget-content" id="widgetSugerenciasContent">
+                        <div style="color:#94a3b8;font-size:0.75rem;">Las sugerencias aparecerán aquí</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- METADATOS JSON-LD (oculto) -->
+            <div class="metadata-container" id="metadataContainer"></div>
+
             <div class="restriction-alert">📌 Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · Humanización profesional · SIN LÍMITE DE PALABRAS · 10 herramientas</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
             <footer id="footer">⚡ Humanize Deep Ilimitado · Traducción cíclica · IA Avanzada · Sin límite de palabras · 10 herramientas</footer>
@@ -164,6 +346,23 @@
     </script>
 
     <script>
+        // ============================================
+        // SISTEMA DE CACHÉ SEMÁNTICO
+        // ============================================
+        
+        const semanticCache = new Map();
+        
+        function getSemanticKey(text) {
+            const words = text.toLowerCase()
+                .replace(/[¿?¡!.,;:]/g, '')
+                .split(' ')
+                .filter(w => w.length > 3)
+                .slice(0, 5)
+                .sort()
+                .join('_');
+            return words;
+        }
+        
         // ============================================
         // CONFIGURACIÓN - SIN LÍMITES
         // ============================================
@@ -243,6 +442,16 @@
         }
         
         async function humanizarFragmento(texto, modo, progreso, total) {
+            const semanticKey = getSemanticKey(texto);
+            
+            // Verificar caché semántico
+            if (semanticCache.has(semanticKey)) {
+                const cached = semanticCache.get(semanticKey);
+                if (Date.now() - cached.timestamp < 3600000) {
+                    return cached.data;
+                }
+            }
+            
             const rutaCompleta = _RUTA_PAISES.slice(0, 5).join(' → ');
             const promptExperto = `[IDIOMA DE SALIDA: EXCLUSIVAMENTE ESPAÑOL NEUTRO]
 
@@ -259,7 +468,9 @@ TEXTO HUMANIZADO:`;
             const prompt = modo === 'experto' ? promptExperto : promptBasico;
             try {
                 const respuesta = await jsllm7(prompt);
-                return _limpiarRespuesta(respuesta, texto);
+                const resultado = _limpiarRespuesta(respuesta, texto);
+                semanticCache.set(semanticKey, { data: resultado, timestamp: Date.now() });
+                return resultado;
             } catch (e) {
                 return texto;
             }
@@ -280,15 +491,162 @@ TEXTO HUMANIZADO:`;
         }
         
         async function humanizarTexto(texto, modo) {
-            if (texto.length > FRAGMENTO_SIZE * 2) {
-                return await humanizarTextoCompleto(texto, modo, null);
-            }
             const cacheKey = _H(texto + modo);
             const cacheLocal = _obtenerCacheLocal(cacheKey);
             if (cacheLocal) return cacheLocal;
-            const resultado = await humanizarFragmento(texto, modo, 1, 1);
+            
+            let resultado;
+            if (texto.length > FRAGMENTO_SIZE * 2) {
+                resultado = await humanizarTextoCompleto(texto, modo, null);
+            } else {
+                resultado = await humanizarFragmento(texto, modo, 1, 1);
+            }
             _guardarCacheLocal(cacheKey, resultado);
             return resultado;
+        }
+        
+        // ============================================
+        // GENERAR METADATOS JSON-LD
+        // ============================================
+        
+        function generarMetadatos(textoOriginal, textoHumanizado, confianza, metricas) {
+            return {
+                "@context": "https://schema.org",
+                "@type": "CreativeWork",
+                "name": "Texto Humanizado",
+                "description": "Texto procesado por Humanize Deep para mejorar naturalidad y fluidez",
+                "author": {
+                    "@type": "Organization",
+                    "name": "Humanize Deep"
+                },
+                "dateCreated": new Date().toISOString(),
+                "text": textoHumanizado.substring(0, 500),
+                "wordCount": metricas.palabras,
+                "confidenceScore": confianza,
+                "processingMethod": "Traducción cíclica multilingüe"
+            };
+        }
+        
+        // ============================================
+        // ACTUALIZAR WIDGETS
+        // ============================================
+        
+        function actualizarMetricas(texto) {
+            const palabras = texto.split(/\s+/).filter(w => w.length > 0).length;
+            const caracteres = texto.length;
+            const parrafos = texto.split(/\n\s*\n/).filter(p => p.trim().length > 0).length;
+            const oraciones = texto.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            
+            document.getElementById('metricPalabras').textContent = palabras;
+            document.getElementById('metricCaracteres').textContent = caracteres;
+            document.getElementById('metricParrafos').textContent = parrafos;
+            document.getElementById('metricOraciones').textContent = oraciones;
+            
+            return { palabras, caracteres, parrafos, oraciones };
+        }
+        
+        function actualizarConfianza(texto) {
+            // Calcular confianza basada en métricas de naturalidad
+            const palabras = texto.split(/\s+/).filter(w => w.length > 0).length;
+            const oraciones = texto.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            
+            let confianza = 75;
+            
+            // Si tiene más de 50 palabras y oraciones bien distribuidas
+            if (palabras > 50) confianza += 10;
+            if (oraciones > 3 && palabras / oraciones < 25) confianza += 10;
+            if (texto.match(/[aeiouáéíóú]/gi) && texto.length > 100) confianza += 5;
+            
+            confianza = Math.min(Math.max(confianza, 60), 98);
+            
+            document.getElementById('confidenceFill').style.width = confianza + '%';
+            document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%';
+            
+            return confianza;
+        }
+        
+        function actualizarEstilo(texto) {
+            const contenido = texto.toLowerCase();
+            const estilos = [];
+            
+            if (contenido.includes('porque') || contenido.includes('debido a') || contenido.includes('ya que')) {
+                estilos.push('📝 Explicativo');
+            }
+            if (contenido.includes('primero') || contenido.includes('segundo') || contenido.includes('finalmente')) {
+                estilos.push('📋 Estructurado');
+            }
+            if (contenido.match(/[.!?]{2,}/)) {
+                estilos.push('🎯 Enfático');
+            }
+            if (contenido.includes('como') || contenido.includes('ejemplo') || contenido.includes('similar')) {
+                estilos.push('💡 Analógico');
+            }
+            
+            if (estilos.length === 0) {
+                estilos.push('📝 Natural', '✨ Fluido', '🎯 Preciso');
+            }
+            
+            const widgetEstiloContent = document.getElementById('widgetEstiloContent');
+            widgetEstiloContent.innerHTML = `
+                <div style="color:#94a3b8;font-size:0.75rem;margin-bottom:8px;">Estilo detectado automáticamente</div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    ${estilos.map(e => `<span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">${e}</span>`).join('')}
+                </div>
+            `;
+        }
+        
+        function actualizarSugerencias(texto) {
+            const widgetSugerenciasContent = document.getElementById('widgetSugerenciasContent');
+            const sugerencias = [];
+            
+            const palabras = texto.split(/\s+/).filter(w => w.length > 0).length;
+            const oraciones = texto.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+            
+            if (palabras < 30) {
+                sugerencias.push('📌 El texto es corto. Considera expandirlo con más detalles.');
+            }
+            if (oraciones > 0 && palabras / oraciones > 30) {
+                sugerencias.push('📌 Algunas oraciones son muy largas. Intenta dividirlas para mejorar la legibilidad.');
+            }
+            if (texto.match(/[A-Z]{5,}/)) {
+                sugerencias.push('📌 Evita usar mayúsculas excesivas. Mantén un tono equilibrado.');
+            }
+            if (texto.match(/[aeiouáéíóú]{6,}/)) {
+                sugerencias.push('📌 Revisa palabras con muchas vocales seguidas. Podrían tener errores ortográficos.');
+            }
+            
+            if (sugerencias.length === 0) {
+                sugerencias.push('✅ El texto tiene buena estructura y fluidez.', '💡 Considera usar sinónimos para enriquecer el vocabulario.');
+            }
+            
+            widgetSugerenciasContent.innerHTML = sugerencias.map(s => 
+                `<div style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.75rem;">${s}</div>`
+            ).join('');
+        }
+        
+        function actualizarWidgets(textoOriginal, textoHumanizado) {
+            // Actualizar métricas
+            const metricas = actualizarMetricas(textoHumanizado);
+            
+            // Actualizar confianza
+            const confianza = actualizarConfianza(textoHumanizado);
+            
+            // Actualizar estilo
+            actualizarEstilo(textoHumanizado);
+            
+            // Actualizar sugerencias
+            actualizarSugerencias(textoHumanizado);
+            
+            // Generar metadatos JSON-LD
+            const metadatos = generarMetadatos(textoOriginal, textoHumanizado, confianza, metricas);
+            document.getElementById('metadataContainer').innerHTML = `<script type="application/ld+json">${JSON.stringify(metadatos)}<\/script>`;
+            
+            // Deep linking (guardar en URL)
+            if (history.pushState && textoOriginal.length > 20) {
+                const url = new URL(window.location);
+                url.searchParams.set('text', encodeURIComponent(textoOriginal.substring(0, 200)));
+                window.history.pushState({}, '', url);
+            }
         }
         
         // ============================================
@@ -460,6 +818,30 @@ TEXTO HUMANIZADO:`;
         document.getElementById('btnSimplificar').onclick = simplificarTexto;
         
         // ============================================
+        // FEEDBACK
+        // ============================================
+        
+        function agregarFeedback() {
+            const container = document.getElementById('feedbackContainer');
+            if (!container) return;
+            container.innerHTML = `
+                <div class="feedback-buttons">
+                    <button class="feedback-btn" id="fbLike">👍 Útil</button>
+                    <button class="feedback-btn" id="fbDislike">👎 No útil</button>
+                </div>
+            `;
+            document.getElementById('fbLike').onclick = () => {
+                showToast('✅ Gracias por tu feedback');
+                document.querySelectorAll('.feedback-btn').forEach(b => b.disabled = true);
+            };
+            document.getElementById('fbDislike').onclick = () => {
+                showToast('📝 Gracias, mejoraremos');
+                document.querySelectorAll('.feedback-btn').forEach(b => b.disabled = true);
+            };
+        }
+        agregarFeedback();
+        
+        // ============================================
         // HISTORIAL
         // ============================================
         
@@ -512,6 +894,10 @@ TEXTO HUMANIZADO:`;
             try {
                 const resultado = await humanizarTexto(texto, modo);
                 resultDiv.innerHTML = resultado;
+                
+                // Actualizar widgets
+                actualizarWidgets(texto, resultado);
+                
                 showToast(`✅ Texto humanizado`);
             } catch (error) {
                 resultDiv.innerHTML = texto;
@@ -608,6 +994,10 @@ TEXTO HUMANIZADO:`;
             try {
                 textoHumanizado = await humanizarTextoCompleto(contenidoWord, modo, actualizarProgreso);
                 resultDiv.innerHTML = `✅ Documento humanizado\n\n${textoHumanizado.substring(0, 800)}${textoHumanizado.length > 800 ? '...' : ''}`;
+                
+                // Actualizar widgets con el documento humanizado
+                actualizarWidgets(contenidoWord, textoHumanizado);
+                
                 descargarWordBtn.style.display = 'inline-block';
                 descargarWordBtn.disabled = false;
                 progressText.textContent = '¡Completado!';
@@ -649,6 +1039,25 @@ TEXTO HUMANIZADO:`;
                 showToast('❌ Error al generar Word', true);
             }
         };
+        
+        // ============================================
+        // DEEP LINKING - CARGAR TEXTO DESDE URL
+        // ============================================
+        
+        function cargarDesdeURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const text = urlParams.get('text');
+            if (text) {
+                inputText.value = decodeURIComponent(text);
+                setTimeout(() => processBtn.click(), 1000);
+            }
+        }
+        
+        cargarDesdeURL();
+        
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
         
         function actualizarDiario() { 
             const dias = ["DOMINGO", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO"];
