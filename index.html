@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>Humanize Deep - Humanización Profesional Ilimitada + Conectores IA</title>
+    <title>Humanize Deep - Humanización Profesional Ilimitada + Conectores IA + jsllm7 404M</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e, #0c1222); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -22,6 +22,7 @@
         .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
         .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
         .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
+        .tool-btn.jsllm7 { border-color: #8b5cf6; color: #a78bfa; }
         
         .word-section { background: rgba(139, 92, 246, 0.15); border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); }
         .word-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 0.8rem; color: #a78bfa; display: flex; align-items: center; gap: 8px; }
@@ -218,6 +219,8 @@
         .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
         .historial-item:hover { background: #334155; color: #a78bfa; }
         
+        #jsllm7WidgetStatus { font-size: 0.65rem; color: #94a3b8; margin-top: 8px; }
+        
         @media (max-width: 700px) { 
             #sidebarHistorial { display: none; }
             .widget-container { grid-template-columns: 1fr; }
@@ -230,9 +233,9 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <h1>📝 HUMANIZE DEEP <span class="ia-badge">ILIMITADO</span><span class="live-badge">🌐 CONECTORES</span></h1>
-                <div class="sub" id="subHeader">Humanización profesional · Traducción cíclica · Conectores avanzados</div>
-                <div class="daily-tip" id="dailyTip">✨ Humanizamos textos de CUALQUIER tamaño · Conectores: Memoria · Semántico · APIs</div>
+                <h1>📝 HUMANIZE DEEP <span class="ia-badge">jsllm7 404M</span><span class="ia-badge" style="background:#8b5cf6;">CONECTORES</span><span class="live-badge">🌐 TERMUX</span></h1>
+                <div class="sub" id="subHeader">Humanización profesional · Traducción cíclica · Conectores avanzados · jsllm7 404M</div>
+                <div class="daily-tip" id="dailyTip">✨ Humanizamos textos de CUALQUIER tamaño · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
             </div>
 
             <div class="modo-selector">
@@ -251,6 +254,7 @@
                 <button class="tool-btn" id="btnTraducir">🌍 Traducir</button>
                 <button class="tool-btn" id="btnExpandir">📖 Expandir</button>
                 <button class="tool-btn" id="btnSimplificar">📝 Simplificar</button>
+                <button class="tool-btn jsllm7" id="btnTermuxStatus">🔌 Estado jsllm7</button>
             </div>
 
             <div class="word-section">
@@ -271,7 +275,7 @@
                 <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 Sin límite de palabras · Divide automáticamente documentos grandes · Traducción cíclica ES→EN→FR→DE→IT→PT→ES</div>
             </div>
 
-            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Traducción cíclica · Humanización profesional · Conectores activos · 10 herramientas</div>
+            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Traducción cíclica · Humanización profesional · jsllm7 404M · Conectores activos · 10 herramientas</div>
 
             <div class="grid-2">
                 <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí (sin límite de palabras)..."></textarea><button class="process-btn" id="processBtn">✨ HUMANIZAR TEXTO</button></div>
@@ -324,6 +328,7 @@
                                 <div class="label">Contexto</div>
                             </div>
                         </div>
+                        <div id="jsllm7WidgetStatus">🧠 jsllm7: 🔍 Conectando a Termux...</div>
                     </div>
                 </div>
                 <div class="widget" id="widgetConfianza">
@@ -356,9 +361,9 @@
 
             <div class="metadata-container" id="metadataContainer"></div>
 
-            <div class="restriction-alert">📌 Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · Conectores activos · SIN LÍMITE DE PALABRAS · 10 herramientas</div>
+            <div class="restriction-alert">📌 Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · jsllm7 404M · Conectores activos · SIN LÍMITE DE PALABRAS · 10 herramientas</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ Humanize Deep · Conectores: Memoria · Semántico · APIs · Sin límite de palabras · 10 herramientas</footer>
+            <footer id="footer">⚡ Humanize Deep · jsllm7 404M · Conectores: Memoria · Semántico · APIs · Sin límite de palabras · 10 herramientas</footer>
         </div>
     </div>
 
@@ -379,6 +384,74 @@
     </script>
 
     <script>
+        // ============================================
+        // CONFIGURACIÓN - API DE TERMUX (PUERTO 8081)
+        // ============================================
+        
+        const JSLLM7_API_URL = 'http://localhost:8081';
+        let jsllm7TermuxConectado = false;
+        
+        // ============================================
+        // FUNCIÓN PARA LLAMAR A IA (PRIORIZA TERMUX)
+        // ============================================
+        
+        async function llamarIA(prompt) {
+            console.log('🔍 Intentando llamar a IA...');
+            
+            // 1. INTENTAR CON TERMUX (API local)
+            try {
+                const preguntaCodificada = encodeURIComponent(prompt);
+                const url = `${JSLLM7_API_URL}/ask?q=${preguntaCodificada}`;
+                
+                console.log('📤 Enviando a Termux (8081):', prompt.substring(0, 80) + '...');
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    console.error('❌ Error HTTP:', response.status);
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const text = await response.text();
+                console.log('📥 Respuesta recibida (primeros 100 chars):', text.substring(0, 100));
+                
+                // USAR SIEMPRE la respuesta de Termux si tiene contenido
+                if (text && text.length > 20) {
+                    jsllm7TermuxConectado = true;
+                    document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
+                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                    console.log('✅ Usando respuesta de Termux');
+                    return _limpiarRespuesta(text, '');
+                } else {
+                    console.warn('⚠️ Respuesta de Termux vacía, intentando CDN...');
+                    throw new Error('Respuesta vacía');
+                }
+            } catch (error) {
+                console.warn('⚠️ Error conectando a Termux:', error.message);
+                jsllm7TermuxConectado = false;
+                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+            }
+            
+            // 2. FALLBACK: Usar jsllm7 del CDN
+            console.log('⚠️ Termux no disponible, usando CDN...');
+            if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
+                try {
+                    const response = await window.jsllm7(prompt);
+                    if (response && response.length > 50) {
+                        console.log('✅ Respuesta de CDN obtenida');
+                        return _limpiarRespuesta(response, '');
+                    }
+                } catch (e) {
+                    console.warn('Error con jsllm7 CDN:', e);
+                }
+            }
+            
+            // 3. FALLBACK FINAL
+            console.log('⚠️ Usando fallback genérico');
+            return null;
+        }
+
         // ============================================
         // CONECTOR DE MEMORIA
         // ============================================
@@ -711,7 +784,7 @@
         }
 
         // ============================================
-        // HUMANIZAR TEXTO CON CONECTORES
+        // HUMANIZAR FRAGMENTO CON IA (PRIORIZA TERMUX)
         // ============================================
         
         async function humanizarFragmento(texto, modo, progreso, total) {
@@ -760,11 +833,51 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             
             const prompt = modo === 'experto' ? promptExperto : promptBasico;
             try {
-                const respuesta = await jsllm7(prompt);
-                const resultado = _limpiarRespuesta(respuesta, texto);
-                semanticCache.set(semanticKey, { data: resultado, timestamp: Date.now() });
-                return resultado;
+                // PRIMERO: Intentar con Termux (llamarIA)
+                const respuestaTermux = await llamarIA(prompt);
+                
+                // Verificar si la respuesta de Termux contiene el texto original o es genérica
+                if (respuestaTermux && respuestaTermux.length > 50) {
+                    // Si la respuesta es genérica (contiene "El texto original que debe ser humanizado"), usar CDN
+                    if (respuestaTermux.includes('El texto original que debe ser humanizado') || 
+                        respuestaTermux.includes('el texto original que debe ser humanizado') ||
+                        respuestaTermux.includes('📝 TEXTO HUMANIZADO')) {
+                        console.log('⚠️ Respuesta genérica de Termux, usando CDN...');
+                        // FALLBACK: Usar jsllm7 del CDN
+                        if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
+                            const respuestaCDN = await window.jsllm7(prompt);
+                            if (respuestaCDN && respuestaCDN.length > 50) {
+                                const resultado = _limpiarRespuesta(respuestaCDN, texto);
+                                semanticCache.set(semanticKey, { data: resultado, timestamp: Date.now() });
+                                return resultado;
+                            }
+                        }
+                        return texto;
+                    }
+                    
+                    // Si la respuesta de Termux es válida, usarla
+                    const resultado = _limpiarRespuesta(respuestaTermux, texto);
+                    semanticCache.set(semanticKey, { data: resultado, timestamp: Date.now() });
+                    return resultado;
+                }
+                
+                // 2. FALLBACK: Usar jsllm7 del CDN
+                console.log('⚠️ Termux no respondió, usando CDN...');
+                if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
+                    const respuestaCDN = await window.jsllm7(prompt);
+                    if (respuestaCDN && respuestaCDN.length > 50) {
+                        const resultado = _limpiarRespuesta(respuestaCDN, texto);
+                        semanticCache.set(semanticKey, { data: resultado, timestamp: Date.now() });
+                        return resultado;
+                    }
+                }
+                
+                // 3. FALLBACK FINAL
+                console.log('⚠️ Usando fallback final');
+                return texto;
+                
             } catch (e) {
+                console.warn('Error humanizando fragmento:', e);
                 return texto;
             }
         }
@@ -816,7 +929,7 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
                 "@context": "https://schema.org",
                 "@type": "CreativeWork",
                 "name": "Texto Humanizado",
-                "description": "Texto procesado por Humanize Deep con conectores avanzados",
+                "description": "Texto procesado por Humanize Deep con conectores avanzados y jsllm7 404M",
                 "author": {
                     "@type": "Organization",
                     "name": "Humanize Deep"
@@ -956,7 +1069,7 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
         actualizarModoUI();
         
         // ============================================
-        // 10 HERRAMIENTAS AVANZADAS
+        // 10 HERRAMIENTAS AVANZADAS (USAN TERMUX)
         // ============================================
         
         async function generarResumen() {
@@ -964,8 +1077,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             showToast('📋 Generando resumen...');
             const prompt = `Resume el siguiente texto de forma clara y concisa. Mantén las ideas principales. Texto: "${texto.substring(0, 3000)}" Resumen (máximo 200 palabras):`;
-            const resumen = await jsllm7(prompt);
-            mostrarModal('📋 RESUMEN DEL TEXTO', resumen);
+            const resumen = await llamarIA(prompt);
+            mostrarModal('📋 RESUMEN DEL TEXTO', resumen || 'No se pudo generar resumen');
             actualizarMetricasConectores();
         }
         
@@ -974,8 +1087,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             showToast('🤖 Analizando texto...');
             const prompt = `Analiza si el siguiente texto parece generado por IA o escrito por humano. Da un porcentaje de probabilidad de IA y explica las señales detectadas. Texto: "${texto.substring(0, 2500)}"`;
-            const analisis = await jsllm7(prompt);
-            mostrarModal('🤖 DETECTOR DE IA', analisis);
+            const analisis = await llamarIA(prompt);
+            mostrarModal('🤖 DETECTOR DE IA', analisis || 'No se pudo analizar');
             actualizarMetricasConectores();
         }
         
@@ -985,8 +1098,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!original || humanizado === 'El texto humanizado aparecerá aquí...') { showToast('Primero humaniza un texto', true); return; }
             showToast('🔄 Comparando versiones...');
             const prompt = `Compara estas dos versiones del mismo texto y explica las diferencias clave, mejoras y cambios. Version original: "${original.substring(0, 1500)}" Version humanizada: "${humanizado.substring(0, 1500)}"`;
-            const comparacion = await jsllm7(prompt);
-            mostrarModal('🔄 COMPARACIÓN DE VERSIONES', comparacion);
+            const comparacion = await llamarIA(prompt);
+            mostrarModal('🔄 COMPARACIÓN DE VERSIONES', comparacion || 'No se pudo comparar');
             actualizarMetricasConectores();
         }
         
@@ -995,8 +1108,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             showToast('💡 Generando títulos...');
             const prompt = `Genera 10 títulos atractivos y profesionales para el siguiente texto. Texto: "${texto.substring(0, 1500)}" Títulos:`;
-            const titulos = await jsllm7(prompt);
-            mostrarModal('💡 TÍTULOS SUGERIDOS', titulos);
+            const titulos = await llamarIA(prompt);
+            mostrarModal('💡 TÍTULOS SUGERIDOS', titulos || 'No se pudieron generar títulos');
             actualizarMetricasConectores();
         }
         
@@ -1005,8 +1118,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             showToast('✏️ Corrigiendo texto...');
             const prompt = `Corrige los errores ortográficos, gramaticales y de puntuación del siguiente texto. Mantén el significado original. Texto: "${texto.substring(0, 3000)}" Texto corregido:`;
-            const corregido = await jsllm7(prompt);
-            mostrarModal('✏️ TEXTO CORREGIDO', corregido);
+            const corregido = await llamarIA(prompt);
+            mostrarModal('✏️ TEXTO CORREGIDO', corregido || 'No se pudo corregir');
             actualizarMetricasConectores();
         }
         
@@ -1017,8 +1130,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!tono) return;
             showToast(`🎭 Cambiando a tono ${tono}...`);
             const prompt = `Reescribe el siguiente texto con un tono ${tono}. Mantén el contenido pero adapta el estilo. Texto: "${texto.substring(0, 2500)}" Texto reescrito con tono ${tono}:`;
-            const reescrito = await jsllm7(prompt);
-            mostrarModal(`🎭 TONO ${tono.toUpperCase()}`, reescrito);
+            const reescrito = await llamarIA(prompt);
+            mostrarModal(`🎭 TONO ${tono.toUpperCase()}`, reescrito || 'No se pudo cambiar el tono');
             actualizarMetricasConectores();
         }
         
@@ -1027,8 +1140,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             showToast('🔑 Extrayendo palabras clave...');
             const prompt = `Extrae las 15 palabras clave más importantes del siguiente texto. Devuelve solo la lista. Texto: "${texto.substring(0, 3000)}" Palabras clave:`;
-            const keywords = await jsllm7(prompt);
-            mostrarModal('🔑 PALABRAS CLAVE', keywords);
+            const keywords = await llamarIA(prompt);
+            mostrarModal('🔑 PALABRAS CLAVE', keywords || 'No se pudieron extraer palabras clave');
             actualizarMetricasConectores();
         }
         
@@ -1039,8 +1152,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!idioma) return;
             showToast(`🌍 Traduciendo a ${idioma}...`);
             const prompt = `Traduce el siguiente texto al ${idioma}. Mantén el significado y formato. Texto: "${texto.substring(0, 2500)}" Traducción al ${idioma}:`;
-            const traducido = await jsllm7(prompt);
-            mostrarModal(`🌍 TRADUCCIÓN AL ${idioma.toUpperCase()}`, traducido);
+            const traducido = await llamarIA(prompt);
+            mostrarModal(`🌍 TRADUCCIÓN AL ${idioma.toUpperCase()}`, traducido || 'No se pudo traducir');
             actualizarMetricasConectores();
         }
         
@@ -1051,8 +1164,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!porcentaje) return;
             showToast(`📖 Expandiendo texto ${porcentaje}...`);
             const prompt = `Expande el siguiente texto en un ${porcentaje} aproximadamente. Añade detalles, ejemplos o explicaciones sin cambiar el significado central. Texto: "${texto.substring(0, 2000)}" Texto expandido:`;
-            const expandido = await jsllm7(prompt);
-            mostrarModal(`📖 TEXTO EXPANDIDO (+${porcentaje})`, expandido);
+            const expandido = await llamarIA(prompt);
+            mostrarModal(`📖 TEXTO EXPANDIDO (+${porcentaje})`, expandido || 'No se pudo expandir');
             actualizarMetricasConectores();
         }
         
@@ -1063,9 +1176,32 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!nivel) return;
             showToast(`📝 Simplificando texto (nivel ${nivel})...`);
             const prompt = `Simplifica el siguiente texto para que sea más fácil de entender (nivel ${nivel}). Usa palabras más comunes y oraciones más cortas. Texto: "${texto.substring(0, 2500)}" Texto simplificado:`;
-            const simplificado = await jsllm7(prompt);
-            mostrarModal(`📝 TEXTO SIMPLIFICADO (${nivel})`, simplificado);
+            const simplificado = await llamarIA(prompt);
+            mostrarModal(`📝 TEXTO SIMPLIFICADO (${nivel})`, simplificado || 'No se pudo simplificar');
             actualizarMetricasConectores();
+        }
+        
+        function verEstadoTermux() {
+            const estado = jsllm7TermuxConectado ? '✅ Conectado' : '❌ Desconectado';
+            const mensaje = `
+=== ESTADO DE jsllm7 ===
+
+🔌 Puerto: 8081
+📊 Registros: 404,356,967
+📡 Estado: ${estado}
+📍 Fuente: ${jsllm7TermuxConectado ? 'Termux (local)' : 'CDN (fallback)'}
+
+${jsllm7TermuxConectado ? 
+'✅ jsllm7 está funcionando correctamente con 404M registros' : 
+'⚠️ jsllm7 no está conectado a Termux. Usando CDN como respaldo.'}
+
+Para conectar:
+1. Abre Termux
+2. Ejecuta: cd ~/experimento
+3. Ejecuta: python3 servidor.py &
+4. Recarga esta página
+`;
+            mostrarModal('🔌 ESTADO DE jsllm7', mensaje);
         }
         
         document.getElementById('btnResumen').onclick = generarResumen;
@@ -1078,6 +1214,7 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
         document.getElementById('btnTraducir').onclick = traducirTexto;
         document.getElementById('btnExpandir').onclick = expandirTexto;
         document.getElementById('btnSimplificar').onclick = simplificarTexto;
+        document.getElementById('btnTermuxStatus').onclick = verEstadoTermux;
         
         // ============================================
         // FEEDBACK
@@ -1134,7 +1271,7 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
         };
         
         // ============================================
-        // HUMANIZAR TEXTO MANUAL
+        // HUMANIZAR TEXTO MANUAL (USANDO TERMUX)
         // ============================================
         
         const processBtn = document.getElementById('processBtn');
@@ -1157,7 +1294,7 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
                 const resultado = await humanizarTexto(texto, modo);
                 resultDiv.innerHTML = resultado;
                 actualizarWidgets(texto, resultado);
-                showToast(`✅ Texto humanizado · Conectores activos`);
+                showToast(`✅ Texto humanizado · jsllm7 404M · Conectores activos`);
             } catch (error) {
                 resultDiv.innerHTML = texto;
                 showToast("❌ Error al procesar", true);
@@ -1257,7 +1394,7 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
                 descargarWordBtn.style.display = 'inline-block';
                 descargarWordBtn.disabled = false;
                 progressText.textContent = '¡Completado!';
-                showToast('✅ Documento humanizado · Conectores activos');
+                showToast('✅ Documento humanizado · jsllm7 404M · Conectores activos');
             } catch (error) {
                 resultDiv.innerHTML = `<div style="color:#ef4444;">❌ Error: ${error.message}</div>`;
                 showToast('Error', true);
@@ -1309,7 +1446,27 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             }
         }
         
-        cargarDesdeURL();
+        // ============================================
+        // VERIFICAR CONEXIÓN CON TERMUX
+        // ============================================
+        
+        async function verificarConexionTermux() {
+            try {
+                const response = await fetch(`${JSLLM7_API_URL}/stats`);
+                if (response.ok) {
+                    const stats = await response.json();
+                    jsllm7TermuxConectado = true;
+                    document.getElementById('jsllm7WidgetStatus').textContent = `🧠 jsllm7: ✅ Activo (${stats.total?.toLocaleString() || '404M'} en Termux:8081)`;
+                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                    console.log('✅ jsllm7 conectado a Termux:', stats);
+                }
+            } catch(e) {
+                jsllm7TermuxConectado = false;
+                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+                console.warn('⚠️ Termux no disponible en puerto 8081');
+            }
+        }
         
         // ============================================
         // INICIALIZACIÓN
@@ -1318,13 +1475,17 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
         function actualizarDiario() { 
             const dias = ["DOMINGO", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO"];
             const hoy = new Date();
-            document.getElementById('dailyTip').innerHTML = `✨ ${dias[hoy.getDay()]} · Humanización SIN LÍMITES · Conectores activos`; 
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')} · Conectores: Memoria · Semántico · APIs · 10 herramientas`;
+            document.getElementById('dailyTip').innerHTML = `✨ ${dias[hoy.getDay()]} · Humanización SIN LÍMITES · jsllm7 404M · Conectores activos`; 
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')} · jsllm7 404M · Conectores: Memoria · Semántico · APIs · 10 herramientas`;
         }
+        
+        cargarDesdeURL();
+        verificarConexionTermux();
+        setInterval(verificarConexionTermux, 30000);
         actualizarDiario();
         actualizarSidebarHistorial();
         actualizarMetricasConectores();
-        showToast(`✨ Conectores activos · Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
+        showToast(`✨ Conectores activos · jsllm7 404M · Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
     </script>
 
     <script type="module">
