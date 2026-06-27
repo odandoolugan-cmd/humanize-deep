@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>Humanize Deep - Humanización Profesional Ilimitada + Conectores IA + jsllm7 404M</title>
+    <title>Humanize Deep · 403M DECIDE · Humanización Profesional</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e, #0c1222); min-height: 100vh; padding: 1rem; color: #eef2ff; }
         .container { max-width: 1400px; margin: 0 auto; }
         .header { text-align: center; margin-bottom: 2rem; }
-        h1 { background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 2.5rem; }
+        h1 { background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4, #8B5CF6, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 2.5rem; }
         .sub { color: #94a3b8; margin-top: 0.5rem; font-size: 0.7rem; }
+        .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.8rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
@@ -23,6 +25,8 @@
         .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
         .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
         .tool-btn.jsllm7 { border-color: #8b5cf6; color: #a78bfa; }
+        .tool-btn.decision { border-color: #ec4899; color: #f472b6; }
+        .tool-btn.decision:hover { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border-color: #8b5cf6; }
         
         .word-section { background: rgba(139, 92, 246, 0.15); border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); }
         .word-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 0.8rem; color: #a78bfa; display: flex; align-items: center; gap: 8px; }
@@ -45,6 +49,10 @@
         .process-btn:hover { transform: scale(1.02); }
         .process-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .result-box { background: rgba(0,0,0,0.6); border-radius: 1rem; padding: 1rem; min-height: 280px; overflow-y: auto; line-height: 1.6; white-space: pre-wrap; }
+        .copy-btn { background: #475569; margin-top: 1rem; width: 100%; padding: 0.8rem; border: none; border-radius: 1rem; color: white; cursor: pointer; transition: background 0.2s; }
+        .copy-btn:hover { background: #5a6a8a; }
+        
+        #decisionStatus { font-size: 0.65rem; color: #ec4899; text-align: center; margin-bottom: 10px; }
         
         .widget-container {
             display: grid;
@@ -53,132 +61,23 @@
             margin: 15px 0;
         }
         
-        .widget {
-            background: rgba(26, 37, 48, 0.95);
-            border: 1px solid #8b5cf6;
-            border-radius: 12px;
-            padding: 15px;
-            transition: all 0.3s;
-        }
+        .widget { background: rgba(26, 37, 48, 0.95); border: 1px solid #8b5cf6; border-radius: 12px; padding: 15px; transition: all 0.3s; }
+        .widget:hover { border-color: #a78bfa; box-shadow: 0 0 20px rgba(139, 92, 246, 0.1); }
+        .widget-title { font-weight: bold; color: #a78bfa; font-size: 0.8rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .widget-content { font-size: 0.85rem; line-height: 1.6; color: #f0f4f8; }
+        .widget-confidence { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+        .confidence-bar { flex: 1; height: 4px; background: #2c3a4a; border-radius: 2px; overflow: hidden; }
+        .confidence-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #10b981); transition: width 1s ease; width: 0%; }
+        .confidence-label { font-size: 0.7rem; color: #b0c4de; min-width: 40px; }
+        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .metric-item { background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px; text-align: center; }
+        .metric-value { font-size: 1.2rem; font-weight: bold; color: #a78bfa; }
+        .metric-label { font-size: 0.6rem; color: #94a3b8; }
         
-        .widget:hover {
-            border-color: #a78bfa;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
-        }
-        
-        .widget-title {
-            font-weight: bold;
-            color: #a78bfa;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .widget-content {
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: #f0f4f8;
-        }
-        
-        .widget-confidence {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 8px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-        }
-        
-        .confidence-bar {
-            flex: 1;
-            height: 4px;
-            background: #2c3a4a;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .confidence-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f59e0b, #10b981);
-            transition: width 1s ease;
-            width: 0%;
-        }
-        
-        .confidence-label {
-            font-size: 0.7rem;
-            color: #b0c4de;
-            min-width: 40px;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .metric-item {
-            background: rgba(0,0,0,0.2);
-            padding: 8px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .metric-value {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #a78bfa;
-        }
-        
-        .metric-label {
-            font-size: 0.6rem;
-            color: #94a3b8;
-        }
-        
-        /* Métricas de conectores */
-        .connector-metrics {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .connector-metric {
-            background: rgba(0,0,0,0.3);
-            padding: 6px;
-            border-radius: 6px;
-            text-align: center;
-        }
-        .connector-metric .value {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #a78bfa;
-        }
-        .connector-metric .label {
-            font-size: 0.55rem;
-            color: #94a3b8;
-        }
-        
-        .sources-list {
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            font-size: 0.7rem;
-        }
-        
-        .source-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .source-item:last-child { border-bottom: none; }
-        .source-icon { font-size: 0.8rem; }
+        .connector-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .connector-metric { background: rgba(0,0,0,0.3); padding: 6px; border-radius: 6px; text-align: center; }
+        .connector-metric .value { font-size: 1rem; font-weight: bold; color: #a78bfa; }
+        .connector-metric .label { font-size: 0.55rem; color: #94a3b8; }
         
         .metadata-container { display: none; }
         
@@ -233,10 +132,12 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <h1>📝 HUMANIZE DEEP <span class="ia-badge">jsllm7 404M</span><span class="ia-badge" style="background:#8b5cf6;">CONECTORES</span><span class="live-badge">🌐 TERMUX</span></h1>
-                <div class="sub" id="subHeader">Humanización profesional · Traducción cíclica · Conectores avanzados · jsllm7 404M</div>
-                <div class="daily-tip" id="dailyTip">✨ Humanizamos textos de CUALQUIER tamaño · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
+                <h1>📝 HUMANIZE DEEP <span class="ia-badge">jsllm7 404M</span><span class="ia-badge" style="background:#8b5cf6;">CONECTORES</span><span class="badge-decision">🧠 403M DECIDE</span><span class="live-badge">🌐 TERMUX</span></h1>
+                <div class="sub" id="subHeader">403M DECIDE · Humanización profesional · Traducción cíclica · Conectores avanzados · jsllm7 404M</div>
+                <div class="daily-tip" id="dailyTip">🧠 403M DECIDE qué tecnología usar para cada texto · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
             </div>
+
+            <div id="decisionStatus" style="font-size:0.65rem;color:#ec4899;text-align:center;margin-bottom:10px;">🧠 403M DECIDE: Listo para humanizar textos</div>
 
             <div class="modo-selector">
                 <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
@@ -254,6 +155,7 @@
                 <button class="tool-btn" id="btnTraducir">🌍 Traducir</button>
                 <button class="tool-btn" id="btnExpandir">📖 Expandir</button>
                 <button class="tool-btn" id="btnSimplificar">📝 Simplificar</button>
+                <button class="tool-btn decision" id="btnDecisionStatus">🧠 403M Decide</button>
                 <button class="tool-btn jsllm7" id="btnTermuxStatus">🔌 Estado jsllm7</button>
             </div>
 
@@ -272,17 +174,16 @@
                     <div class="progress-bar" id="progressBar"></div>
                     <div class="progress-text" id="progressText">Procesando...</div>
                 </div>
-                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 Sin límite de palabras · Divide automáticamente documentos grandes · Traducción cíclica ES→EN→FR→DE→IT→PT→ES</div>
+                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 403M DECIDE · Sin límite de palabras · Divide automáticamente documentos grandes · Traducción cíclica ES→EN→FR→DE→IT→PT→ES</div>
             </div>
 
-            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada:</strong> Traducción cíclica · Humanización profesional · jsllm7 404M · Conectores activos · 10 herramientas</div>
+            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada con 403M DECIDE:</strong> Traducción cíclica · Humanización profesional · jsllm7 404M · Conectores activos · 10 herramientas</div>
 
             <div class="grid-2">
                 <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí (sin límite de palabras)..."></textarea><button class="process-btn" id="processBtn">✨ HUMANIZAR TEXTO</button></div>
                 <div class="card"><div class="card-title">✨ TEXTO HUMANIZADO</div><div class="result-box" id="resultText">El texto humanizado aparecerá aquí...</div><button class="copy-btn" id="copyBtn">📋 Copiar resultado</button><div id="feedbackContainer"></div></div>
             </div>
 
-            <!-- WIDGETS CON MÉTRICAS DE CONECTORES -->
             <div class="widget-container" id="widgetContainer">
                 <div class="widget" id="widgetMetricas">
                     <div class="widget-title">📊 Métricas del Texto</div>
@@ -325,7 +226,7 @@
                             </div>
                             <div class="connector-metric">
                                 <div class="value" id="metricContexto">0%</div>
-                                <div class="label">Contexto</div>
+                                <div class="label">Contexto 403M</div>
                             </div>
                         </div>
                         <div id="jsllm7WidgetStatus">🧠 jsllm7: 🔍 Conectando a Termux...</div>
@@ -342,7 +243,7 @@
                             <span class="confidence-label" id="confidenceLabel">0%</span>
                         </div>
                         <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">
-                            Basado en naturalidad y fluidez del texto
+                            Basado en naturalidad y fluidez + 403M DECIDE
                         </div>
                     </div>
                 </div>
@@ -361,9 +262,9 @@
 
             <div class="metadata-container" id="metadataContainer"></div>
 
-            <div class="restriction-alert">📌 Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · jsllm7 404M · Conectores activos · SIN LÍMITE DE PALABRAS · 10 herramientas</div>
+            <div class="restriction-alert">🧠 403M DECIDE qué BIG TECH usar · Traducción cíclica · ES → EN → FR → DE → IT → PT → ES · jsllm7 404M · Conectores activos · SIN LÍMITE DE PALABRAS · 10 herramientas</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ Humanize Deep · jsllm7 404M · Conectores: Memoria · Semántico · APIs · Sin límite de palabras · 10 herramientas</footer>
+            <footer id="footer">⚡ Humanize Deep · 403M DECIDE · jsllm7 404M · Conectores: Memoria · Semántico · APIs · Sin límite de palabras · 10 herramientas</footer>
         </div>
     </div>
 
@@ -392,6 +293,127 @@
         let jsllm7TermuxConectado = false;
         
         // ============================================
+        // NÚCLEO 403M DECIDE
+        // ============================================
+        
+        class Nucleo403MDecisor {
+            constructor() {
+                this.nucleo = { activo: true, parametros: 403000000, decisiones: 0 };
+                this.bigTech = {
+                    nvidia: { activo: false, usos: 0, nombre: 'NVIDIA (Visualización)' },
+                    google: { activo: false, usos: 0, nombre: 'Google (Búsqueda)' },
+                    meta: { activo: false, usos: 0, nombre: 'Meta (Comunidad)' },
+                    amazon: { activo: false, usos: 0, nombre: 'Amazon (Recursos)' },
+                    microsoft: { activo: false, usos: 0, nombre: 'Microsoft (Análisis)' },
+                    apple: { activo: false, usos: 0, nombre: 'Apple (Experiencia)' }
+                };
+                this.historialDecisiones = [];
+                console.log('🧠 NÚCLEO 403M DECIDE inicializado para Humanize Deep');
+            }
+            
+            async analizarYDecidir(pregunta, texto, modo) {
+                this.nucleo.decisiones++;
+                console.log(`🧠 403M analizando consulta de humanización: "${pregunta.substring(0, 50)}..."`);
+                document.getElementById('decisionStatus').textContent = '🧠 403M DECIDE: Analizando consulta de humanización...';
+                
+                const promptDecision = `[DECISIÓN AUTÓNOMA 403M - HUMANIZACIÓN]
+Analiza la siguiente consulta de humanización y decide qué BIG TECH activar:
+
+CONSULTA: "${pregunta}"
+TEXTO: "${texto.substring(0, 100)}..."
+MODO: ${modo}
+
+BIG TECH DISPONIBLES:
+1. NVIDIA - Para visualización de datos lingüísticos, gráficos
+2. Google - Para búsqueda de información, referencias
+3. Meta - Para conectar con comunidades lingüísticas
+4. Amazon - Para acceso a recursos lingüísticos
+5. Microsoft - Para análisis de texto, herramientas
+6. Apple - Para diseño de experiencia de usuario
+
+DECIDE:
+- Si es sobre visualización de datos → NVIDIA
+- Si es sobre búsqueda de información → Google
+- Si es sobre comunidad → Meta
+- Si es sobre recursos → Amazon
+- Si es sobre análisis de texto → Microsoft
+- Si es sobre experiencia de usuario → Apple
+
+Responde SOLO con los nombres separados por comas.
+Ejemplo: "Google, Microsoft" o "NVIDIA"
+
+DECISIÓN:`;
+
+                const decision = await llamarIA(promptDecision);
+                console.log(`🧠 Decisión 403M: ${decision}`);
+                
+                const techsActivar = this.procesarDecision(decision);
+                
+                if (techsActivar.length > 0) {
+                    document.getElementById('decisionStatus').textContent = `🧠 403M DECIDE: Activando ${techsActivar.join(', ')} para humanización`;
+                }
+                
+                for (const tech of techsActivar) {
+                    if (this.bigTech[tech] && !this.bigTech[tech].activo) {
+                        this.bigTech[tech].activo = true;
+                        this.bigTech[tech].usos++;
+                        console.log(`🚀 403M activó: ${tech.toUpperCase()} para humanización`);
+                    }
+                }
+                
+                this.historialDecisiones.push({
+                    texto: texto.substring(0, 50),
+                    pregunta: pregunta.substring(0, 50),
+                    decision: techsActivar,
+                    timestamp: new Date().toISOString()
+                });
+                
+                return techsActivar;
+            }
+            
+            procesarDecision(decision) {
+                if (!decision) return ['google'];
+                const techs = [];
+                const d = decision.toLowerCase();
+                const mapeo = { 'nvidia': 'nvidia', 'google': 'google', 'meta': 'meta', 'amazon': 'amazon', 'microsoft': 'microsoft', 'apple': 'apple' };
+                for (const [key, value] of Object.entries(mapeo)) {
+                    if (d.includes(key) || d.includes(value)) techs.push(value);
+                }
+                return techs.length > 0 ? techs : ['google'];
+            }
+            
+            getEstado() {
+                const activos = Object.entries(this.bigTech).filter(([k, v]) => v.activo).map(([k]) => k);
+                return {
+                    decisiones: this.nucleo.decisiones,
+                    bigTechActivos: activos,
+                    usos: Object.fromEntries(Object.entries(this.bigTech).map(([k, v]) => [k, v.usos])),
+                    historial: this.historialDecisiones.slice(-5)
+                };
+            }
+            
+            mostrarEstado() {
+                const e = this.getEstado();
+                let mensaje = `
+=== 🧠 403M DECIDE (HUMANIZACIÓN) ===
+
+📊 Decisiones tomadas: ${e.decisiones}
+
+🏢 BIG TECH ACTIVADOS POR 403M:
+${Object.entries(e.usos).map(([k, v]) => `   • ${k}: ${v} usos`).join('\n')}
+
+📜 ÚLTIMAS DECISIONES:
+${e.historial.map(h => `   • "${h.texto}..." → ${h.decision.join(', ')}`).join('\n')}
+
+${e.bigTechActivos.length > 0 ? '✅ 403M está activando BIG TECH automáticamente' : '⚠️ 403M aún no ha activado BIG TECH'}
+`;
+                return mensaje;
+            }
+        }
+
+        const nucleoDecisor = new Nucleo403MDecisor();
+
+        // ============================================
         // FUNCIÓN PARA LLAMAR A IA (PRIORIZA TERMUX)
         // ============================================
         
@@ -415,7 +437,6 @@
                 const text = await response.text();
                 console.log('📥 Respuesta recibida (primeros 100 chars):', text.substring(0, 100));
                 
-                // USAR SIEMPRE la respuesta de Termux si tiene contenido
                 if (text && text.length > 20) {
                     jsllm7TermuxConectado = true;
                     document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
@@ -423,7 +444,6 @@
                     console.log('✅ Usando respuesta de Termux');
                     return _limpiarRespuesta(text, '');
                 } else {
-                    console.warn('⚠️ Respuesta de Termux vacía, intentando CDN...');
                     throw new Error('Respuesta vacía');
                 }
             } catch (error) {
@@ -433,7 +453,6 @@
                 document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
             }
             
-            // 2. FALLBACK: Usar jsllm7 del CDN
             console.log('⚠️ Termux no disponible, usando CDN...');
             if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
                 try {
@@ -447,7 +466,6 @@
                 }
             }
             
-            // 3. FALLBACK FINAL
             console.log('⚠️ Usando fallback genérico');
             return null;
         }
@@ -784,13 +802,15 @@
         }
 
         // ============================================
-        // HUMANIZAR FRAGMENTO CON IA (PRIORIZA TERMUX)
+        // HUMANIZAR FRAGMENTO CON IA (CON 403M DECIDE)
         // ============================================
         
         async function humanizarFragmento(texto, modo, progreso, total) {
             const semanticKey = getSemanticKey(texto);
             
-            // 1. Verificar caché semántico
+            // 403M DECIDE qué BIG TECH usar para este fragmento
+            await nucleoDecisor.analizarYDecidir(`Humanizar fragmento ${progreso}/${total}`, texto, modo);
+            
             if (semanticCache.has(semanticKey)) {
                 const cached = semanticCache.get(semanticKey);
                 if (Date.now() - cached.timestamp < 3600000) {
@@ -798,7 +818,6 @@
                 }
             }
             
-            // 2. Buscar en memoria textos similares
             const memoriaSimilar = memoryConnector.recall(texto, 2);
             let contextoMemoria = '';
             if (memoriaSimilar.length > 0) {
@@ -807,7 +826,6 @@
                 ).join(' ');
             }
             
-            // 3. Consultar API para procesamiento
             const apiData = await apiConnector.call('textProcessing', { text: texto.substring(0, 500) });
             let contextoAPI = '';
             if (!apiData.error) {
@@ -817,13 +835,14 @@
             const rutaCompleta = _RUTA_PAISES.slice(0, 5).join(' → ');
             let promptExperto = `[IDIOMA DE SALIDA: EXCLUSIVAMENTE ESPAÑOL NEUTRO]
 
+403M DECIDIÓ ACTIVAR: ${nucleoDecisor.getEstado().bigTechActivos.join(', ') || 'Ninguno'}
+
 REGLAS: NO USES ASTERISCOS, NO USES NUMERALES, TEXTO PLANO LIMPIO.
 
 PROCESO: ${rutaCompleta} → ES
 
 TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             
-            // Añadir contexto de conectores
             if (contextoMemoria) promptExperto += `\n${contextoMemoria}`;
             if (contextoAPI) promptExperto += `\n${contextoAPI}`;
             
@@ -833,17 +852,12 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             
             const prompt = modo === 'experto' ? promptExperto : promptBasico;
             try {
-                // PRIMERO: Intentar con Termux (llamarIA)
                 const respuestaTermux = await llamarIA(prompt);
-                
-                // Verificar si la respuesta de Termux contiene el texto original o es genérica
                 if (respuestaTermux && respuestaTermux.length > 50) {
-                    // Si la respuesta es genérica (contiene "El texto original que debe ser humanizado"), usar CDN
                     if (respuestaTermux.includes('El texto original que debe ser humanizado') || 
                         respuestaTermux.includes('el texto original que debe ser humanizado') ||
                         respuestaTermux.includes('📝 TEXTO HUMANIZADO')) {
                         console.log('⚠️ Respuesta genérica de Termux, usando CDN...');
-                        // FALLBACK: Usar jsllm7 del CDN
                         if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
                             const respuestaCDN = await window.jsllm7(prompt);
                             if (respuestaCDN && respuestaCDN.length > 50) {
@@ -854,14 +868,11 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
                         }
                         return texto;
                     }
-                    
-                    // Si la respuesta de Termux es válida, usarla
                     const resultado = _limpiarRespuesta(respuestaTermux, texto);
                     semanticCache.set(semanticKey, { data: resultado, timestamp: Date.now() });
                     return resultado;
                 }
                 
-                // 2. FALLBACK: Usar jsllm7 del CDN
                 console.log('⚠️ Termux no respondió, usando CDN...');
                 if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
                     const respuestaCDN = await window.jsllm7(prompt);
@@ -872,10 +883,8 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
                     }
                 }
                 
-                // 3. FALLBACK FINAL
                 console.log('⚠️ Usando fallback final');
                 return texto;
-                
             } catch (e) {
                 console.warn('Error humanizando fragmento:', e);
                 return texto;
@@ -909,7 +918,6 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             }
             _guardarCacheLocal(cacheKey, resultado);
             
-            // Guardar en memoria
             memoryConnector.remember({
                 textoOriginal: texto.substring(0, 500),
                 textoHumanizado: resultado.substring(0, 500),
@@ -928,17 +936,17 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             return {
                 "@context": "https://schema.org",
                 "@type": "CreativeWork",
-                "name": "Texto Humanizado",
-                "description": "Texto procesado por Humanize Deep con conectores avanzados y jsllm7 404M",
+                "name": "Texto Humanizado con 403M DECIDE",
+                "description": "Texto procesado por Humanize Deep con 403M DECIDE y jsllm7 404M",
                 "author": {
                     "@type": "Organization",
-                    "name": "Humanize Deep"
+                    "name": "Humanize Deep · 403M DECIDE"
                 },
                 "dateCreated": new Date().toISOString(),
                 "text": textoHumanizado.substring(0, 500),
                 "wordCount": metricas.palabras,
                 "confidenceScore": confianza,
-                "processingMethod": "Traducción cíclica multilingüe con conectores"
+                "processingMethod": "403M DECIDE + Traducción cíclica multilingüe con conectores"
             };
         }
         
@@ -965,11 +973,9 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             const oraciones = texto.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
             
             let confianza = 75;
-            
             if (palabras > 50) confianza += 10;
             if (oraciones > 3 && palabras / oraciones < 25) confianza += 10;
             if (texto.match(/[aeiouáéíóú]/gi) && texto.length > 100) confianza += 5;
-            
             confianza = Math.min(Math.max(confianza, 60), 98);
             
             document.getElementById('confidenceFill').style.width = confianza + '%';
@@ -1069,26 +1075,63 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
         actualizarModoUI();
         
         // ============================================
-        // 10 HERRAMIENTAS AVANZADAS (USAN TERMUX)
+        // BOTÓN 403M DECIDE
         // ============================================
+        
+        document.getElementById('btnDecisionStatus').onclick = () => {
+            const estado = nucleoDecisor.mostrarEstado();
+            mostrarModal('🧠 403M DECIDE (HUMANIZACIÓN)', estado);
+        };
+        
+        // ============================================
+        // 10 HERRAMIENTAS AVANZADAS (CON 403M DECIDE)
+        // ============================================
+        
+        async function herramientaGenerica(promptText, titulo) {
+            const texto = document.getElementById('inputText').value.trim();
+            if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
+            
+            await nucleoDecisor.analizarYDecidir(titulo, texto, modo);
+            showToast(`⏳ ${titulo} con 403M...`);
+            const promptFinal = promptText + ` Texto: "${texto.substring(0, 3000)}"`;
+            const respuesta = await llamarIA(promptFinal);
+            mostrarModal(titulo, limpiarMarkdown(respuesta) || `No se pudo obtener ${titulo.toLowerCase()}`);
+            actualizarMetricasConectores();
+        }
+        
+        function limpiarMarkdown(texto) {
+            let limpio = texto;
+            limpio = limpio.replace(/\*\*/g, '');
+            limpio = limpio.replace(/\*/g, '');
+            limpio = limpio.replace(/^###\s*/gm, '');
+            limpio = limpio.replace(/^##\s*/gm, '');
+            limpio = limpio.replace(/^#\s*/gm, '');
+            limpio = limpio.replace(/`/g, '');
+            limpio = limpio.replace(/^---\s*$/gm, '');
+            limpio = limpio.replace(/^\s*-\s+/gm, '• ');
+            limpio = limpio.replace(/\n{3,}/g, '\n\n');
+            return limpio.trim();
+        }
         
         async function generarResumen() {
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
-            showToast('📋 Generando resumen...');
+            await nucleoDecisor.analizarYDecidir('Generar resumen', texto, modo);
+            showToast('📋 Generando resumen con 403M...');
             const prompt = `Resume el siguiente texto de forma clara y concisa. Mantén las ideas principales. Texto: "${texto.substring(0, 3000)}" Resumen (máximo 200 palabras):`;
             const resumen = await llamarIA(prompt);
-            mostrarModal('📋 RESUMEN DEL TEXTO', resumen || 'No se pudo generar resumen');
+            mostrarModal('📋 RESUMEN DEL TEXTO', limpiarMarkdown(resumen) || 'No se pudo generar resumen');
             actualizarMetricasConectores();
         }
         
         async function detectorIA() {
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
-            showToast('🤖 Analizando texto...');
+            await nucleoDecisor.analizarYDecidir('Detector IA', texto, modo);
+            showToast('🤖 Analizando texto con 403M...');
             const prompt = `Analiza si el siguiente texto parece generado por IA o escrito por humano. Da un porcentaje de probabilidad de IA y explica las señales detectadas. Texto: "${texto.substring(0, 2500)}"`;
             const analisis = await llamarIA(prompt);
-            mostrarModal('🤖 DETECTOR DE IA', analisis || 'No se pudo analizar');
+            mostrarModal('🤖 DETECTOR DE IA', limpiarMarkdown(analisis) || 'No se pudo analizar');
             actualizarMetricasConectores();
         }
         
@@ -1096,30 +1139,33 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             const original = document.getElementById('inputText').value.trim();
             const humanizado = document.getElementById('resultText').innerText;
             if (!original || humanizado === 'El texto humanizado aparecerá aquí...') { showToast('Primero humaniza un texto', true); return; }
-            showToast('🔄 Comparando versiones...');
+            await nucleoDecisor.analizarYDecidir('Comparador de versiones', original, modo);
+            showToast('🔄 Comparando versiones con 403M...');
             const prompt = `Compara estas dos versiones del mismo texto y explica las diferencias clave, mejoras y cambios. Version original: "${original.substring(0, 1500)}" Version humanizada: "${humanizado.substring(0, 1500)}"`;
             const comparacion = await llamarIA(prompt);
-            mostrarModal('🔄 COMPARACIÓN DE VERSIONES', comparacion || 'No se pudo comparar');
+            mostrarModal('🔄 COMPARACIÓN DE VERSIONES', limpiarMarkdown(comparacion) || 'No se pudo comparar');
             actualizarMetricasConectores();
         }
         
         async function generarTitulos() {
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
-            showToast('💡 Generando títulos...');
+            await nucleoDecisor.analizarYDecidir('Generar títulos', texto, modo);
+            showToast('💡 Generando títulos con 403M...');
             const prompt = `Genera 10 títulos atractivos y profesionales para el siguiente texto. Texto: "${texto.substring(0, 1500)}" Títulos:`;
             const titulos = await llamarIA(prompt);
-            mostrarModal('💡 TÍTULOS SUGERIDOS', titulos || 'No se pudieron generar títulos');
+            mostrarModal('💡 TÍTULOS SUGERIDOS', limpiarMarkdown(titulos) || 'No se pudieron generar títulos');
             actualizarMetricasConectores();
         }
         
         async function correctorOrtografico() {
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
-            showToast('✏️ Corrigiendo texto...');
+            await nucleoDecisor.analizarYDecidir('Corrector ortográfico', texto, modo);
+            showToast('✏️ Corrigiendo texto con 403M...');
             const prompt = `Corrige los errores ortográficos, gramaticales y de puntuación del siguiente texto. Mantén el significado original. Texto: "${texto.substring(0, 3000)}" Texto corregido:`;
             const corregido = await llamarIA(prompt);
-            mostrarModal('✏️ TEXTO CORREGIDO', corregido || 'No se pudo corregir');
+            mostrarModal('✏️ TEXTO CORREGIDO', limpiarMarkdown(corregido) || 'No se pudo corregir');
             actualizarMetricasConectores();
         }
         
@@ -1128,20 +1174,22 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             const tono = prompt('¿Qué tono deseas? (formal, informal, persuasivo, emocional, técnico, humorístico):', 'formal');
             if (!tono) return;
-            showToast(`🎭 Cambiando a tono ${tono}...`);
+            await nucleoDecisor.analizarYDecidir(`Cambiar tono a ${tono}`, texto, modo);
+            showToast(`🎭 Cambiando a tono ${tono} con 403M...`);
             const prompt = `Reescribe el siguiente texto con un tono ${tono}. Mantén el contenido pero adapta el estilo. Texto: "${texto.substring(0, 2500)}" Texto reescrito con tono ${tono}:`;
             const reescrito = await llamarIA(prompt);
-            mostrarModal(`🎭 TONO ${tono.toUpperCase()}`, reescrito || 'No se pudo cambiar el tono');
+            mostrarModal(`🎭 TONO ${tono.toUpperCase()}`, limpiarMarkdown(reescrito) || 'No se pudo cambiar el tono');
             actualizarMetricasConectores();
         }
         
         async function palabrasClave() {
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
-            showToast('🔑 Extrayendo palabras clave...');
+            await nucleoDecisor.analizarYDecidir('Extraer palabras clave', texto, modo);
+            showToast('🔑 Extrayendo palabras clave con 403M...');
             const prompt = `Extrae las 15 palabras clave más importantes del siguiente texto. Devuelve solo la lista. Texto: "${texto.substring(0, 3000)}" Palabras clave:`;
             const keywords = await llamarIA(prompt);
-            mostrarModal('🔑 PALABRAS CLAVE', keywords || 'No se pudieron extraer palabras clave');
+            mostrarModal('🔑 PALABRAS CLAVE', limpiarMarkdown(keywords) || 'No se pudieron extraer palabras clave');
             actualizarMetricasConectores();
         }
         
@@ -1150,10 +1198,11 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             const idioma = prompt('¿A qué idioma quieres traducir? (inglés, francés, alemán, italiano, portugués, ruso, chino, japonés):', 'inglés');
             if (!idioma) return;
-            showToast(`🌍 Traduciendo a ${idioma}...`);
+            await nucleoDecisor.analizarYDecidir(`Traducir a ${idioma}`, texto, modo);
+            showToast(`🌍 Traduciendo a ${idioma} con 403M...`);
             const prompt = `Traduce el siguiente texto al ${idioma}. Mantén el significado y formato. Texto: "${texto.substring(0, 2500)}" Traducción al ${idioma}:`;
             const traducido = await llamarIA(prompt);
-            mostrarModal(`🌍 TRADUCCIÓN AL ${idioma.toUpperCase()}`, traducido || 'No se pudo traducir');
+            mostrarModal(`🌍 TRADUCCIÓN AL ${idioma.toUpperCase()}`, limpiarMarkdown(traducido) || 'No se pudo traducir');
             actualizarMetricasConectores();
         }
         
@@ -1162,10 +1211,11 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             const porcentaje = prompt('¿Cuánto expandir? (25%, 50%, 100%):', '50%');
             if (!porcentaje) return;
-            showToast(`📖 Expandiendo texto ${porcentaje}...`);
+            await nucleoDecisor.analizarYDecidir(`Expandir texto ${porcentaje}`, texto, modo);
+            showToast(`📖 Expandiendo texto ${porcentaje} con 403M...`);
             const prompt = `Expande el siguiente texto en un ${porcentaje} aproximadamente. Añade detalles, ejemplos o explicaciones sin cambiar el significado central. Texto: "${texto.substring(0, 2000)}" Texto expandido:`;
             const expandido = await llamarIA(prompt);
-            mostrarModal(`📖 TEXTO EXPANDIDO (+${porcentaje})`, expandido || 'No se pudo expandir');
+            mostrarModal(`📖 TEXTO EXPANDIDO (+${porcentaje})`, limpiarMarkdown(expandido) || 'No se pudo expandir');
             actualizarMetricasConectores();
         }
         
@@ -1174,10 +1224,11 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             const nivel = prompt('Nivel de simplificación (básico, medio, avanzado):', 'medio');
             if (!nivel) return;
-            showToast(`📝 Simplificando texto (nivel ${nivel})...`);
+            await nucleoDecisor.analizarYDecidir(`Simplificar texto (${nivel})`, texto, modo);
+            showToast(`📝 Simplificando texto (nivel ${nivel}) con 403M...`);
             const prompt = `Simplifica el siguiente texto para que sea más fácil de entender (nivel ${nivel}). Usa palabras más comunes y oraciones más cortas. Texto: "${texto.substring(0, 2500)}" Texto simplificado:`;
             const simplificado = await llamarIA(prompt);
-            mostrarModal(`📝 TEXTO SIMPLIFICADO (${nivel})`, simplificado || 'No se pudo simplificar');
+            mostrarModal(`📝 TEXTO SIMPLIFICADO (${nivel})`, limpiarMarkdown(simplificado) || 'No se pudo simplificar');
             actualizarMetricasConectores();
         }
         
@@ -1191,9 +1242,7 @@ TEXTO (fragmento ${progreso}/${total}): "${texto.substring(0, 2500)}"`;
 📡 Estado: ${estado}
 📍 Fuente: ${jsllm7TermuxConectado ? 'Termux (local)' : 'CDN (fallback)'}
 
-${jsllm7TermuxConectado ? 
-'✅ jsllm7 está funcionando correctamente con 404M registros' : 
-'⚠️ jsllm7 no está conectado a Termux. Usando CDN como respaldo.'}
+${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm7 no conectado a Termux.'}
 
 Para conectar:
 1. Abre Termux
@@ -1271,7 +1320,7 @@ Para conectar:
         };
         
         // ============================================
-        // HUMANIZAR TEXTO MANUAL (USANDO TERMUX)
+        // HUMANIZAR TEXTO MANUAL (CON 403M DECIDE)
         // ============================================
         
         const processBtn = document.getElementById('processBtn');
@@ -1287,14 +1336,17 @@ Para conectar:
             guardarEnHistorial(texto);
             procesando = true;
             processBtn.disabled = true;
-            processBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando texto...';
-            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">✨ Humanizando el texto...</div>';
+            processBtn.innerHTML = '<span class="loading-spinner"></span> 403M DECIDE humanizando...';
+            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">🧠 403M DECIDE analizando el texto...</div>';
             
             try {
+                // 403M decide qué BIG TECH usar
+                await nucleoDecisor.analizarYDecidir('Humanizar texto', texto, modo);
+                
                 const resultado = await humanizarTexto(texto, modo);
                 resultDiv.innerHTML = resultado;
                 actualizarWidgets(texto, resultado);
-                showToast(`✅ Texto humanizado · jsllm7 404M · Conectores activos`);
+                showToast(`✅ Texto humanizado · 403M DECIDE · jsllm7 404M · Conectores activos`);
             } catch (error) {
                 resultDiv.innerHTML = texto;
                 showToast("❌ Error al procesar", true);
@@ -1323,7 +1375,7 @@ Para conectar:
         });
         
         // ============================================
-        // HUMANIZAR DOCUMENTO WORD
+        // HUMANIZAR DOCUMENTO WORD (CON 403M DECIDE)
         // ============================================
         
         let contenidoWord = '';
@@ -1365,7 +1417,7 @@ Para conectar:
                     nombreWord = file.name;
                     if (!contenidoWord || contenidoWord.trim().length < 20) throw new Error('Texto insuficiente');
                     const fragmentos = dividirTextoEnFragmentos(contenidoWord, FRAGMENTO_SIZE);
-                    wordStatusSpan.innerHTML = `✅ "${file.name}" (${fragmentos.length} fragmentos)`;
+                    wordStatusSpan.innerHTML = `✅ "${file.name}" (${fragmentos.length} fragmentos) · 403M DECIDE`;
                     wordStatusSpan.style.color = '#10b981';
                     humanizarWordBtn.disabled = false;
                     descargarWordBtn.style.display = 'none';
@@ -1382,19 +1434,22 @@ Para conectar:
         humanizarWordBtn.onclick = async () => {
             if (!contenidoWord) { showToast('Primero sube un archivo', true); return; }
             humanizarWordBtn.disabled = true;
-            humanizarWordBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando...';
-            resultDiv.innerHTML = '<div style="text-align:center;padding:3rem;">🤖 Humanizando documento...</div>';
+            humanizarWordBtn.innerHTML = '<span class="loading-spinner"></span> 403M DECIDE humanizando...';
+            resultDiv.innerHTML = '<div style="text-align:center;padding:3rem;">🧠 403M DECIDE procesando documento...</div>';
             progressContainer.style.display = 'block';
             progressBar.style.width = '0%';
             
             try {
+                // 403M decide qué BIG TECH usar para el documento
+                await nucleoDecisor.analizarYDecidir('Humanizar documento Word', contenidoWord, modo);
+                
                 textoHumanizado = await humanizarTextoCompleto(contenidoWord, modo, actualizarProgreso);
-                resultDiv.innerHTML = `✅ Documento humanizado\n\n${textoHumanizado.substring(0, 800)}${textoHumanizado.length > 800 ? '...' : ''}`;
+                resultDiv.innerHTML = `✅ Documento humanizado con 403M DECIDE\n\n${textoHumanizado.substring(0, 800)}${textoHumanizado.length > 800 ? '...' : ''}`;
                 actualizarWidgets(contenidoWord, textoHumanizado);
                 descargarWordBtn.style.display = 'inline-block';
                 descargarWordBtn.disabled = false;
-                progressText.textContent = '¡Completado!';
-                showToast('✅ Documento humanizado · jsllm7 404M · Conectores activos');
+                progressText.textContent = '¡Completado con 403M DECIDE!';
+                showToast('✅ Documento humanizado · 403M DECIDE · jsllm7 404M · Conectores activos');
             } catch (error) {
                 resultDiv.innerHTML = `<div style="color:#ef4444;">❌ Error: ${error.message}</div>`;
                 showToast('Error', true);
@@ -1407,11 +1462,11 @@ Para conectar:
         descargarWordBtn.onclick = async () => {
             if (!textoHumanizado) { showToast('Primero humaniza el documento', true); return; }
             try {
-                showToast('📝 Generando Word...');
+                showToast('📝 Generando Word con 403M...');
                 const { Document, Packer, Paragraph, TextRun, AlignmentType } = window.docx;
                 const children = [
-                    new Paragraph({ children: [new TextRun({ text: "HUMANIZE DEEP", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER }),
-                    new Paragraph({ children: [new TextRun({ text: "Documento Humanizado", size: 28 })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
+                    new Paragraph({ children: [new TextRun({ text: "HUMANIZE DEEP · 403M DECIDE", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER }),
+                    new Paragraph({ children: [new TextRun({ text: "Documento Humanizado con 403M DECIDE", size: 28 })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
                 ];
                 const lineas = textoHumanizado.split('\n');
                 for (let linea of lineas.slice(0, 500)) {
@@ -1423,11 +1478,11 @@ Para conectar:
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `HumanizeDeep_${nombreWord.replace(/\.docx?$/i, '')}.docx`;
+                a.download = `HumanizeDeep_403M_${nombreWord.replace(/\.docx?$/i, '')}.docx`;
                 a.click();
                 URL.revokeObjectURL(url);
                 progressContainer.style.display = 'none';
-                showToast('✅ Word descargado');
+                showToast('✅ Word con 403M DECIDE descargado');
             } catch (error) {
                 showToast('❌ Error al generar Word', true);
             }
@@ -1475,8 +1530,8 @@ Para conectar:
         function actualizarDiario() { 
             const dias = ["DOMINGO", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO"];
             const hoy = new Date();
-            document.getElementById('dailyTip').innerHTML = `✨ ${dias[hoy.getDay()]} · Humanización SIN LÍMITES · jsllm7 404M · Conectores activos`; 
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · ${hoy.toLocaleDateString('es-ES')} · jsllm7 404M · Conectores: Memoria · Semántico · APIs · 10 herramientas`;
+            document.getElementById('dailyTip').innerHTML = `🧠 ${dias[hoy.getDay()]} · 403M DECIDE · Humanización SIN LÍMITES · jsllm7 404M · Conectores activos`; 
+            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · 403M DECIDE · ${hoy.toLocaleDateString('es-ES')} · jsllm7 404M · Conectores: Memoria · Semántico · APIs · 10 herramientas`;
         }
         
         cargarDesdeURL();
@@ -1485,7 +1540,7 @@ Para conectar:
         actualizarDiario();
         actualizarSidebarHistorial();
         actualizarMetricasConectores();
-        showToast(`✨ Conectores activos · jsllm7 404M · Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
+        showToast(`✨ 403M DECIDE · Conectores activos · jsllm7 404M · Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
     </script>
 
     <script type="module">
@@ -1522,7 +1577,7 @@ Para conectar:
             floor.position.y = -1.5;
             scene.add(floor);
             for (let i = 0; i < 36; i++) {
-                const book = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.25), new THREE.MeshStandardMaterial({ color: [0x4a9eff, 0xf87171, 0xfbbf24][i % 3] }));
+                const book = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.5, 0.25), new THREE.MeshStandardMaterial({ color: [0x4a9eff, 0xf87171, 0xfbbf24, 0x8b5cf6, 0xec4899][i % 5] }));
                 const angle = (i / 36) * Math.PI * 2;
                 book.position.set(Math.cos(angle) * 4.5, Math.sin(angle * 2) * 0.8, Math.sin(angle) * 4.5);
                 scene.add(book);
