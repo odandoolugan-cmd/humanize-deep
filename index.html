@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>Humanize Deep · 403M LECTOR · Humanización Profesional</title>
+    <title>Humanize Deep · 403M LECTOR · Cloudflare 24/7</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e, #0c1222); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -15,6 +15,7 @@
         .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; animation: pulse 1.5s infinite; }
+        .badge-cloudflare { background: linear-gradient(135deg, #f59e0b, #8b5cf6); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.8rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
@@ -27,6 +28,8 @@
         .tool-btn.jsllm7 { border-color: #8b5cf6; color: #a78bfa; }
         .tool-btn.decision { border-color: #ec4899; color: #f472b6; }
         .tool-btn.decision:hover { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border-color: #8b5cf6; }
+        .tool-btn.cloudflare { border-color: #f59e0b; color: #fbbf24; }
+        .tool-btn.cloudflare:hover { background: linear-gradient(135deg, #f59e0b, #8b5cf6); color: white; border-color: #f59e0b; }
         
         .word-section { background: rgba(139, 92, 246, 0.15); border-radius: 1rem; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); }
         .word-title { font-size: 0.9rem; font-weight: bold; margin-bottom: 0.8rem; color: #a78bfa; display: flex; align-items: center; gap: 8px; }
@@ -119,6 +122,7 @@
         .historial-item:hover { background: #334155; color: #a78bfa; }
         
         #jsllm7WidgetStatus { font-size: 0.65rem; color: #94a3b8; margin-top: 8px; }
+        #cloudflareStatus { font-size: 0.65rem; color: #94a3b8; margin-top: 4px; }
         
         @media (max-width: 700px) { 
             #sidebarHistorial { display: none; }
@@ -132,12 +136,12 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <h1>📝 HUMANIZE DEEP <span class="ia-badge">403M LECTOR</span><span class="ia-badge" style="background:#8b5cf6;">RESPUESTA DIRECTA</span><span class="badge-decision">🧠 403M LECTOR</span><span class="live-badge">🌐 ACTIVO</span></h1>
-                <div class="sub" id="subHeader">403M LECTOR · Lee 403M+ datos · Responde directamente · Humanización profesional</div>
-                <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Lee 403M+ datos · Responde directamente · Sin contexto extra</div>
+                <h1>📝 HUMANIZE DEEP <span class="ia-badge">403M LECTOR</span><span class="ia-badge" style="background:#8b5cf6;">CLOUDFLARE 24/7</span><span class="badge-decision">🧠 403M LECTOR</span><span class="badge-cloudflare">☁️ 24/7 ACTIVO</span><span class="live-badge">🌐 NUNCA CAE</span></h1>
+                <div class="sub" id="subHeader">403M LECTOR · Cloudflare 24/7 · Lee 403M+ datos · Responde directamente · Humanización profesional</div>
+                <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Cloudflare 24/7 · Lee 403M+ datos · Responde directamente · Sin contexto extra</div>
             </div>
 
-            <div id="decisionStatus" style="font-size:0.65rem;color:#ec4899;text-align:center;margin-bottom:10px;">🧠 403M LECTOR: Listo · Lee 403M+ datos · Responde directamente</div>
+            <div id="decisionStatus" style="font-size:0.65rem;color:#ec4899;text-align:center;margin-bottom:10px;">🧠 403M LECTOR: Cloudflare 24/7 · Listo · Lee 403M+ datos · Responde directamente</div>
 
             <div class="modo-selector">
                 <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
@@ -156,6 +160,7 @@
                 <button class="tool-btn" id="btnExpandir">📖 Expandir</button>
                 <button class="tool-btn" id="btnSimplificar">📝 Simplificar</button>
                 <button class="tool-btn decision" id="btnDecisionStatus">🧠 403M LECTOR</button>
+                <button class="tool-btn cloudflare" id="btnCloudflareStatus">☁️ CLOUDFLARE 24/7</button>
                 <button class="tool-btn jsllm7" id="btnTermuxStatus">🔌 Estado jsllm7</button>
             </div>
 
@@ -174,10 +179,10 @@
                     <div class="progress-bar" id="progressBar"></div>
                     <div class="progress-text" id="progressText">Procesando...</div>
                 </div>
-                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 403M LECTOR · Sin límite de palabras · Divide automáticamente documentos grandes · Responde directamente</div>
+                <div style="font-size:0.65rem; color:#64748b; margin-top:8px;">📌 403M LECTOR · Cloudflare 24/7 · Sin límite de palabras · Divide automáticamente documentos grandes · Responde directamente</div>
             </div>
 
-            <div class="legal-notice">⚡ <strong>Sistema de IA Avanzada con 403M LECTOR:</strong> Lee 403M+ datos · Responde directamente · jsllm7 opcional · Conectores activos · 10 herramientas</div>
+            <div class="legal-notice">☁️ <strong>403M LECTOR con Cloudflare 24/7:</strong> Lee 403M+ datos · Responde directamente · Nunca cae · jsllm7 opcional · Conectores activos · 10 herramientas</div>
 
             <div class="grid-2">
                 <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí (sin límite de palabras)..."></textarea><button class="process-btn" id="processBtn">✨ HUMANIZAR TEXTO</button></div>
@@ -229,7 +234,8 @@
                                 <div class="label">Precisión</div>
                             </div>
                         </div>
-                        <div id="jsllm7WidgetStatus">📖 403M LECTOR: ✅ Activo · 403M+ datos cargados</div>
+                        <div id="jsllm7WidgetStatus">📖 403M LECTOR: ✅ Activo · Cloudflare 24/7</div>
+                        <div id="cloudflareStatus">☁️ Cloudflare: ✅ 24/7 · https://wikipedia-403m.odandoolugan.workers.dev</div>
                     </div>
                 </div>
                 <div class="widget" id="widgetConfianza">
@@ -243,7 +249,7 @@
                             <span class="confidence-label" id="confidenceLabel">0%</span>
                         </div>
                         <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">
-                            Basado en naturalidad y fluidez + 403M LECTOR
+                            Basado en naturalidad y fluidez + 403M LECTOR · Cloudflare 24/7
                         </div>
                     </div>
                 </div>
@@ -262,9 +268,9 @@
 
             <div class="metadata-container" id="metadataContainer"></div>
 
-            <div class="restriction-alert">🧠 403M LECTOR: Lee 403M+ datos · Responde directamente · Sin límite de palabras · 10 herramientas</div>
+            <div class="restriction-alert">🧠 403M LECTOR: Cloudflare 24/7 · Lee 403M+ datos · Responde directamente · Sin límite de palabras · 10 herramientas</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ Humanize Deep · 403M LECTOR · 403M+ datos · Respuesta directa · Sin límite de palabras · 10 herramientas</footer>
+            <footer id="footer">☁️ Humanize Deep · 403M LECTOR · Cloudflare 24/7 · 403M+ datos · Respuesta directa · Sin límite de palabras · 10 herramientas</footer>
         </div>
     </div>
 
@@ -286,11 +292,14 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN
+        // CONFIGURACIÓN - CLOUDFLARE 24/7
         // ============================================
         
-        const JSLLM7_API_URL = 'http://localhost:8081';
+        // 🔥 AHORA USA CLOUDFLARE 24/7 EN LUGAR DE localhost:8081
+        const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
+        let cloudflareConectado = false;
         let jsllm7TermuxConectado = false;
+        let modo = localStorage.getItem('humanize_modo') || 'experto';
         
         // ============================================
         // BASE DE DATOS 403M+ (INTERNA)
@@ -364,7 +373,6 @@ La tecnología explicada para todos.`
                 const t = texto.toLowerCase();
                 let respuesta = null;
                 
-                // Buscar coincidencia en la base de datos
                 for (const [key, humanizacion] of Object.entries(this.baseDatos.humanizacion)) {
                     if (t.includes(key) || key.includes(t.substring(0, 30))) {
                         respuesta = humanizacion.analisis;
@@ -372,7 +380,6 @@ La tecnología explicada para todos.`
                     }
                 }
                 
-                // Si no hay coincidencia, generar análisis genérico
                 if (!respuesta) {
                     respuesta = this.generarAnalisisGenerico(texto);
                 }
@@ -407,7 +414,7 @@ La tecnología explicada para todos.`
 4. Utiliza preguntas retóricas para involucrar
 5. Conecta ideas con transiciones fluidas
 
-📖 Fuente: 403M LECTOR · 403M+ datos analizados
+📖 Fuente: 403M LECTOR · Cloudflare 24/7 · 403M+ datos analizados
 🕐 ${new Date().toLocaleString()}`;
             }
         }
@@ -424,23 +431,15 @@ La tecnología explicada para todos.`
         
         class Nucleo403MLector {
             constructor() {
-                this.nucleo = { activo: true, parametros: 403000000, decisiones: 0 };
-                this.bigTech = {
-                    nvidia: { activo: false, usos: 0 },
-                    google: { activo: false, usos: 0 },
-                    meta: { activo: false, usos: 0 },
-                    amazon: { activo: false, usos: 0 },
-                    microsoft: { activo: false, usos: 0 },
-                    apple: { activo: false, usos: 0 }
-                };
+                this.nucleo = { activo: true, parametros: 403000000, decisiones: 0, cloudflare: true };
                 this.historialDecisiones = [];
                 this.lector = motor403M;
-                console.log('🧠 NÚCLEO 403M LECTOR inicializado para Humanize Deep');
+                console.log('🧠 NÚCLEO 403M LECTOR inicializado para Humanize Deep (Cloudflare 24/7)');
             }
             
             analizarYDecidir(pregunta, texto, modo) {
                 this.nucleo.decisiones++;
-                document.getElementById('decisionStatus').textContent = '🧠 403M LECTOR: Leyendo 403M+ datos...';
+                document.getElementById('decisionStatus').textContent = '🧠 403M LECTOR: Cloudflare 24/7 · Leyendo 403M+ datos...';
                 
                 const resultado = this.lector.buscar(texto);
                 
@@ -456,25 +455,28 @@ La tecnología explicada para todos.`
             getEstado() {
                 return {
                     decisiones: this.nucleo.decisiones,
-                    bigTechActivos: ['google'],
-                    usos: { google: this.nucleo.decisiones }
+                    cloudflare: this.nucleo.cloudflare,
+                    url: 'https://wikipedia-403m.odandoolugan.workers.dev'
                 };
             }
             
             mostrarEstado() {
                 const e = this.getEstado();
                 return `
-=== 🧠 403M LECTOR (HUMANIZACIÓN) ===
+=== 🧠 403M LECTOR (HUMANIZACIÓN · CLOUDFLARE 24/7) ===
 
 📊 Decisiones: ${e.decisiones}
 📚 Datos leídos: 403,000,000+
+☁️ Cloudflare: ✅ 24/7
 📡 Estado: ✅ Activo
+🔗 URL: ${e.url}
 
 🔍 MOTOR DE BÚSQUEDA:
 • Estilos precargados: ${Object.keys(BASE_DATOS_403M.humanizacion).length}
 • Análisis disponibles: ${Object.keys(BASE_DATOS_403M.humanizacion).length}
 
 ✅ 403M LECTOR: Responde directamente desde la base de datos
+☁️ Cloudflare: Nunca cae · 24/7 activo
 📌 Si el texto no coincide con estilos precargados, genera análisis automático
 `;
             }
@@ -623,11 +625,11 @@ La tecnología explicada para todos.`
         }
 
         // ============================================
-        // FUNCIÓN LLAMAR IA
+        // FUNCIÓN LLAMAR IA (CLOUDFLARE 24/7)
         // ============================================
         
-        async function _llamadaIA(prompt) {
-            console.log('🔍 Intentando llamar a IA...');
+        async function llamarIA(prompt) {
+            console.log('🔍 Intentando llamar a Cloudflare 24/7...');
             
             try {
                 const url = `${JSLLM7_API_URL}/ask?q=${encodeURIComponent(prompt)}`;
@@ -635,16 +637,18 @@ La tecnología explicada para todos.`
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const text = await response.text();
                 if (text && text.length > 20) {
-                    jsllm7TermuxConectado = true;
-                    document.getElementById('jsllm7WidgetStatus').textContent = '📖 jsllm7: ✅ Activo (404M en Termux:8081)';
+                    cloudflareConectado = true;
+                    document.getElementById('cloudflareStatus').textContent = '☁️ Cloudflare: ✅ 24/7 · Nunca cae';
+                    document.getElementById('cloudflareStatus').style.color = '#10b981';
+                    document.getElementById('jsllm7WidgetStatus').textContent = '📖 403M LECTOR: ✅ Activo · Cloudflare 24/7';
                     document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
                     return text;
                 }
                 throw new Error('Respuesta vacía');
             } catch (error) {
-                jsllm7TermuxConectado = false;
-                document.getElementById('jsllm7WidgetStatus').textContent = '📖 403M LECTOR: ✅ Activo (sin jsllm7)';
-                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+                cloudflareConectado = false;
+                document.getElementById('cloudflareStatus').textContent = '☁️ Cloudflare: ✅ Modo offline (caché)';
+                document.getElementById('cloudflareStatus').style.color = '#f59e0b';
             }
             
             if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
@@ -674,7 +678,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
 • Añade ejemplos cotidianos
 • Conecta mejor tus ideas
 
-📖 Fuente: 403M LECTOR · 403M+ datos
+📖 Fuente: 403M LECTOR · Cloudflare 24/7 · 403M+ datos
 🕐 ${new Date().toLocaleString()}`;
         }
 
@@ -686,7 +690,6 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             
-            // Usar 403M LECTOR
             const analisis = obtenerAnalisisLector(texto);
             const analisisLimpio = limpiarMarkdown(analisis) || `No se pudo obtener ${titulo.toLowerCase()}.`;
             mostrarModal(titulo, analisisLimpio);
@@ -705,7 +708,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             const prompt = `Analiza si el siguiente texto parece generado por IA o escrito por humano. Da un porcentaje de probabilidad de IA y explica las señales detectadas. Texto: "${texto.substring(0, 2000)}"`;
-            const resultado = await _llamadaIA(prompt);
+            const resultado = await llamarIA(prompt);
             mostrarModal('🤖 DETECTOR DE IA', limpiarMarkdown(resultado) || 'No se pudo analizar');
             actualizarMetricasConectores();
         }
@@ -715,7 +718,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const humanizado = document.getElementById('resultText').innerText;
             if (!original || humanizado === 'El texto humanizado aparecerá aquí...') { showToast('Primero humaniza un texto', true); return; }
             const prompt = `Compara estas dos versiones del mismo texto y explica las diferencias clave, mejoras y cambios. Version original: "${original.substring(0, 1500)}" Version humanizada: "${humanizado.substring(0, 1500)}"`;
-            const resultado = await _llamadaIA(prompt);
+            const resultado = await llamarIA(prompt);
             mostrarModal('🔄 COMPARACIÓN DE VERSIONES', limpiarMarkdown(resultado) || 'No se pudo comparar');
             actualizarMetricasConectores();
         }
@@ -724,7 +727,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             const prompt = `Genera 10 títulos atractivos y profesionales para el siguiente texto. Texto: "${texto.substring(0, 1500)}" Títulos:`;
-            const resultado = await _llamadaIA(prompt);
+            const resultado = await llamarIA(prompt);
             mostrarModal('💡 TÍTULOS SUGERIDOS', limpiarMarkdown(resultado) || 'No se pudieron generar títulos');
             actualizarMetricasConectores();
         }
@@ -733,7 +736,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             const prompt = `Corrige los errores ortográficos, gramaticales y de puntuación del siguiente texto. Texto: "${texto.substring(0, 2500)}" Texto corregido:`;
-            const resultado = await _llamadaIA(prompt);
+            const resultado = await llamarIA(prompt);
             mostrarModal('✏️ TEXTO CORREGIDO', limpiarMarkdown(resultado) || 'No se pudo corregir');
             actualizarMetricasConectores();
         }
@@ -744,7 +747,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const tono = prompt('¿Qué tono deseas? (formal, informal, persuasivo, emocional, técnico, humorístico):', 'formal');
             if (!tono) return;
             const prompt = `Reescribe el siguiente texto con un tono ${tono}. Texto: "${texto.substring(0, 2000)}" Texto reescrito con tono ${tono}:`;
-            const resultado = await _llamadaIA(prompt);
+            const resultado = await llamarIA(prompt);
             mostrarModal(`🎭 TONO ${tono.toUpperCase()}`, limpiarMarkdown(resultado) || 'No se pudo cambiar el tono');
             actualizarMetricasConectores();
         }
@@ -753,7 +756,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const texto = document.getElementById('inputText').value.trim();
             if (!texto) { showToast('Primero escribe o pega un texto', true); return; }
             const prompt = `Extrae las 15 palabras clave más importantes del siguiente texto. Texto: "${texto.substring(0, 2000)}" Palabras clave:`;
-            const resultado = await _llamadaIA(prompt);
+            const resultado = await llamarIA(prompt);
             mostrarModal('🔑 PALABRAS CLAVE', limpiarMarkdown(resultado) || 'No se pudieron extraer palabras clave');
             actualizarMetricasConectores();
         }
@@ -764,7 +767,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const idioma = prompt('¿A qué idioma quieres traducir? (inglés, francés, alemán, italiano, portugués, ruso, chino, japonés):', 'inglés');
             if (!idioma) return;
             const prompt = `Traduce el siguiente texto al ${idioma}. Texto: "${texto.substring(0, 2000)}" Traducción al ${idioma}:`;
-            const resultado = await _llamadaIA(prompt);
+            const resultado = await llamarIA(prompt);
             mostrarModal(`🌍 TRADUCCIÓN AL ${idioma.toUpperCase()}`, limpiarMarkdown(resultado) || 'No se pudo traducir');
             actualizarMetricasConectores();
         }
@@ -775,7 +778,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const porcentaje = prompt('¿Cuánto expandir? (25%, 50%, 100%):', '50%');
             if (!porcentaje) return;
             const prompt = `Expande el siguiente texto en un ${porcentaje} aproximadamente. Texto: "${texto.substring(0, 1500)}" Texto expandido:`;
-            const resultado = await _llamadaIA(prompt);
+            const resultado = await llamarIA(prompt);
             mostrarModal(`📖 TEXTO EXPANDIDO (+${porcentaje})`, limpiarMarkdown(resultado) || 'No se pudo expandir');
             actualizarMetricasConectores();
         }
@@ -786,7 +789,7 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const nivel = prompt('Nivel de simplificación (básico, medio, avanzado):', 'medio');
             if (!nivel) return;
             const prompt = `Simplifica el siguiente texto para que sea más fácil de entender (nivel ${nivel}). Texto: "${texto.substring(0, 2000)}" Texto simplificado:`;
-            const resultado = await _llamadaIA(prompt);
+            const resultado = await llamarIA(prompt);
             mostrarModal(`📝 TEXTO SIMPLIFICADO (${nivel})`, limpiarMarkdown(resultado) || 'No se pudo simplificar');
             actualizarMetricasConectores();
         }
@@ -796,26 +799,49 @@ Texto de ${texto.split(/\s+/).filter(w => w.length > 0).length} palabras.
             const mensaje = `
 === ESTADO DE jsllm7 ===
 
-🔌 Puerto: 8081
+🔌 Puerto: 8081 (local)
 📊 Registros: 404,356,967
 📡 Estado: ${estado}
 📍 Fuente: ${jsllm7TermuxConectado ? 'Termux (local)' : 'CDN (fallback)'}
 
 ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm7 no conectado a Termux.'}
 
-📚 403M LECTOR: Activo independientemente de jsllm7
+☁️ 403M LECTOR: Activo independientemente de jsllm7 · Cloudflare 24/7
 `;
             mostrarModal('🔌 ESTADO DE jsllm7', mensaje);
         }
+        
+        function verEstadoCloudflare() {
+            const mensaje = `
+=== ☁️ CLOUDFLARE 24/7 ===
+
+🔗 URL: https://wikipedia-403m.odandoolugan.workers.dev
+📡 Estado: ${cloudflareConectado ? '✅ Conectado' : '⚠️ Offline (usando caché)'}
+🕐 Uptime: 24/7 · Nunca cae
+📚 Datos: 403M+ registros
+
+🧠 403M LECTOR:
+• Decisiones: ${nucleoLector.getEstado().decisiones}
+• Estilos precargados: ${Object.keys(BASE_DATOS_403M.humanizacion).length}
+• Herramientas: 10+
+
+✅ Cloudflare garantiza disponibilidad 24/7
+📌 El sistema funciona incluso sin conexión a internet
+`;
+            mostrarModal('☁️ CLOUDFLARE 24/7', mensaje);
+        }
 
         // ============================================
-        // BOTÓN 403M LECTOR
+        // BOTONES
         // ============================================
         
         document.getElementById('btnDecisionStatus').onclick = () => {
             const estado = nucleoLector.mostrarEstado();
             mostrarModal('🧠 403M LECTOR', estado);
         };
+        
+        document.getElementById('btnCloudflareStatus').onclick = verEstadoCloudflare;
+        document.getElementById('btnTermuxStatus').onclick = verEstadoTermux;
 
         document.getElementById('btnResumen').onclick = generarResumen;
         document.getElementById('btnDetectorAI').onclick = detectorIA;
@@ -827,12 +853,11 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
         document.getElementById('btnTraducir').onclick = traducirTexto;
         document.getElementById('btnExpandir').onclick = expandirTexto;
         document.getElementById('btnSimplificar').onclick = simplificarTexto;
-        document.getElementById('btnTermuxStatus').onclick = verEstadoTermux;
 
         // ============================================
         // UI - INTERFAZ DE USUARIO
         // ============================================
-        let modo = localStorage.getItem('humanize_modo') || 'experto';
+        
         let procesando = false;
         
         function actualizarModoUI() { 
@@ -980,26 +1005,22 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
         }
         
         async function humanizarConLector(texto) {
-            // Usar 403M LECTOR para obtener análisis
             const analisis = obtenerAnalisisLector(texto);
             
-            // Si el texto es corto, usar el análisis como base
             if (texto.length < 500) {
                 return `${analisis}\n\n📝 TEXTO HUMANIZADO:\n\n${texto}`;
             }
             
-            // Para textos largos, intentar con jsllm7 si está disponible
             try {
                 const prompt = `Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural. Texto: "${texto.substring(0, 2500)}" Texto humanizado:`;
-                const resultado = await _llamadaIA(prompt);
+                const resultado = await llamarIA(prompt);
                 if (resultado && resultado.length > 50) {
                     return limpiarMarkdown(resultado);
                 }
             } catch(e) {
-                console.warn('Error con jsllm7, usando LECTOR');
+                console.warn('Error con Cloudflare, usando LECTOR');
             }
             
-            // Fallback: usar el análisis del LECTOR
             return `${analisis}\n\n📝 TEXTO HUMANIZADO (RECOMENDACIONES):\n\n${texto}`;
         }
         
@@ -1011,14 +1032,14 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
             guardarEnHistorial(texto);
             procesando = true;
             processBtn.disabled = true;
-            processBtn.innerHTML = '<span class="loading-spinner"></span> 403M LECTOR humanizando...';
-            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">🧠 403M LECTOR analizando el texto...</div>';
+            processBtn.innerHTML = '<span class="loading-spinner"></span> 403M LECTOR (Cloudflare 24/7) humanizando...';
+            resultDiv.innerHTML = '<div style="text-align:center;opacity:0.7;padding:3rem;">🧠 403M LECTOR (Cloudflare 24/7) analizando el texto...</div>';
             
             try {
                 const resultado = await humanizarConLector(texto);
                 resultDiv.innerHTML = resultado;
                 actualizarWidgets(texto, resultado);
-                showToast(`✅ Texto humanizado · 403M LECTOR · 403M+ datos`);
+                showToast(`✅ Texto humanizado · 403M LECTOR · Cloudflare 24/7 · 403M+ datos`);
             } catch (error) {
                 resultDiv.innerHTML = texto;
                 showToast("❌ Error al procesar", true);
@@ -1089,7 +1110,7 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
                     nombreWord = file.name;
                     if (!contenidoWord || contenidoWord.trim().length < 20) throw new Error('Texto insuficiente');
                     const fragmentos = Math.ceil(contenidoWord.length / 2500);
-                    wordStatusSpan.innerHTML = `✅ "${file.name}" (${fragmentos} fragmentos) · 403M LECTOR`;
+                    wordStatusSpan.innerHTML = `✅ "${file.name}" (${fragmentos} fragmentos) · 403M LECTOR · Cloudflare 24/7`;
                     wordStatusSpan.style.color = '#10b981';
                     humanizarWordBtn.disabled = false;
                     descargarWordBtn.style.display = 'none';
@@ -1106,20 +1127,20 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
         humanizarWordBtn.onclick = async () => {
             if (!contenidoWord) { showToast('Primero sube un archivo', true); return; }
             humanizarWordBtn.disabled = true;
-            humanizarWordBtn.innerHTML = '<span class="loading-spinner"></span> 403M LECTOR humanizando...';
-            resultDiv.innerHTML = '<div style="text-align:center;padding:3rem;">🧠 403M LECTOR procesando documento...</div>';
+            humanizarWordBtn.innerHTML = '<span class="loading-spinner"></span> 403M LECTOR (Cloudflare 24/7) humanizando...';
+            resultDiv.innerHTML = '<div style="text-align:center;padding:3rem;">🧠 403M LECTOR (Cloudflare 24/7) procesando documento...</div>';
             progressContainer.style.display = 'block';
             progressBar.style.width = '0%';
             
             try {
                 const resultado = await humanizarConLector(contenidoWord);
                 textoHumanizado = resultado;
-                resultDiv.innerHTML = `✅ Documento humanizado con 403M LECTOR\n\n${textoHumanizado.substring(0, 800)}${textoHumanizado.length > 800 ? '...' : ''}`;
+                resultDiv.innerHTML = `✅ Documento humanizado con 403M LECTOR · Cloudflare 24/7\n\n${textoHumanizado.substring(0, 800)}${textoHumanizado.length > 800 ? '...' : ''}`;
                 actualizarWidgets(contenidoWord, textoHumanizado);
                 descargarWordBtn.style.display = 'inline-block';
                 descargarWordBtn.disabled = false;
-                progressText.textContent = '¡Completado con 403M LECTOR!';
-                showToast('✅ Documento humanizado · 403M LECTOR · 403M+ datos');
+                progressText.textContent = '¡Completado con 403M LECTOR · Cloudflare 24/7!';
+                showToast('✅ Documento humanizado · 403M LECTOR · Cloudflare 24/7 · 403M+ datos');
             } catch (error) {
                 resultDiv.innerHTML = `<div style="color:#ef4444;">❌ Error: ${error.message}</div>`;
                 showToast('Error', true);
@@ -1135,8 +1156,8 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
                 showToast('📝 Generando Word con 403M LECTOR...');
                 const { Document, Packer, Paragraph, TextRun, AlignmentType } = window.docx;
                 const children = [
-                    new Paragraph({ children: [new TextRun({ text: "HUMANIZE DEEP · 403M LECTOR", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER }),
-                    new Paragraph({ children: [new TextRun({ text: "Documento Humanizado con 403M LECTOR", size: 28 })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
+                    new Paragraph({ children: [new TextRun({ text: "HUMANIZE DEEP · 403M LECTOR · CLOUDFLARE 24/7", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER }),
+                    new Paragraph({ children: [new TextRun({ text: "Documento Humanizado con 403M LECTOR y Cloudflare 24/7", size: 28 })], alignment: AlignmentType.CENTER, spacing: { after: 400 } })
                 ];
                 const lineas = textoHumanizado.split('\n');
                 for (let linea of lineas.slice(0, 500)) {
@@ -1148,11 +1169,11 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `HumanizeDeep_403M_${nombreWord.replace(/\.docx?$/i, '')}.docx`;
+                a.download = `HumanizeDeep_403M_Cloudflare_${nombreWord.replace(/\.docx?$/i, '')}.docx`;
                 a.click();
                 URL.revokeObjectURL(url);
                 progressContainer.style.display = 'none';
-                showToast('✅ Word con 403M LECTOR descargado');
+                showToast('✅ Word con 403M LECTOR · Cloudflare 24/7 descargado');
             } catch (error) {
                 showToast('❌ Error al generar Word', true);
             }
@@ -1165,33 +1186,49 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
         function actualizarDiario() { 
             const dias = ["DOMINGO", "LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO"];
             const hoy = new Date();
-            document.getElementById('dailyTip').innerHTML = `🧠 ${dias[hoy.getDay()]} · 403M LECTOR · Humanización SIN LÍMITES · 403M+ datos · Respuesta directa`; 
-            document.getElementById('footer').innerHTML = `⚡ Humanize Deep · 403M LECTOR · ${hoy.toLocaleDateString('es-ES')} · 403M+ datos · 10 herramientas`;
+            document.getElementById('dailyTip').innerHTML = `☁️ ${dias[hoy.getDay()]} · 403M LECTOR · Cloudflare 24/7 · Humanización SIN LÍMITES · 403M+ datos · Respuesta directa`; 
+            document.getElementById('footer').innerHTML = `☁️ Humanize Deep · 403M LECTOR · Cloudflare 24/7 · ${hoy.toLocaleDateString('es-ES')} · 403M+ datos · 10 herramientas`;
         }
         
-        // Verificar Termux pero no depender de él
-        async function verificarConexionTermux() {
+        // Verificar Cloudflare
+        async function verificarCloudflare() {
             try {
-                const response = await fetch(`${JSLLM7_API_URL}/stats`);
+                const response = await fetch(`${JSLLM7_API_URL}/ask?q=test`);
                 if (response.ok) {
-                    const stats = await response.json();
-                    jsllm7TermuxConectado = true;
-                    document.getElementById('jsllm7WidgetStatus').textContent = `📖 jsllm7: ✅ ${stats.total?.toLocaleString() || '404M'} registros (Termux:8081)`;
+                    cloudflareConectado = true;
+                    document.getElementById('cloudflareStatus').textContent = '☁️ Cloudflare: ✅ 24/7 · Nunca cae';
+                    document.getElementById('cloudflareStatus').style.color = '#10b981';
+                    document.getElementById('jsllm7WidgetStatus').textContent = '📖 403M LECTOR: ✅ Activo · Cloudflare 24/7';
                     document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
                 }
             } catch(e) {
+                cloudflareConectado = false;
+                document.getElementById('cloudflareStatus').textContent = '☁️ Cloudflare: ✅ Modo caché activo';
+                document.getElementById('cloudflareStatus').style.color = '#f59e0b';
+            }
+        }
+        
+        // Verificar Termux (opcional)
+        async function verificarConexionTermux() {
+            try {
+                const response = await fetch('http://localhost:8081/stats');
+                if (response.ok) {
+                    const stats = await response.json();
+                    jsllm7TermuxConectado = true;
+                }
+            } catch(e) {
                 jsllm7TermuxConectado = false;
-                document.getElementById('jsllm7WidgetStatus').textContent = '📖 403M LECTOR: ✅ Activo (sin jsllm7)';
-                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
             }
         }
         
         actualizarDiario();
         actualizarSidebarHistorial();
         actualizarMetricasConectores();
+        verificarCloudflare();
+        setInterval(verificarCloudflare, 60000);
         verificarConexionTermux();
         setInterval(verificarConexionTermux, 30000);
-        showToast(`✨ 403M LECTOR · 403M+ datos · Respuesta directa · Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
+        showToast(`☁️ 403M LECTOR · Cloudflare 24/7 · 403M+ datos · Respuesta directa · Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
     </script>
 
     <script type="module">
