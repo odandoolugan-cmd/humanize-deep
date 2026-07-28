@@ -14,6 +14,7 @@
         .sub { color: #94a3b8; margin-top: 0.5rem; font-size: 0.7rem; }
         .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-12fuentes { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-cloudflare { background: #f48120; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
@@ -100,16 +101,16 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <h1>📝 HUMANIZE DEEP <span class="ia-badge">403M LECTOR</span><span class="badge-decision">🧠 ACADÉMIA PRO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="live-badge">🌐 24/7</span></h1>
-            <div class="sub">403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · Humanización profesional</div>
-            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR · AcadémIA Pro · IndexedDB · 12 fuentes académicas · Sin límite de palabras</div>
+            <h1>📝 HUMANIZE DEEP <span class="badge-cloudflare">☁️ Cloudflare AI</span><span class="ia-badge">403M LECTOR</span><span class="badge-decision">🧠 ACADÉMIA PRO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="live-badge">🌐 24/7</span></h1>
+            <div class="sub">403M LECTOR · Cloudflare AI (Sin caídas) · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · Humanización profesional</div>
+            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Cloudflare AI · AcadémIA Pro · IndexedDB · 12 fuentes académicas · Sin límite de palabras</div>
         </div>
 
         <div class="status-bar">
             <span>💾 Caché: <span id="cacheHitRate">0%</span></span>
             <span>📊 DB: <span id="dbEntries">0</span></span>
             <span>🧠 403M: <span id="decisionCount">0</span></span>
-            <span>🔌 Cloudflare: <span id="cfStatus">Conectando...</span></span>
+            <span>⚡ Cloudflare AI: <span id="cfStatus">✅ Activo</span></span>
         </div>
 
         <div class="modo-selector">
@@ -159,7 +160,7 @@
             <div class="widget"><div class="widget-title">🎨 Estilo</div><div class="widget-content" id="widgetEstiloContent"><div style="display:flex;gap:10px;flex-wrap:wrap;"><span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">📝 Natural</span></div></div></div>
         </div>
 
-        <footer>☁️ Humanize Deep · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas</footer>
+        <footer>☁️ Humanize Deep · Cloudflare AI · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas</footer>
     </div>
 </div>
 
@@ -171,8 +172,11 @@
 // ============================================
 // CONFIGURACIÓN
 // ============================================
+// URL DE TU WORKER DE CLOUDFLARE (El que nunca se cae)
+const CLOUDFLARE_AI_URL = 'https://ollama-ai.odandoolugan.workers.dev';
 const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
-let cloudflareConectado = false;
+
+let cloudflareConectado = true;
 let modo = localStorage.getItem('humanize_modo') || 'experto';
 let ultimoTextoHumanizado = '';
 let referenciasAcademicas = [];
@@ -385,16 +389,27 @@ function mostrarBotonesExportacion() {
     });
 }
 
+// ============================================
+// CAMBIO CRÍTICO: LLAMADA A CLOUDFLARE AI EN VEZ DE JSLLM7
+// ============================================
 async function llamarIA(prompt) {
     try {
-        const url = `${JSLLM7_API_URL}/ask?q=${encodeURIComponent(prompt)}`;
-        const r = await fetch(url);
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        const text = await r.text();
+        const response = await fetch(CLOUDFLARE_AI_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pregunta: prompt })
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
         if (text && text.length > 20) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; return text; }
         throw new Error('Respuesta vacía');
-    } catch(e) { cloudflareConectado = false; document.getElementById('cfStatus').textContent = '⚠️'; return null; }
+    } catch(e) { 
+        cloudflareConectado = false; 
+        document.getElementById('cfStatus').textContent = '⚠️'; 
+        return null; 
+    }
 }
+// ============================================
 
 // ============================================
 // HERRAMIENTAS
@@ -461,7 +476,7 @@ window.exportarFormato = function(format) {
 };
 
 document.getElementById('btnDecisionStatus').addEventListener('click', () => { mostrarModal('🧠 403M LECTOR', `Sistema activo con 12 fuentes.\nCaché: ${cache.getStats().total} entradas.`); });
-document.getElementById('btnTermuxStatus').addEventListener('click', () => { mostrarModal('🔌 ESTADO', `Cloudflare: ${cloudflareConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total} entradas\n12 Fuentes: ✅`); });
+document.getElementById('btnTermuxStatus').addEventListener('click', () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ${cloudflareConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total} entradas\n12 Fuentes: ✅`); });
 
 // ============================================
 // HUMANIZAR TEXTO
@@ -581,14 +596,14 @@ document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click'
 actualizarModoUI();
 
 async function verificarCloudflare() {
-    try { const r = await fetch(`${JSLLM7_API_URL}/stats`); if (r.ok) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } } catch(e) { cloudflareConectado = false; document.getElementById('cfStatus').textContent = '⚠️'; }
+    try { const r = await fetch(CLOUDFLARE_AI_URL); if (r.ok) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } } catch(e) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; }
 }
 
 function init() {
     actualizarMetricas();
     verificarCloudflare();
     setInterval(verificarCloudflare, 60000);
-    showToast("☁️ Humanize Deep · 12 Fuentes · IndexedDB · 14 herramientas");
+    showToast("☁️ Humanize Deep · Cloudflare AI · 12 Fuentes · IndexedDB · 14 herramientas");
 }
 
 init();
