@@ -492,7 +492,28 @@ async function humanizarConLector(texto) {
     if (cached) return cached;
     
     try {
-        const prompt = `Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural, fluido y cercano. Usa lenguaje coloquial, varía estructura, añade ejemplos si es útil. Texto: "${texto.substring(0, 2500)}" Texto humanizado:`;
+        // === FASE 2 y 3: Búsqueda en 12 fuentes + Envío de contexto a la IA ===
+        const resultados12 = await fuentes12.buscarTodasLasFuentes(texto.substring(0, 100));
+        let contextoAcademico = "";
+        if (resultados12.resumen.total_resultados > 0) {
+            contextoAcademico = `\n\n--- INICIO DE ANÁLISIS ACADÉMICO DEL TEMA ---\n`;
+            contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos relacionados con el tema.\n\n`;
+            const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
+            fuentesPrioritarias.forEach(key => {
+                const f = resultados12.fuentes[key];
+                if (f && f.exito && f.count > 0) {
+                    contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
+                    f.data.slice(0, 2).forEach(r => {
+                        contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
+                        contextoAcademico += `  Resumen: ${(r.abstract || r.descripcion || r.snippet || 'Sin resumen disponible.').substring(0, 200)}...\n`;
+                    });
+                }
+            });
+            contextoAcademico += `\n--- FIN DE ANÁLISIS ACADÉMICO DEL TEMA ---\n\n`;
+        }
+
+        const prompt = `Contexto académico sobre el tema tratado:\n${contextoAcademico}\n\nTexto original: "${texto.substring(0, 2500)}"\n\nInstrucción: Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural, fluido y cercano. Usa lenguaje coloquial, varía estructura, añade ejemplos si es útil. Si hay información académica arriba, ÚSALA para hacer la humanización más rica y contextualizada.`;
+        
         const resultado = await llamarIA(prompt);
         if (resultado && resultado.length > 50) { await cache.cacheText(textHash, resultado); return resultado; }
     } catch(e) {}
