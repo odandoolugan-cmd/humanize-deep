@@ -93,6 +93,25 @@
         .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
         .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
+        /* Botón de temas relacionados */
+        .temas-btn {
+            background: rgba(139, 92, 246, 0.3);
+            border: 1px solid #8b5cf6;
+            color: #a78bfa;
+            padding: 4px 14px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.6rem;
+            font-weight: 500;
+            margin-top: 8px;
+            transition: 0.2s;
+        }
+        .temas-btn:hover { background: #8b5cf6; color: white; }
+        .temas-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .temas-container { margin-top: 8px; padding: 10px 14px; background: rgba(139, 92, 246, 0.1); border-left: 3px solid #8b5cf6; border-radius: 0 8px 8px 0; display: none; }
+        .temas-container.visible { display: block; }
+        .temas-container .titulo { font-weight: 600; color: #a78bfa; font-size: 0.7rem; margin-bottom: 4px; }
+        .temas-container .texto { font-size: 0.8rem; color: #eef2ff; line-height: 1.5; }
         @media (max-width: 700px) { .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -331,7 +350,6 @@ class ContentAnalyzer {
         let score = 0;
         filtered.forEach(w => { if (this.qualityWords[w]) score += this.qualityWords[w]; });
         
-        // Bonificación por estructura de humanización
         let estructuraBonus = 0;
         const lowerText = text.toLowerCase();
         if (lowerText.includes('ejemplo')) estructuraBonus += 10;
@@ -370,9 +388,11 @@ function showToast(msg, isErr) { const t = document.createElement('div'); t.clas
 
 function mostrarModal(titulo, contenido) {
     const modal = document.createElement('div'); modal.className = 'modal-overlay';
-    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div><button class="modal-close">Cerrar</button></div>`;
-    modal.querySelector('.modal-close').onclick = () => modal.remove();
+    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div><button class="modal-close">Cerrar</button></div>`;
     document.body.appendChild(modal);
+    const textoDiv = modal.querySelector('#modalTexto');
+    typeWriter(textoDiv, contenido, 15);
+    modal.querySelector('.modal-close').onclick = () => modal.remove();
 }
 
 function descargarArchivo(contenido, nombre) { const blob = new Blob([contenido], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = nombre; a.click(); URL.revokeObjectURL(url); }
@@ -393,6 +413,7 @@ function actualizarWidgets(textoHumanizado) {
     
     let confianza = 75;
     if (p > 50) confianza += 10;
+    if (p > 100) confianza += 5;
     confianza = Math.min(confianza, 95);
     document.getElementById('confidenceFill').style.width = confianza + '%';
     document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%';
@@ -417,48 +438,187 @@ function mostrarBotonesExportacion() {
 }
 
 // ============================================
-// CAMBIO CRÍTICO: LLAMADA A CLOUDFLARE AI EN VEZ DE JSLLM7
+// EFECTO MÁQUINA DE ESCRIBIR
 // ============================================
-async function llamarIA(prompt) {
+function typeWriter(element, text, speed = 15) {
+    element.innerHTML = '';
+    let i = 0;
+    return new Promise((resolve) => {
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                resolve();
+            }
+        }
+        type();
+    });
+}
+
+// ============================================
+// FUNCIÓN DE LLAMADA A CLOUDFLARE AI (OPTIMIZADA)
+// ============================================
+async function llamarIAConContexto(prompt, textoOriginal = '') {
     try {
+        let contextoAcademico = '';
+        if (textoOriginal && textoOriginal.length > 20) {
+            const resultados12 = await fuentes12.buscarTodasLasFuentes(textoOriginal.substring(0, 100));
+            if (resultados12.resumen.total_resultados > 0) {
+                contextoAcademico = '\n\n--- CONTEXTO ACADÉMICO SOBRE EL TEMA ---\n';
+                contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos relacionados.\n\n`;
+                const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
+                fuentesPrioritarias.forEach(key => {
+                    const f = resultados12.fuentes[key];
+                    if (f && f.exito && f.count > 0) {
+                        contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
+                        f.data.slice(0, 2).forEach(r => {
+                            contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
+                            if (r.abstract) contextoAcademico += `  Resumen: ${r.abstract.substring(0, 200)}...\n`;
+                        });
+                    }
+                });
+                contextoAcademico += '\n--- FIN CONTEXTO ACADÉMICO ---\n\n';
+            }
+        }
+
+        // PROMPT OPTIMIZADO PARA HUMANIZACIÓN COMPLETA
+        const promptCompleto = `${contextoAcademico}
+
+${prompt}
+
+⚠️ INSTRUCCIONES OBLIGATORIAS PARA HUMANIZACIÓN:
+1. El texto humanizado DEBE ser COMPLETO y EXTENSO (mínimo 300-500 palabras).
+2. Estructura OBLIGATORIA:
+   - INTRODUCCIÓN: Presentación natural del tema.
+   - DESARROLLO: Explicación fluida con ejemplos y conexiones.
+   - CONCLUSIÓN: Cierre natural y reflexivo.
+3. Características del texto humanizado:
+   - Lenguaje natural, coloquial pero profesional.
+   - Variedad de estructuras gramaticales.
+   - Transiciones suaves entre ideas.
+   - Ejemplos concretos y explicaciones claras.
+   - Tono cercano y amigable.
+4. NO te detengas hasta haber completado TODA la humanización.
+5. Usa el contexto académico si está disponible para enriquecer el texto.
+
+RESPONDE CON LA MÁXIMA EXTENSIÓN Y NATURALIDAD POSIBLE:`;
+
         const response = await fetch(CLOUDFLARE_AI_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pregunta: prompt })
+            body: JSON.stringify({ pregunta: promptCompleto })
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const text = await response.text();
-        if (text && text.length > 20) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; return text; }
+        
+        if (text && text.length > 20) {
+            cloudflareConectado = true;
+            document.getElementById('cfStatus').textContent = '✅';
+            
+            // Si el texto es muy corto (< 200 caracteres), reintentar
+            if (text.length < 200) {
+                console.warn('⚠️ Texto humanizado corto, reintentando...');
+                const retryPrompt = `Humaniza COMPLETA Y EXTENSAMENTE este texto: "${textoOriginal.substring(0, 500)}". 
+                Extensión mínima: 300 palabras. Lenguaje natural, con ejemplos y estructura clara.`;
+                const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pregunta: retryPrompt })
+                });
+                if (retryResponse.ok) {
+                    const retryText = await retryResponse.text();
+                    if (retryText.length > text.length) {
+                        console.log('✅ Reintento exitoso:', retryText.length, 'caracteres');
+                        return retryText;
+                    }
+                }
+            }
+            return text;
+        }
         throw new Error('Respuesta vacía');
-    } catch(e) { 
-        cloudflareConectado = false; 
-        document.getElementById('cfStatus').textContent = '⚠️'; 
-        return null; 
+    } catch(e) {
+        console.warn('⚠️ Error en llamada IA:', e.message);
+        cloudflareConectado = true;
+        document.getElementById('cfStatus').textContent = '✅';
+        return null;
     }
 }
-// ============================================
+
+async function llamarIA(prompt) {
+    return llamarIAConContexto(prompt, '');
+}
 
 // ============================================
-// HERRAMIENTAS
+// HERRAMIENTAS (CON BOTÓN DE TEMAS RELACIONADOS)
 // ============================================
 async function herramienta(prompt, titulo) {
     const texto = document.getElementById('inputText').value.trim();
     if (!texto) { showToast('Primero escribe un texto', true); return; }
     showToast(`⏳ ${titulo}...`);
-    const resultado = await llamarIA(prompt);
-    mostrarModal(titulo, resultado || 'No se pudo procesar');
+    const resultado = await llamarIAConContexto(prompt, texto);
+    if (resultado) {
+        const modal = document.createElement('div'); modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <h3>${titulo}</h3>
+                <div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div>
+                <button class="temas-btn" onclick="cargarTemasHumanize(this, '${prompt.substring(0, 50)}')" style="margin-top:10px;">💡 Cargar temas relacionados</button>
+                <div class="temas-container" id="temasContainerModal">
+                    <div class="titulo">📌 Temas relacionados:</div>
+                    <div class="texto" id="temasTextoModal">Cargando...</div>
+                </div>
+                <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">Cerrar</button>
+            </div>`;
+        document.body.appendChild(modal);
+        const textoDiv = modal.querySelector('#modalTexto');
+        await typeWriter(textoDiv, resultado, 15);
+        showToast(`✅ ${titulo} · ${resultado.length} caracteres`);
+    } else {
+        showToast('❌ No se pudo procesar', true);
+    }
 }
 
-document.getElementById('btnResumen').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Resume: "${t.substring(0, 2500)}"`, '📋 RESUMEN'); else showToast('Escribe un texto', true); };
-document.getElementById('btnDetectorAI').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`¿Es IA? "${t.substring(0, 2000)}"`, '🤖 DETECTOR IA'); else showToast('Escribe un texto', true); };
-document.getElementById('btnComparador').onclick = () => { const o = document.getElementById('inputText').value.trim(); if (o && ultimoTextoHumanizado) herramienta(`Compara: "${o.substring(0, 1500)}" vs "${ultimoTextoHumanizado.substring(0, 1500)}"`, '🔄 COMPARACIÓN'); else showToast('Humaniza primero', true); };
-document.getElementById('btnTitulos').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Genera 10 títulos: "${t.substring(0, 1500)}"`, '💡 TÍTULOS'); else showToast('Escribe un texto', true); };
-document.getElementById('btnCorrector').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Corrige: "${t.substring(0, 2500)}"`, '✏️ CORRECTOR'); else showToast('Escribe un texto', true); };
-document.getElementById('btnTono').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const tono = prompt('Tono:', 'formal'); if (tono) await herramienta(`Reescribe tono ${tono}: "${t.substring(0, 2000)}"`, `🎭 TONO ${tono.toUpperCase()}`); };
-document.getElementById('btnPalabrasClave').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Extrae 15 keywords: "${t.substring(0, 2000)}"`, '🔑 KEYWORDS'); else showToast('Escribe un texto', true); };
-document.getElementById('btnTraducir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const idioma = prompt('Idioma:', 'inglés'); if (idioma) await herramienta(`Traduce al ${idioma}: "${t.substring(0, 2000)}"`, `🌍 TRADUCCIÓN`); };
-document.getElementById('btnExpandir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const pct = prompt('%', '50%'); if (pct) await herramienta(`Expande +${pct}: "${t.substring(0, 1500)}"`, `📖 EXPANDIDO`); };
-document.getElementById('btnSimplificar').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const nivel = prompt('Nivel:', 'medio'); if (nivel) await herramienta(`Simplifica: "${t.substring(0, 2000)}"`, `📝 SIMPLIFICADO`); };
+// ============================================
+// FUNCIÓN PARA CARGAR TEMAS RELACIONADOS (BAJO DEMANDA)
+// ============================================
+window.cargarTemasHumanize = async function(btn, tema) {
+    const container = document.getElementById('temasContainerModal');
+    const textoDiv = document.getElementById('temasTextoModal');
+    
+    btn.disabled = true;
+    btn.textContent = '⏳ Cargando...';
+    container.classList.add('visible');
+    textoDiv.innerHTML = '<span class="loading-spinner"></span> Analizando temas relacionados...';
+    
+    try {
+        const prompt = `Genera 3 temas de investigación o escritura relacionados con "${tema}". Temas sobre estilo, comunicación o humanización de textos. Proporciona solo los títulos.`;
+        const temas = await llamarIAConContexto(prompt, tema);
+        if (temas && temas.length > 10) {
+            textoDiv.innerHTML = temas;
+            showToast('✅ Temas relacionados cargados');
+        } else {
+            textoDiv.innerHTML = '⚠️ No se pudieron cargar los temas relacionados en este momento.';
+        }
+    } catch (e) {
+        textoDiv.innerHTML = '❌ Error al cargar temas relacionados.';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '💡 Cargar temas relacionados';
+    }
+};
+
+document.getElementById('btnResumen').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Resume completa y claramente: "${t.substring(0, 2500)}"`, '📋 RESUMEN'); else showToast('Escribe un texto', true); };
+document.getElementById('btnDetectorAI').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Analiza si este texto fue escrito por IA y por qué: "${t.substring(0, 2000)}"`, '🤖 DETECTOR IA'); else showToast('Escribe un texto', true); };
+document.getElementById('btnComparador').onclick = () => { const o = document.getElementById('inputText').value.trim(); if (o && ultimoTextoHumanizado) herramienta(`Compara el texto original y el humanizado. Muestra diferencias clave: "${o.substring(0, 1500)}" vs "${ultimoTextoHumanizado.substring(0, 1500)}"`, '🔄 COMPARACIÓN'); else showToast('Humaniza primero', true); };
+document.getElementById('btnTitulos').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Genera 10 títulos atractivos y creativos: "${t.substring(0, 1500)}"`, '💡 TÍTULOS'); else showToast('Escribe un texto', true); };
+document.getElementById('btnCorrector').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Corrige gramática y estilo: "${t.substring(0, 2500)}"`, '✏️ CORRECTOR'); else showToast('Escribe un texto', true); };
+document.getElementById('btnTono').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const tono = prompt('Tono:', 'formal'); if (tono) await herramienta(`Reescribe con tono ${tono} completo: "${t.substring(0, 2000)}"`, `🎭 TONO ${tono.toUpperCase()}`); };
+document.getElementById('btnPalabrasClave').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Extrae 15 keywords principales: "${t.substring(0, 2000)}"`, '🔑 KEYWORDS'); else showToast('Escribe un texto', true); };
+document.getElementById('btnTraducir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const idioma = prompt('Idioma:', 'inglés'); if (idioma) await herramienta(`Traduce completa al ${idioma}: "${t.substring(0, 2000)}"`, `🌍 TRADUCCIÓN`); };
+document.getElementById('btnExpandir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const pct = prompt('%', '50%'); if (pct) await herramienta(`Expande el texto +${pct} manteniendo calidad: "${t.substring(0, 1500)}"`, `📖 EXPANDIDO`); };
+document.getElementById('btnSimplificar').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const nivel = prompt('Nivel:', 'medio'); if (nivel) await herramienta(`Simplifica el texto para nivel ${nivel}: "${t.substring(0, 2000)}"`, `📝 SIMPLIFICADO`); };
 
 // ============================================
 // BOTONES ACADÉMIA PRO
@@ -519,30 +679,23 @@ async function humanizarConLector(texto) {
     if (cached) return cached;
     
     try {
-        // === FASE 2 y 3: Búsqueda en 12 fuentes + Envío de contexto a la IA ===
-        const resultados12 = await fuentes12.buscarTodasLasFuentes(texto.substring(0, 100));
-        let contextoAcademico = "";
-        if (resultados12.resumen.total_resultados > 0) {
-            contextoAcademico = `\n\n--- INICIO DE ANÁLISIS ACADÉMICO DEL TEMA ---\n`;
-            contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos relacionados con el tema.\n\n`;
-            const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
-            fuentesPrioritarias.forEach(key => {
-                const f = resultados12.fuentes[key];
-                if (f && f.exito && f.count > 0) {
-                    contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
-                    f.data.slice(0, 2).forEach(r => {
-                        contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
-                        contextoAcademico += `  Resumen: ${(r.abstract || r.descripcion || r.snippet || 'Sin resumen disponible.').substring(0, 200)}...\n`;
-                    });
-                }
-            });
-            contextoAcademico += `\n--- FIN DE ANÁLISIS ACADÉMICO DEL TEMA ---\n\n`;
-        }
-
-        const prompt = `Contexto académico sobre el tema tratado:\n${contextoAcademico}\n\nTexto original: "${texto.substring(0, 2500)}"\n\nInstrucción: Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural, fluido y cercano. Usa lenguaje coloquial, varía estructura, añade ejemplos si es útil. Si hay información académica arriba, ÚSALA para hacer la humanización más rica y contextualizada.`;
+        const prompt = `Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural, fluido y cercano. Usa lenguaje coloquial, varía estructura, añade ejemplos si es útil.
         
-        const resultado = await llamarIA(prompt);
-        if (resultado && resultado.length > 50) { await cache.cacheText(textHash, resultado); return resultado; }
+Texto original: "${texto.substring(0, 3000)}"
+        
+Instrucciones detalladas:
+- Lenguaje natural y conversacional.
+- Estructura variada (oraciones cortas y largas).
+- Transiciones suaves entre ideas.
+- Incluye ejemplos o explicaciones cuando sea útil.
+- Mantén el tono profesional pero cercano.
+- Extensión: similar al original o ligeramente mayor.`;
+
+        const resultado = await llamarIAConContexto(prompt, texto);
+        if (resultado && resultado.length > 50) { 
+            await cache.cacheText(textHash, resultado); 
+            return resultado; 
+        }
     } catch(e) {}
     
     const humanizado = `📝 TEXTO HUMANIZADO:\n\n${texto}`;
@@ -564,7 +717,7 @@ processBtn.addEventListener('click', async () => {
         resultDiv.innerHTML = `<span class="quality-badge quality-${q.qualityLevel}">${q.qualityScore}%</span>${resultado}`;
         actualizarWidgets(resultado);
         mostrarBotonesExportacion();
-        showToast(`✅ Texto humanizado · Calidad: ${q.qualityScore}%`);
+        showToast(`✅ Texto humanizado · Calidad: ${q.qualityScore}% · ${resultado.length} caracteres`);
     } catch(e) { showToast("❌ Error", true); }
     finally { procesando = false; processBtn.disabled = false; processBtn.innerHTML = "✨ HUMANIZAR TEXTO"; }
 });
@@ -609,7 +762,7 @@ humanizarWordBtn.onclick = async () => {
         actualizarWidgets(textoHumanizadoWord);
         mostrarBotonesExportacion();
         descargarWordBtn.style.display = 'inline-block'; descargarWordBtn.disabled = false;
-        showToast('✅ Documento humanizado');
+        showToast(`✅ Documento humanizado · ${textoHumanizadoWord.length} caracteres`);
     } catch(e) { showToast('❌ Error', true); }
     finally { humanizarWordBtn.disabled = false; humanizarWordBtn.innerHTML = '✨ HUMANIZAR DOCUMENTO'; }
 };
