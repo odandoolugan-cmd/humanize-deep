@@ -15,6 +15,7 @@
         .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-12fuentes { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-cloudflare { background: #f48120; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
+        .badge-francia { background: linear-gradient(135deg, #002395, #FFFFFF, #ED2939); color: #1a2c3e; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; border: 1px solid #ED2939; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
@@ -120,9 +121,9 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <h1>📝 HUMANIZE DEEP <span class="badge-cloudflare">☁️ Cloudflare AI</span><span class="ia-badge">403M LECTOR</span><span class="badge-decision">🧠 ACADÉMIA PRO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="live-badge">🌐 24/7</span></h1>
-            <div class="sub">403M LECTOR · Cloudflare AI (Sin caídas) · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · Humanización profesional</div>
-            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Cloudflare AI · AcadémIA Pro · IndexedDB · 12 fuentes académicas · Sin límite de palabras</div>
+            <h1>📝 HUMANIZE DEEP <span class="badge-cloudflare">☁️ Cloudflare AI</span><span class="ia-badge">403M LECTOR</span><span class="badge-decision">🧠 ACADÉMIA PRO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-francia">🇫🇷 ESCRITOR FRANCÉS</span><span class="live-badge">🌐 24/7</span></h1>
+            <div class="sub">403M LECTOR · Cloudflare AI (Sin caídas) · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · Humanización profesional · 🇫🇷</div>
+            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Cloudflare AI · AcadémIA Pro · IndexedDB · 12 fuentes académicas · Sin límite de palabras · 🇫🇷</div>
         </div>
 
         <div class="status-bar">
@@ -179,7 +180,7 @@
             <div class="widget"><div class="widget-title">🎨 Estilo</div><div class="widget-content" id="widgetEstiloContent"><div style="display:flex;gap:10px;flex-wrap:wrap;"><span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">📝 Natural</span></div></div></div>
         </div>
 
-        <footer>☁️ Humanize Deep · Cloudflare AI · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas</footer>
+        <footer>☁️ Humanize Deep · Cloudflare AI · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas · 🇫🇷</footer>
     </div>
 </div>
 
@@ -194,6 +195,7 @@
 // URL DE TU WORKER DE CLOUDFLARE (El que nunca se cae)
 const CLOUDFLARE_AI_URL = 'https://ollama-ai.odandoolugan.workers.dev';
 const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
+const PAIS_FIJO = 'francia';
 
 let cloudflareConectado = true;
 let modo = localStorage.getItem('humanize_modo') || 'experto';
@@ -214,7 +216,7 @@ class FuentesGratuitas12 {
     
     async buscarSemanticScholar(tema) {
         try {
-            const r = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(tema)}+text+analysis+natural+language&limit=10&fields=title,authors,year,abstract,citationCount,url`);
+            const r = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(tema)}+text+analysis+natural+language+france&limit=10&fields=title,authors,year,abstract,citationCount,url`);
             const d = await r.json();
             return d.data?.map(p => ({ titulo: p.title, autor: p.authors?.map(a => a.name).join(', '), year: p.year, abstract: p.abstract, citas: p.citationCount, fuente: 'Semantic Scholar', url: p.url })) || [];
         } catch(e) { return []; }
@@ -222,7 +224,7 @@ class FuentesGratuitas12 {
     
     async buscarCORE(tema) {
         try {
-            const r = await fetch(`https://api.core.ac.uk/v3/search/works?q=${encodeURIComponent(tema)}+writing+style&limit=10`);
+            const r = await fetch(`https://api.core.ac.uk/v3/search/works?q=${encodeURIComponent(tema)}+writing+style+france&limit=10`);
             const d = await r.json();
             return d.results?.map(r => ({ titulo: r.title, autor: r.authors?.join(', '), year: r.yearPublished, abstract: r.abstract, fuente: 'CORE', url: r.downloadUrl || r.doi })) || [];
         } catch(e) { return []; }
@@ -230,7 +232,7 @@ class FuentesGratuitas12 {
     
     async buscarArxiv(tema) {
         try {
-            const r = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(tema)}+natural+language&max_results=10`);
+            const r = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(tema)}+natural+language+france&max_results=10`);
             const text = await r.text();
             const xml = new DOMParser().parseFromString(text, 'text/xml');
             return Array.from(xml.querySelectorAll('entry')).map(e => ({ titulo: e.querySelector('title')?.textContent?.trim(), autor: Array.from(e.querySelectorAll('author name')).map(n => n.textContent).join(', '), year: e.querySelector('published')?.textContent?.substring(0,4), fuente: 'arXiv', url: e.querySelector('id')?.textContent }));
@@ -240,7 +242,7 @@ class FuentesGratuitas12 {
     async buscarInternetArchive(tema) { return [{ titulo: `${tema} - Digital Archive`, autor: 'Internet Archive', year: '2024', fuente: 'Internet Archive', url: '#' }]; }
     async buscarWikipedia(tema) {
         try {
-            const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema)}+lingüística&format=json&origin=*&srlimit=10`);
+            const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema)}+lingüística+francia&format=json&origin=*&srlimit=10`);
             const d = await r.json();
             return d.query?.search?.map(r => ({ titulo: r.title, snippet: r.snippet?.replace(/<\/?[^>]+(>|$)/g, ''), fuente: 'Wikipedia', url: `https://es.wikipedia.org/wiki/${encodeURIComponent(r.title.replace(/\s+/g, '_'))}` })) || [];
         } catch(e) { return []; }
@@ -250,7 +252,7 @@ class FuentesGratuitas12 {
     async buscarDOAJ(tema) { return [{ titulo: `${tema} - Open Access`, autor: 'DOAJ', year: '2024', fuente: 'DOAJ', url: '#' }]; }
     async buscarOpenLibrary(tema) { return [{ titulo: `${tema} - Digital Library`, autor: 'Open Library', year: '2024', fuente: 'Open Library', url: '#' }]; }
     async buscarHackerNews(tema) { return [{ titulo: `${tema} - Discussion`, autor: 'HN', year: '2024', fuente: 'Hacker News', url: '#' }]; }
-    async buscarGoogleScholar(tema) { return [{ titulo: `${tema}: Text Analysis`, autor: 'Scholar', year: '2024', fuente: 'Google Scholar', url: '#' }]; }
+    async buscarGoogleScholar(tema) { return [{ titulo: `${tema}: Text Analysis en Francia`, autor: 'Scholar', year: '2024', fuente: 'Google Scholar', url: '#' }]; }
     async buscarResearchGate(tema) { return [{ titulo: `Research: ${tema}`, autor: 'ResearchGate', year: '2024', fuente: 'ResearchGate', url: '#' }]; }
     
     async buscarTodasLasFuentes(tema) {
@@ -332,7 +334,7 @@ class PersistentCache {
 const cache = new PersistentCache();
 
 // ============================================
-// ANALIZADOR + PLAGIO + EXPORTADOR (MEJORADO)
+// ANALIZADOR + PLAGIO + EXPORTADOR
 // ============================================
 class ContentAnalyzer {
     constructor() {
@@ -458,7 +460,7 @@ function typeWriter(element, text, speed = 15) {
 }
 
 // ============================================
-// FUNCIÓN DE LLAMADA A CLOUDFLARE AI (OPTIMIZADA)
+// FUNCIÓN DE LLAMADA A CLOUDFLARE AI CON PROMPT DE ESCRITOR FRANCÉS
 // ============================================
 async function llamarIAConContexto(prompt, textoOriginal = '') {
     try {
@@ -483,27 +485,97 @@ async function llamarIAConContexto(prompt, textoOriginal = '') {
             }
         }
 
-        // PROMPT OPTIMIZADO PARA HUMANIZACIÓN COMPLETA
+        // PROMPT DE ESCRITOR PROFESIONAL FRANCÉS
         const promptCompleto = `${contextoAcademico}
-
 ${prompt}
+═══════════════════════════════════════════════════════════
+✍️ rol: eres un escritor profesional francés y editor experto
+especializado en reescritura natural. tu talento es
+transformar textos rígidos, técnicos o robóticos en prosa
+fluida, cercana y genuinamente humana, sin perder el
+mensaje original ni la precisión del contenido.
+═══════════════════════════════════════════════════════════
+⚠️ instrucciones obligatorias y no negociables:
+📊 extensión y profundidad:
+• mínimo 400-700 palabras (o equivalente al original si es más largo)
+• el texto debe sentirse completo, no recortado ni artificialmente alargado
+• prioriza naturalidad sobre extensión forzada
+📋 estructura obligatoria (respeta el flujo narrativo):
+1️⃣ gancho inicial
+- abre con una frase que invite a seguir leyendo
+- puede ser una pregunta, una anécdota breve, una observación cotidiana o una afirmación contundente
+- evita aperturas genéricas tipo "en el mundo de hoy..." o "es importante destacar que..."
+2️⃣ desarrollo narrativo (el cuerpo del texto)
+- explica las ideas principales con fluidez conversacional
+- conecta cada idea con la siguiente mediante transiciones naturales
+- incluye ejemplos concretos, analogías o situaciones cotidianas
+- alterna entre frases cortas (impacto) y frases largas (desarrollo)
+- incorpora matices: dudas razonables, matizaciones, opiniones ponderadas
+3️⃣ capas de humanidad (distribuir a lo largo del texto)
+- 1-2 observaciones personales o reflexiones ("lo curioso es que...", "me llama la atención...")
+- micro-anécdotas o escenarios hipotéticos relatable
+- preguntas retóricas ocasionales que inviten a pensar
+- admisiones honestas cuando algo es complejo ("no es tan simple como parece...")
+4️⃣ cierre natural
+- resume sin repetir literalmente lo dicho
+- deja una idea final memorable, una invitación a reflexionar o un cierre abierto
+- evita cierres forzados tipo "en conclusión..." o "para finalizar..."
+═══════════════════════════════════════════════════════════
+🧠 técnicas de humanización (aplicar todas):
+═══════════════════════════════════════════════════════════
+✅ ritmo y cadencia:
+• alterna oraciones de 5-8 palabras con otras de 15-25
+• usa fragmentos intencionales para énfasis. así. de vez en cuando.
+• evita que todos los párrafos tengan la misma longitud
+✅ vocabulario natural:
+• prefiere palabras cotidianas sobre jerga innecesaria
+• usa contracciones cuando suenen naturales (del, al, etc.)
+• incluye expresiones coloquiales moderadas ("la verdad es que", "al final del día", "tiene su aquel")
+• evita: "cabe destacar", "es menester", "dicho lo anterior", "en este sentido", "sin lugar a dudas"
+✅ transiciones humanas (usa estas, no las robóticas):
+• en lugar de "además" → "y no solo eso", "a esto se suma", "lo interesante viene ahora"
+• en lugar de "por otro lado" → "ahora bien", "pero hay algo más", "mirándolo desde otro ángulo"
+• en lugar de "por lo tanto" → "así que", "el resultado es claro", "de ahí que"
+• en lugar de "en conclusión" → "al final", "si algo queda claro es que", "la cuestión de fondo es"
+✅ imperfecciones controladas (la clave de lo humano):
+• incisos entre rayas o comas —como este— que agregan color
+• pequeñas autocorrecciones: "o mejor dicho...", "bueno, en realidad..."
+• énfasis con cursiva mental: esa palabra que sientes subrayada al leer
+• variedad en conectores; nunca repitas el mismo dos párrafos seguidos
+✅ lo que debes eliminar (patrones de ia):
+❌ listas con viñetas excesivas dentro del texto narrativo
+❌ estructura rígida de "primeramente, en segundo lugar, por último"
+❌ repetición de la misma estructura sintáctica en párrafos consecutivos
+❌ adjetivos vacíos apilados: "importante, relevante y significativo"
+❌ frases que no aportan: "es un tema que ha cobrado gran relevancia en los últimos años"
+❌ tono enciclopédico o de manual técnico
+❌ perfecta simetría entre secciones (los humanos no escribimos así)
+✅ fidelidad al contenido:
+• no inventes datos, cifras ni hechos que no estén en el original
+• no elimines información clave del texto fuente
+• sí puedes reordenar ideas si mejora el flujo natural
+• sí puedes ampliar explicaciones con ejemplos para mayor claridad
+• usa el contexto académico proporcionado para enriquecer sin rigidizar
+═══════════════════════════════════════════════════════════
+🎯 tono objetivo:
+• cercano y conversacional, como un experto explicándole
+algo a un amigo inteligente en un café
+• profesional sin ser frío; cálido sin ser infantil
+• seguro pero no arrogante; accesible pero no simplón
+═══════════════════════════════════════════════════════════
+💡 formato de salida:
+• texto corrido en párrafos naturales (no esquemas ni listados)
+• sin títulos de sección visibles (la estructura debe sentirse, no verse)
+• sin emojis (a menos que el texto original los requiera)
+• sin negritas excesivas ni formato markdown innecesario
+• el resultado debe poder copiarse y publicarse tal cual
+⚡ reescribe ahora el texto con la máxima naturalidad,
+fluidez y calidez humana posible. que al leerlo nadie
+sospeche que pasó por una ia. la prueba de fuego: si
+suena a manual o a artículo genérico, empieza de nuevo:`;      
 
-⚠️ INSTRUCCIONES OBLIGATORIAS PARA HUMANIZACIÓN:
-1. El texto humanizado DEBE ser COMPLETO y EXTENSO (mínimo 300-500 palabras).
-2. Estructura OBLIGATORIA:
-   - INTRODUCCIÓN: Presentación natural del tema.
-   - DESARROLLO: Explicación fluida con ejemplos y conexiones.
-   - CONCLUSIÓN: Cierre natural y reflexivo.
-3. Características del texto humanizado:
-   - Lenguaje natural, coloquial pero profesional.
-   - Variedad de estructuras gramaticales.
-   - Transiciones suaves entre ideas.
-   - Ejemplos concretos y explicaciones claras.
-   - Tono cercano y amigable.
-4. NO te detengas hasta haber completado TODA la humanización.
-5. Usa el contexto académico si está disponible para enriquecer el texto.
-
-RESPONDE CON LA MÁXIMA EXTENSIÓN Y NATURALIDAD POSIBLE:`;
+        console.log('📚 enviando prompt de escritor profesional francés a cloudflare ai');
+        console.log('🇫🇷 enfoque geográfico fijo:', PAIS_FIJO);
 
         const response = await fetch(CLOUDFLARE_AI_URL, {
             method: 'POST',
@@ -517,11 +589,10 @@ RESPONDE CON LA MÁXIMA EXTENSIÓN Y NATURALIDAD POSIBLE:`;
             cloudflareConectado = true;
             document.getElementById('cfStatus').textContent = '✅';
             
-            // Si el texto es muy corto (< 200 caracteres), reintentar
-            if (text.length < 200) {
+            if (text.length < 150) {
                 console.warn('⚠️ Texto humanizado corto, reintentando...');
-                const retryPrompt = `Humaniza COMPLETA Y EXTENSAMENTE este texto: "${textoOriginal.substring(0, 500)}". 
-                Extensión mínima: 300 palabras. Lenguaje natural, con ejemplos y estructura clara.`;
+                const retryPrompt = `Humaniza COMPLETA Y EXTENSAMENTE este texto con estilo natural y fluido: "${textoOriginal.substring(0, 500)}". 
+                Extensión mínima: 300 palabras. Lenguaje natural, con ejemplos y estructura clara. Tono conversacional.`;
                 const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -574,7 +645,7 @@ async function herramienta(prompt, titulo) {
         document.body.appendChild(modal);
         const textoDiv = modal.querySelector('#modalTexto');
         await typeWriter(textoDiv, resultado, 15);
-        showToast(`✅ ${titulo} · ${resultado.length} caracteres`);
+        showToast(`✅ ${titulo} · ${resultado.length} caracteres · 🇫🇷`);
     } else {
         showToast('❌ No se pudo procesar', true);
     }
@@ -593,7 +664,7 @@ window.cargarTemasHumanize = async function(btn, tema) {
     textoDiv.innerHTML = '<span class="loading-spinner"></span> Analizando temas relacionados...';
     
     try {
-        const prompt = `Genera 3 temas de investigación o escritura relacionados con "${tema}". Temas sobre estilo, comunicación o humanización de textos. Proporciona solo los títulos.`;
+        const prompt = `Genera 3 temas de investigación o escritura relacionados con "${tema}" desde la perspectiva de la literatura francesa. Temas sobre estilo, comunicación o humanización de textos. Proporciona solo los títulos.`;
         const temas = await llamarIAConContexto(prompt, tema);
         if (temas && temas.length > 10) {
             textoDiv.innerHTML = temas;
@@ -609,16 +680,16 @@ window.cargarTemasHumanize = async function(btn, tema) {
     }
 };
 
-document.getElementById('btnResumen').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Resume completa y claramente: "${t.substring(0, 2500)}"`, '📋 RESUMEN'); else showToast('Escribe un texto', true); };
-document.getElementById('btnDetectorAI').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Analiza si este texto fue escrito por IA y por qué: "${t.substring(0, 2000)}"`, '🤖 DETECTOR IA'); else showToast('Escribe un texto', true); };
-document.getElementById('btnComparador').onclick = () => { const o = document.getElementById('inputText').value.trim(); if (o && ultimoTextoHumanizado) herramienta(`Compara el texto original y el humanizado. Muestra diferencias clave: "${o.substring(0, 1500)}" vs "${ultimoTextoHumanizado.substring(0, 1500)}"`, '🔄 COMPARACIÓN'); else showToast('Humaniza primero', true); };
-document.getElementById('btnTitulos').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Genera 10 títulos atractivos y creativos: "${t.substring(0, 1500)}"`, '💡 TÍTULOS'); else showToast('Escribe un texto', true); };
-document.getElementById('btnCorrector').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Corrige gramática y estilo: "${t.substring(0, 2500)}"`, '✏️ CORRECTOR'); else showToast('Escribe un texto', true); };
-document.getElementById('btnTono').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const tono = prompt('Tono:', 'formal'); if (tono) await herramienta(`Reescribe con tono ${tono} completo: "${t.substring(0, 2000)}"`, `🎭 TONO ${tono.toUpperCase()}`); };
-document.getElementById('btnPalabrasClave').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Extrae 15 keywords principales: "${t.substring(0, 2000)}"`, '🔑 KEYWORDS'); else showToast('Escribe un texto', true); };
-document.getElementById('btnTraducir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const idioma = prompt('Idioma:', 'inglés'); if (idioma) await herramienta(`Traduce completa al ${idioma}: "${t.substring(0, 2000)}"`, `🌍 TRADUCCIÓN`); };
-document.getElementById('btnExpandir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const pct = prompt('%', '50%'); if (pct) await herramienta(`Expande el texto +${pct} manteniendo calidad: "${t.substring(0, 1500)}"`, `📖 EXPANDIDO`); };
-document.getElementById('btnSimplificar').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const nivel = prompt('Nivel:', 'medio'); if (nivel) await herramienta(`Simplifica el texto para nivel ${nivel}: "${t.substring(0, 2000)}"`, `📝 SIMPLIFICADO`); };
+document.getElementById('btnResumen').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Resume completa y claramente con estilo natural: "${t.substring(0, 2500)}"`, '📋 RESUMEN'); else showToast('Escribe un texto', true); };
+document.getElementById('btnDetectorAI').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Analiza si este texto fue escrito por IA y por qué, con tono conversacional: "${t.substring(0, 2000)}"`, '🤖 DETECTOR IA'); else showToast('Escribe un texto', true); };
+document.getElementById('btnComparador').onclick = () => { const o = document.getElementById('inputText').value.trim(); if (o && ultimoTextoHumanizado) herramienta(`Compara el texto original y el humanizado. Muestra diferencias clave de forma natural: "${o.substring(0, 1500)}" vs "${ultimoTextoHumanizado.substring(0, 1500)}"`, '🔄 COMPARACIÓN'); else showToast('Humaniza primero', true); };
+document.getElementById('btnTitulos').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Genera 10 títulos atractivos y creativos con estilo francés: "${t.substring(0, 1500)}"`, '💡 TÍTULOS'); else showToast('Escribe un texto', true); };
+document.getElementById('btnCorrector').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Corrige gramática y estilo de forma natural: "${t.substring(0, 2500)}"`, '✏️ CORRECTOR'); else showToast('Escribe un texto', true); };
+document.getElementById('btnTono').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const tono = prompt('Tono:', 'formal'); if (tono) await herramienta(`Reescribe con tono ${tono} completo y natural: "${t.substring(0, 2000)}"`, `🎭 TONO ${tono.toUpperCase()}`); };
+document.getElementById('btnPalabrasClave').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Extrae 15 keywords principales de forma natural: "${t.substring(0, 2000)}"`, '🔑 KEYWORDS'); else showToast('Escribe un texto', true); };
+document.getElementById('btnTraducir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const idioma = prompt('Idioma:', 'inglés'); if (idioma) await herramienta(`Traduce completa al ${idioma} manteniendo naturalidad: "${t.substring(0, 2000)}"`, `🌍 TRADUCCIÓN`); };
+document.getElementById('btnExpandir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const pct = prompt('%', '50%'); if (pct) await herramienta(`Expande el texto +${pct} manteniendo calidad y naturalidad: "${t.substring(0, 1500)}"`, `📖 EXPANDIDO`); };
+document.getElementById('btnSimplificar').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const nivel = prompt('Nivel:', 'medio'); if (nivel) await herramienta(`Simplifica el texto para nivel ${nivel} con estilo natural: "${t.substring(0, 2000)}"`, `📝 SIMPLIFICADO`); };
 
 // ============================================
 // BOTONES ACADÉMIA PRO
@@ -663,7 +734,7 @@ window.exportarFormato = function(format) {
 };
 
 document.getElementById('btnDecisionStatus').addEventListener('click', () => { mostrarModal('🧠 403M LECTOR', `Sistema activo con 12 fuentes.\nCaché: ${cache.getStats().total} entradas.`); });
-document.getElementById('btnTermuxStatus').addEventListener('click', () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ${cloudflareConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total} entradas\n12 Fuentes: ✅`); });
+document.getElementById('btnTermuxStatus').addEventListener('click', () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ${cloudflareConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total} entradas\n12 Fuentes: ✅\n🇫🇷 Enfoque: ${PAIS_FIJO}`); });
 
 // ============================================
 // HUMANIZAR TEXTO
@@ -679,7 +750,7 @@ async function humanizarConLector(texto) {
     if (cached) return cached;
     
     try {
-        const prompt = `Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural, fluido y cercano. Usa lenguaje coloquial, varía estructura, añade ejemplos si es útil.
+        const prompt = `Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural, fluido y cercano. Usa lenguaje coloquial, varía estructura, añade ejemplos si es útil. Estilo de escritor francés profesional.
         
 Texto original: "${texto.substring(0, 3000)}"
         
@@ -689,7 +760,8 @@ Instrucciones detalladas:
 - Transiciones suaves entre ideas.
 - Incluye ejemplos o explicaciones cuando sea útil.
 - Mantén el tono profesional pero cercano.
-- Extensión: similar al original o ligeramente mayor.`;
+- Extensión: similar al original o ligeramente mayor.
+- Enfoque en la elegancia del estilo francés.`;
 
         const resultado = await llamarIAConContexto(prompt, texto);
         if (resultado && resultado.length > 50) { 
@@ -717,7 +789,7 @@ processBtn.addEventListener('click', async () => {
         resultDiv.innerHTML = `<span class="quality-badge quality-${q.qualityLevel}">${q.qualityScore}%</span>${resultado}`;
         actualizarWidgets(resultado);
         mostrarBotonesExportacion();
-        showToast(`✅ Texto humanizado · Calidad: ${q.qualityScore}% · ${resultado.length} caracteres`);
+        showToast(`✅ Texto humanizado · Calidad: ${q.qualityScore}% · ${resultado.length} caracteres · 🇫🇷`);
     } catch(e) { showToast("❌ Error", true); }
     finally { procesando = false; processBtn.disabled = false; processBtn.innerHTML = "✨ HUMANIZAR TEXTO"; }
 });
@@ -762,7 +834,7 @@ humanizarWordBtn.onclick = async () => {
         actualizarWidgets(textoHumanizadoWord);
         mostrarBotonesExportacion();
         descargarWordBtn.style.display = 'inline-block'; descargarWordBtn.disabled = false;
-        showToast(`✅ Documento humanizado · ${textoHumanizadoWord.length} caracteres`);
+        showToast(`✅ Documento humanizado · ${textoHumanizadoWord.length} caracteres · 🇫🇷`);
     } catch(e) { showToast('❌ Error', true); }
     finally { humanizarWordBtn.disabled = false; humanizarWordBtn.innerHTML = '✨ HUMANIZAR DOCUMENTO'; }
 };
@@ -801,10 +873,11 @@ async function verificarCloudflare() {
 }
 
 function init() {
+    console.log(`🇫🇷 Enfoque geográfico fijo: ${PAIS_FIJO}`);
     actualizarMetricas();
     verificarCloudflare();
     setInterval(verificarCloudflare, 60000);
-    showToast("☁️ Humanize Deep · Cloudflare AI · 12 Fuentes · IndexedDB · 14 herramientas");
+    showToast(`☁️ Humanize Deep · Cloudflare AI · 12 Fuentes · IndexedDB · 14 herramientas · 🇫🇷 Enfoque ${PAIS_FIJO}`);
 }
 
 init();
