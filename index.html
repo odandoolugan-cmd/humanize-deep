@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>Humanize Deep · 403M LECTOR · Cloudflare 24/7 · AcadémIA Pro · 12 Fuentes · WASM</title>
+    <title>Humanize Deep · 403M LECTOR · Mistral AI · AcadémIA Pro · 12 Fuentes · WASM</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e, #0c1222); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -14,16 +14,20 @@
         .sub { color: #94a3b8; margin-top: 0.5rem; font-size: 0.7rem; }
         .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-12fuentes { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
-        .badge-cloudflare { background: #f48120; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
+        .badge-mistral { background: linear-gradient(90deg, #f97316, #dc2626); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         .badge-wasm { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         .badge-francia { background: linear-gradient(135deg, #002395, #FFFFFF, #ED2939); color: #1a2c3e; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; border: 1px solid #ED2939; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.8rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
-        .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
-        .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
+        .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
+        .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; transition: 0.2s; }
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
+        .modo-btn:hover { background: #334155; color: white; }
+        .modo-activo-indicator { display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: 0.65rem; font-weight: 600; margin-left: 10px; }
+        .modo-experto { background: #8b5cf6; color: white; }
+        .modo-basico { background: #f97316; color: white; }
         
         .status-bar { background: #1e293b; border-radius: 1rem; padding: 0.4rem 1rem; margin: 0.5rem 0; font-size: 0.6rem; display: flex; justify-content: space-around; flex-wrap: wrap; color: #94a3b8; }
         
@@ -62,6 +66,9 @@
         .quality-baja { background: #ef4444; color: white; }
         .copy-btn { background: #475569; margin-top: 1rem; width: 100%; padding: 0.8rem; border: none; border-radius: 1rem; color: white; cursor: pointer; }
         
+        .progress-bar-container { width: 100%; height: 4px; background: #1e293b; border-radius: 2px; margin: 8px 0; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, #ec4899); width: 0%; transition: width 0.5s; border-radius: 2px; }
+        
         .widget-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
         .widget { background: rgba(26, 37, 48, 0.95); border: 1px solid #8b5cf6; border-radius: 12px; padding: 15px; }
         .widget:hover { border-color: #a78bfa; }
@@ -86,7 +93,7 @@
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
         footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: #64748b; }
-        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 3s forwards; }
+        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #8b5cf6; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 3s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .ia-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
         .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
@@ -122,22 +129,29 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <h1>📝 HUMANIZE DEEP <span class="badge-cloudflare">☁️ Cloudflare AI</span><span class="badge-wasm">⚡ WASM</span><span class="ia-badge">403M LECTOR</span><span class="badge-decision">🧠 ACADÉMIA PRO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-francia">🇫🇷 ESCRITOR FRANCÉS</span><span class="live-badge">🌐 24/7</span></h1>
-            <div class="sub">403M LECTOR · Cloudflare AI (Sin caídas) · WebAssembly · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · Humanización profesional · 🇫🇷</div>
-            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Cloudflare AI + WASM · AcadémIA Pro · IndexedDB · 12 fuentes académicas · Sin límite de palabras · 🇫🇷</div>
+            <h1>📝 HUMANIZE DEEP <span class="badge-mistral">⚡ MISTRAL AI</span><span class="badge-wasm">⚡ WASM</span><span class="ia-badge">403M LECTOR</span><span class="badge-decision">🧠 ACADÉMIA PRO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-francia">🇫🇷 ESCRITOR FRANCÉS</span><span class="live-badge">🌐 24/7</span></h1>
+            <div class="sub">403M LECTOR · Mistral AI · WebAssembly · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · Humanización profesional · 🇫🇷</div>
+            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Mistral AI + WASM · AcadémIA Pro · IndexedDB · 12 fuentes académicas · Sin límite de palabras · 🇫🇷</div>
         </div>
 
         <div class="status-bar">
             <span>💾 Caché: <span id="cacheHitRate">0%</span></span>
             <span>📊 DB: <span id="dbEntries">0</span></span>
             <span>🧠 403M: <span id="decisionCount">0</span></span>
-            <span>⚡ Cloudflare AI: <span id="cfStatus">✅ Activo</span></span>
+            <span>⚡ Mistral AI: <span id="cfStatus">✅ Activo</span></span>
             <span>⚡ WASM: <span id="wasmStatus">⏳ Cargando...</span></span>
+            <span>📌 Modo: <span id="modoStatus" style="color:#a78bfa;">🧠 Experto</span></span>
         </div>
 
         <div class="modo-selector">
-            <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
-            <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
+            <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO (4000 tokens)</button>
+            <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO (1500 tokens)</button>
+            <span id="modoActualIndicator" class="modo-activo-indicator modo-experto">🧠 Experto</span>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar"></div>
         </div>
 
         <div class="tools-bar">
@@ -177,22 +191,34 @@
 
         <div class="widget-container">
             <div class="widget"><div class="widget-title">📊 Métricas</div><div class="widget-content"><div class="metrics-grid"><div class="metric-item"><div class="metric-value" id="metricPalabras">0</div><div class="metric-label">Palabras</div></div><div class="metric-item"><div class="metric-value" id="metricCaracteres">0</div><div class="metric-label">Caracteres</div></div><div class="metric-item"><div class="metric-value" id="metricParrafos">0</div><div class="metric-label">Párrafos</div></div><div class="metric-item"><div class="metric-value" id="metricOraciones">0</div><div class="metric-label">Oraciones</div></div></div></div></div>
-            <div class="widget"><div class="widget-title">🔌 Estado</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div><div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos</div></div><div class="connector-metric"><div class="value" id="metricAPIs">12</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div></div><div id="jsllm7WidgetStatus">⚡ Cloudflare AI: ✅ Activo (Sin caídas)</div><div id="wasmWidgetStatus">⚡ WebAssembly: <span id="wasmWidgetStatusText">⏳ Cargando...</span></div></div></div>
+            <div class="widget"><div class="widget-title">🔌 Estado</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div><div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos</div></div><div class="connector-metric"><div class="value" id="metricAPIs">12</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div></div><div id="jsllm7WidgetStatus">⚡ Mistral AI: ✅ Activo</div><div id="wasmWidgetStatus">⚡ WebAssembly: <span id="wasmWidgetStatusText">⏳ Cargando...</span></div></div></div>
             <div class="widget"><div class="widget-title">🎯 Calidad</div><div class="widget-content"><div class="widget-confidence"><span>📊</span><div class="confidence-bar"><div class="confidence-fill" id="confidenceFill" style="width:0%"></div></div><span class="confidence-label" id="confidenceLabel">0%</span></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">Calidad: <span id="qualityLabel">--</span></div></div></div>
             <div class="widget"><div class="widget-title">🎨 Estilo</div><div class="widget-content" id="widgetEstiloContent"><div style="display:flex;gap:10px;flex-wrap:wrap;"><span style="background:#2c3a4a;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #8b5cf6;">📝 Natural</span></div></div></div>
         </div>
 
-        <footer>☁️ Humanize Deep · Cloudflare AI · WebAssembly · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas · 🇫🇷</footer>
+        <footer>☁️ Humanize Deep · Mistral AI · WebAssembly · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas · 🇫🇷</footer>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.2/mammoth.browser.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.min.js"></script>
 
 <script>
 // ============================================
-// WEBASSEMBLY OPTIMIZER
+// CONFIGURACIÓN - MISTRAL AI (SIN CLOUDFLARE)
+// ============================================
+const MISTRAL_API_KEY = 'eKzUq9HIk9xGnJtT6BfzdVSqKKWscOjT';
+const MISTRAL_API_URL = 'https://api.mistral.ai/v1/chat/completions';
+const PAIS_FIJO = 'francia';
+
+let modoActual = 'experto';
+let ultimoTextoHumanizado = '';
+let referenciasAcademicas = [];
+let procesando = false;
+let contenidoWord = '', nombreWord = '', textoHumanizadoWord = '';
+
+// ============================================
+// WEBASSEMBLY OPTIMIZER - LIMPIA FORMATO
 // ============================================
 class WASMOptimizer {
     constructor() {
@@ -216,25 +242,16 @@ class WASMOptimizer {
                 0x00, 0x20, 0x01, 0x6a,
                 0x0b
             ]);
-            const module = await WebAssembly.instantiate(wasmCode);
-            if (module.instance.exports.add) {
-                console.log('✅ WebAssembly inicializado correctamente');
-                this.initialized = true;
-                document.getElementById('wasmStatus').textContent = '✅ Activo';
-                document.getElementById('wasmStatus').style.color = '#10b981';
-                document.getElementById('wasmWidgetStatusText').textContent = '✅ Activo';
-                document.getElementById('wasmWidgetStatusText').style.color = '#10b981';
-                return true;
-            }
+            await WebAssembly.instantiate(wasmCode);
             this.initialized = true;
-            console.log('✅ WebAssembly inicializado (modo simulado)');
-            document.getElementById('wasmStatus').textContent = '⚠️ Simulado';
-            document.getElementById('wasmStatus').style.color = '#f59e0b';
-            document.getElementById('wasmWidgetStatusText').textContent = '⚠️ Simulado';
-            document.getElementById('wasmWidgetStatusText').style.color = '#f59e0b';
+            console.log('✅ WebAssembly inicializado');
+            document.getElementById('wasmStatus').textContent = '✅ Activo';
+            document.getElementById('wasmStatus').style.color = '#10b981';
+            document.getElementById('wasmWidgetStatusText').textContent = '✅ Activo';
+            document.getElementById('wasmWidgetStatusText').style.color = '#10b981';
             return true;
         } catch (error) {
-            console.warn('⚠️ Error en WebAssembly, usando modo JS:', error.message);
+            console.warn('⚠️ Error en WebAssembly:', error.message);
             this.initialized = true;
             document.getElementById('wasmStatus').textContent = '⚠️ JS Fallback';
             document.getElementById('wasmStatus').style.color = '#f59e0b';
@@ -244,32 +261,27 @@ class WASMOptimizer {
         }
     }
 
-    optimizeText(text) {
+    cleanText(text) {
         const inicio = performance.now();
-        if (!text || text.length < 50) return text;
-        let optimized = text;
-        if (this.initialized) {
-            try {
-                optimized = this.optimizeTextJS(text);
-                this.stats.optimizaciones++;
-            } catch (e) {
-                optimized = this.optimizeTextJS(text);
-            }
-        } else {
-            optimized = this.optimizeTextJS(text);
-        }
-        const fin = performance.now();
-        this.stats.tiempoTotal += (fin - inicio);
-        return optimized;
-    }
-
-    optimizeTextJS(text) {
-        if (!text || text.length < 50) return text;
+        if (!text) return text;
+        
         let result = text;
+        // Eliminar asteriscos
+        result = result.replace(/\*\*(.*?)\*\*/g, '$1');
+        result = result.replace(/\*(.*?)\*/g, '$1');
+        // Eliminar guiones bajos
+        result = result.replace(/__(.*?)__/g, '$1');
+        result = result.replace(/_(.*?)_/g, '$1');
+        // Eliminar hashtags
+        result = result.replace(/#(.*?)(\s|$)/g, '$1$2');
+        // Limpiar espacios
         result = result.replace(/\s+/g, ' ');
         result = result.replace(/\s+([.,;:!?])/g, '$1');
         result = result.replace(/\.\s*([a-z])/g, (_, c) => '. ' + c.toUpperCase());
         result = result.replace(/\n\s*\n/g, '\n\n');
+        
+        this.stats.optimizaciones++;
+        this.stats.tiempoTotal += (performance.now() - inicio);
         return result;
     }
 
@@ -278,21 +290,6 @@ class WASMOptimizer {
 
 const wasm = new WASMOptimizer();
 wasm.init();
-
-// ============================================
-// CONFIGURACIÓN
-// ============================================
-// URL DEL AGENTE CON 12 FUENTES + MISTRAL
-const CLOUDFLARE_AI_URL = 'https://agente-buscador.odandoolugan.workers.dev';
-const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
-const PAIS_FIJO = 'francia';
-
-let cloudflareConectado = true;
-let modo = localStorage.getItem('humanize_modo') || 'experto';
-let ultimoTextoHumanizado = '';
-let referenciasAcademicas = [];
-let procesando = false;
-let contenidoWord = '', nombreWord = '', textoHumanizadoWord = '';
 
 // ============================================
 // 12 FUENTES GRATUITAS SIN API KEY
@@ -476,18 +473,22 @@ const exporter = new Exporter();
 // ============================================
 // FUNCIONES UTILITARIAS
 // ============================================
-function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
+function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#8b5cf6'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
 
 function mostrarModal(titulo, contenido) {
     const modal = document.createElement('div'); modal.className = 'modal-overlay';
-    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div><button class="temas-btn" onclick="cargarTemasHumanize(this, '${titulo.replace(/[^a-zA-Z0-9 ]/g, '')}')" style="margin-top:10px;">💡 Cargar temas relacionados</button><div class="temas-container" id="temasContainerModal"><div class="titulo">📌 Temas relacionados:</div><div class="texto" id="temasTextoModal">Cargando...</div></div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">Cerrar</button></div>`;
+    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;">${contenido}</div><button class="temas-btn" onclick="cargarTemasHumanize(this, '${titulo.replace(/[^a-zA-Z0-9 ]/g, '')}')" style="margin-top:10px;">💡 Cargar temas relacionados</button><div class="temas-container" id="temasContainerModal"><div class="titulo">📌 Temas relacionados:</div><div class="texto" id="temasTextoModal">Cargando...</div></div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">Cerrar</button></div>`;
     document.body.appendChild(modal);
     const textoDiv = modal.querySelector('#modalTexto');
-    typeWriter(textoDiv, contenido, 15);
+    textoDiv.innerHTML = contenido;
     modal.querySelector('.modal-close').onclick = () => modal.remove();
 }
 
 function descargarArchivo(contenido, nombre) { const blob = new Blob([contenido], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = nombre; a.click(); URL.revokeObjectURL(url); }
+
+function actualizarProgress(porcentaje) {
+    document.getElementById('progressBar').style.width = `${Math.min(100, porcentaje)}%`;
+}
 
 function actualizarMetricas() {
     document.getElementById('metricMemoria').textContent = '1';
@@ -530,26 +531,6 @@ function mostrarBotonesExportacion() {
 }
 
 // ============================================
-// EFECTO MÁQUINA DE ESCRIBIR
-// ============================================
-function typeWriter(element, text, speed = 15) {
-    element.innerHTML = '';
-    let i = 0;
-    return new Promise((resolve) => {
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            } else {
-                resolve();
-            }
-        }
-        type();
-    });
-}
-
-// ============================================
 // FUNCIÓN PARA CARGAR TEMAS RELACIONADOS (BAJO DEMANDA)
 // ============================================
 window.cargarTemasHumanize = async function(btn, tema) {
@@ -560,19 +541,24 @@ window.cargarTemasHumanize = async function(btn, tema) {
     btn.textContent = '⏳ Cargando...';
     container.classList.add('visible');
     textoDiv.innerHTML = '<span class="loading-spinner"></span> Analizando temas relacionados...';
+    actualizarProgress(10);
     
     try {
         const prompt = `Genera 3 temas de investigación o escritura relacionados con "${tema}" desde la perspectiva de la literatura francesa. Temas sobre estilo, comunicación o humanización de textos. Proporciona solo los títulos.`;
         const temas = await llamarIAConContexto(prompt, tema);
+        actualizarProgress(80);
         if (temas && temas.length > 10) {
             const stats = wasm.getStats();
             textoDiv.innerHTML = temas;
+            actualizarProgress(100);
             showToast(`✅ Temas relacionados · WASM (${stats.optimizaciones} optimizaciones)`);
         } else {
             textoDiv.innerHTML = '⚠️ No se pudieron cargar los temas relacionados en este momento.';
+            actualizarProgress(0);
         }
     } catch (e) {
         textoDiv.innerHTML = '❌ Error al cargar temas relacionados.';
+        actualizarProgress(0);
     } finally {
         btn.disabled = false;
         btn.textContent = '💡 Cargar temas relacionados';
@@ -580,7 +566,7 @@ window.cargarTemasHumanize = async function(btn, tema) {
 };
 
 // ============================================
-// FUNCIÓN DE LLAMADA A CLOUDFLARE AI CON PROMPT DE ESCRITOR FRANCÉS
+// FUNCIÓN DE LLAMADA A MISTRAL AI - ESCRITOR FRANCÉS
 // ============================================
 async function llamarIAConContexto(prompt, textoOriginal = '') {
     try {
@@ -605,16 +591,17 @@ async function llamarIAConContexto(prompt, textoOriginal = '') {
             }
         }
 
-        // PROMPT DE ESCRITOR PROFESIONAL FRANCÉS (EXTENDIDO)
-        const promptCompleto = `${contextoAcademico}
+        // PROMPT SEGÚN MODO
+        let promptCompleto;
+        let maxTokens;
+
+        if (modoActual === 'experto') {
+            promptCompleto = `
+Actúa como un escritor profesional francés con amplia experiencia en estilo y comunicación.
+
+${contextoAcademico}
+
 ${prompt}
-═══════════════════════════════════════════════════════════
-✍️ ROL: ESCRITOR PROFESIONAL FRANCÉS
-═══════════════════════════════════════════════════════════
-
-⚠️ INSTRUCCIONES OBLIGATORIAS:
-
-📊 EXTENSIÓN: Mínimo 400-700 palabras.
 
 📋 ESTRUCTURA OBLIGATORIA:
    1️⃣ Gancho inicial (frase que invite a leer)
@@ -631,40 +618,77 @@ ${prompt}
 
 🎯 TONO: Cercano y conversacional, como un experto en un café.
 
+Extensión: 400-700 palabras.
+NO uses asteriscos ni formato especial.
+
 Empieza con una frase gancho y termina con un cierre natural.`;
+            maxTokens = 4000;
+        } else {
+            promptCompleto = `
+Actúa como escritor profesional.
 
-        console.log('📚 Enviando prompt a Cloudflare AI');
-        console.log('🇫🇷 Enfoque geográfico fijo:', PAIS_FIJO);
+${contextoAcademico}
 
-        // ⏱️ TIMEOUT DE 60 SEGUNDOS
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 60000);
+${prompt}
 
-        const response = await fetch(CLOUDFLARE_AI_URL, {
+Estructura:
+1. Gancho inicial
+2. Desarrollo narrativo
+3. Cierre natural
+
+Extensión: 200-400 palabras.
+NO uses asteriscos ni formato especial.
+
+Empieza con una frase gancho y termina con un cierre natural.`;
+            maxTokens = 1500;
+        }
+
+        console.log(`📚 Enviando prompt a Mistral AI (${modoActual})`);
+        console.log('🇫🇷 Enfoque geográfico:', PAIS_FIJO);
+        actualizarProgress(30);
+
+        const response = await fetch(MISTRAL_API_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pregunta: promptCompleto }),
-            signal: controller.signal
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${MISTRAL_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'mistral-large-latest',
+                messages: [
+                    { 
+                        role: 'system', 
+                        content: 'Eres un escritor profesional francés experto en estilo y comunicación. Responde en español con fluidez y naturalidad. NO uses asteriscos ni formato especial.' 
+                    },
+                    { role: 'user', content: promptCompleto }
+                ],
+                temperature: 0.7,
+                max_tokens: maxTokens
+            })
         });
 
-        clearTimeout(timeoutId);
+        actualizarProgress(60);
 
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const text = await response.text();
-
-        if (text && text.length > 50) {
-            cloudflareConectado = true;
-            document.getElementById('cfStatus').textContent = '✅';
-            
-            // Optimizar con WebAssembly
-            const textoOptimizado = wasm.optimizeText(text);
-            return textoOptimizado;
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error?.message || `Error ${response.status}`);
         }
-        throw new Error('Respuesta vacía');
+
+        const data = await response.json();
+        let text = data.choices?.[0]?.message?.content || '';
+
+        if (text && text.length > 20) {
+            document.getElementById('cfStatus').textContent = '✅ Activo';
+            document.getElementById('cfStatus').style.color = '#10b981';
+            actualizarProgress(80);
+            // Optimizar con WebAssembly
+            return wasm.cleanText(text);
+        }
+        throw new Error('respuesta vacía');
     } catch(e) {
-        console.warn('⚠️ Error en llamada IA:', e.message);
-        cloudflareConectado = true;
-        document.getElementById('cfStatus').textContent = '✅';
+        console.warn('⚠️ Error en llamada Mistral:', e.message);
+        document.getElementById('cfStatus').textContent = '⚠️ Error';
+        document.getElementById('cfStatus').style.color = '#f59e0b';
         return null;
     }
 }
@@ -674,20 +698,24 @@ async function llamarIA(prompt) {
 }
 
 // ============================================
-// HERRAMIENTAS (CON BOTÓN DE TEMAS RELACIONADOS)
+// HERRAMIENTAS
 // ============================================
 async function herramienta(prompt, titulo) {
     const texto = document.getElementById('inputText').value.trim();
     if (!texto) { showToast('Primero escribe un texto', true); return; }
     showToast(`⏳ ${titulo}...`);
+    actualizarProgress(10);
+    
     const stats = wasm.getStats();
     const resultado = await llamarIAConContexto(prompt, texto);
+    actualizarProgress(80);
+    
     if (resultado) {
         const modal = document.createElement('div'); modal.className = 'modal-overlay';
         modal.innerHTML = `
             <div class="modal-content">
                 <h3>${titulo}</h3>
-                <div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div>
+                <div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;">${resultado}</div>
                 <button class="temas-btn" onclick="cargarTemasHumanize(this, '${prompt.substring(0, 50)}')" style="margin-top:10px;">💡 Cargar temas relacionados</button>
                 <div class="temas-container" id="temasContainerModal">
                     <div class="titulo">📌 Temas relacionados:</div>
@@ -696,11 +724,12 @@ async function herramienta(prompt, titulo) {
                 <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">Cerrar</button>
             </div>`;
         document.body.appendChild(modal);
-        const textoDiv = modal.querySelector('#modalTexto');
-        await typeWriter(textoDiv, resultado, 15);
+        actualizarProgress(100);
         showToast(`✅ ${titulo} · ${resultado.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇫🇷`);
+        setTimeout(() => actualizarProgress(0), 2000);
     } else {
         showToast('❌ No se pudo procesar', true);
+        actualizarProgress(0);
     }
 }
 
@@ -773,14 +802,39 @@ document.getElementById('btnTermuxStatus').addEventListener('click', () => {
     const stats = wasm.getStats();
     mostrarModal('🔌 ESTADO', 
         `=== ESTADO DEL SISTEMA ===\n` +
-        `⚡ Cloudflare AI: ✅ Conectado (Sin caídas)\n` +
+        `⚡ Mistral AI: ✅ Conectado (Sin Cloudflare)\n` +
         `⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
         `📊 Optimizaciones: ${stats.optimizaciones}\n` +
         `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
         `💾 Caché: ${cache.getStats().total} entradas\n` +
         `📚 Fuentes: 12 activas\n` +
+        `📌 Modo: ${modoActual === 'experto' ? '🧠 Experto (4000 tokens)' : '⚡ Básico (1500 tokens)'}\n` +
         `🇫🇷 Enfoque: ${PAIS_FIJO}`
     );
+});
+
+// ============================================
+// SELECTOR DE MODO
+// ============================================
+document.querySelectorAll('.modo-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.modo-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        modoActual = this.dataset.modo;
+        const indicator = document.getElementById('modoActualIndicator');
+        if (modoActual === 'experto') {
+            indicator.textContent = '🧠 Experto (4000 tokens)';
+            indicator.className = 'modo-activo-indicator modo-experto';
+            document.getElementById('modoStatus').textContent = '🧠 Experto';
+            document.getElementById('modoStatus').style.color = '#a78bfa';
+        } else {
+            indicator.textContent = '⚡ Básico (1500 tokens)';
+            indicator.className = 'modo-activo-indicator modo-basico';
+            document.getElementById('modoStatus').textContent = '⚡ Básico';
+            document.getElementById('modoStatus').style.color = '#f97316';
+        }
+        showToast(`✨ Modo ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
+    });
 });
 
 // ============================================
@@ -796,8 +850,7 @@ async function humanizarConLector(texto) {
     const cached = await cache.getCachedText(textHash);
     if (cached) return cached;
     
-    try {
-        const prompt = `Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural, fluido y cercano. Usa lenguaje coloquial, varía estructura, añade ejemplos si es útil. Estilo de escritor francés profesional.
+    const prompt = `Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural, fluido y cercano. Usa lenguaje coloquial, varía estructura, añade ejemplos si es útil. Estilo de escritor francés profesional.
         
 Texto original: "${texto.substring(0, 3000)}"
         
@@ -808,15 +861,15 @@ Instrucciones detalladas:
 - Incluye ejemplos o explicaciones cuando sea útil.
 - Mantén el tono profesional pero cercano.
 - Extensión: similar al original o ligeramente mayor.
-- Enfoque en la elegancia del estilo francés.`;
+- Enfoque en la elegancia del estilo francés.
+- NO uses asteriscos ni formato especial.`;
 
-        const resultado = await llamarIAConContexto(prompt, texto);
-        if (resultado && resultado.length > 50) { 
-            const stats = wasm.getStats();
-            await cache.cacheText(textHash, resultado); 
-            return resultado;
-        }
-    } catch(e) {}
+    const resultado = await llamarIAConContexto(prompt, texto);
+    if (resultado && resultado.length > 50) { 
+        const stats = wasm.getStats();
+        await cache.cacheText(textHash, resultado); 
+        return resultado;
+    }
     
     const humanizado = `📝 TEXTO HUMANIZADO:\n\n${texto}`;
     await cache.cacheText(textHash, humanizado);
@@ -829,17 +882,21 @@ processBtn.addEventListener('click', async () => {
     if (procesando) return;
     procesando = true; processBtn.disabled = true;
     processBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando...';
+    actualizarProgress(10);
     
     try {
         const resultado = await humanizarConLector(texto);
+        actualizarProgress(80);
         ultimoTextoHumanizado = resultado;
         const q = analyzer.analyzeQuality(resultado);
         const stats = wasm.getStats();
         resultDiv.innerHTML = `<span class="quality-badge quality-${q.qualityLevel}">${q.qualityScore}%</span>${resultado}`;
         actualizarWidgets(resultado);
         mostrarBotonesExportacion();
+        actualizarProgress(100);
         showToast(`✅ Texto humanizado · Calidad: ${q.qualityScore}% · ${resultado.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇫🇷`);
-    } catch(e) { showToast("❌ Error", true); }
+        setTimeout(() => actualizarProgress(0), 2000);
+    } catch(e) { showToast("❌ Error", true); actualizarProgress(0); }
     finally { procesando = false; processBtn.disabled = false; processBtn.innerHTML = "✨ HUMANIZAR TEXTO"; }
 });
 
@@ -876,6 +933,7 @@ humanizarWordBtn.onclick = async () => {
     if (!contenidoWord) return;
     humanizarWordBtn.disabled = true;
     humanizarWordBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando...';
+    actualizarProgress(10);
     try {
         textoHumanizadoWord = await humanizarConLector(contenidoWord);
         const stats = wasm.getStats();
@@ -883,9 +941,11 @@ humanizarWordBtn.onclick = async () => {
         ultimoTextoHumanizado = textoHumanizadoWord;
         actualizarWidgets(textoHumanizadoWord);
         mostrarBotonesExportacion();
+        actualizarProgress(100);
         descargarWordBtn.style.display = 'inline-block'; descargarWordBtn.disabled = false;
         showToast(`✅ Documento humanizado · ${textoHumanizadoWord.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇫🇷`);
-    } catch(e) { showToast('❌ Error', true); }
+        setTimeout(() => actualizarProgress(0), 2000);
+    } catch(e) { showToast('❌ Error', true); actualizarProgress(0); }
     finally { humanizarWordBtn.disabled = false; humanizarWordBtn.innerHTML = '✨ HUMANIZAR DOCUMENTO'; }
 };
 
@@ -914,21 +974,12 @@ descargarWordBtn.onclick = async () => {
 // ============================================
 // INICIALIZACIÓN
 // ============================================
-function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
-document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('humanize_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
-actualizarModoUI();
-
-async function verificarCloudflare() {
-    try { const r = await fetch(CLOUDFLARE_AI_URL); if (r.ok) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; } } catch(e) { cloudflareConectado = true; document.getElementById('cfStatus').textContent = '✅'; }
-}
-
 function init() {
     console.log(`🇫🇷 Enfoque geográfico fijo: ${PAIS_FIJO}`);
     console.log(`⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}`);
+    console.log(`🧠 Modo Experto: 4000 tokens | ⚡ Modo Básico: 1500 tokens`);
     actualizarMetricas();
-    verificarCloudflare();
-    setInterval(verificarCloudflare, 60000);
-    showToast(`☁️ Humanize Deep · Cloudflare AI · WASM · 12 Fuentes · IndexedDB · 14 herramientas · 🇫🇷 Enfoque ${PAIS_FIJO}`);
+    showToast(`☁️ Humanize Deep · Mistral AI · WASM · 12 Fuentes · IndexedDB · 14 herramientas · 🇫🇷 Enfoque ${PAIS_FIJO}`);
 }
 
 init();
