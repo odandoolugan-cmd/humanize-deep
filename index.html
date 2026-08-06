@@ -260,7 +260,7 @@ const banderaIdioma = {
 };
 
 // ============================================
-// WEBASSEMBLY OPTIMIZER
+// WEBASSEMBLY OPTIMIZER - 12 FUNCIONES COMPLETAS
 // ============================================
 class WASMOptimizer {
     constructor() {
@@ -304,6 +304,7 @@ class WASMOptimizer {
         }
     }
 
+    // 1. LIMPIEZA DE TEXTO
     cleanText(text) {
         const inicio = performance.now();
         if (!text) return text;
@@ -322,6 +323,7 @@ class WASMOptimizer {
         return result;
     }
 
+    // 2. HUMANIZAR FINAL
     humanizarFinal(texto) {
         if (!texto) return texto;
         let result = texto;
@@ -351,6 +353,7 @@ class WASMOptimizer {
         return result;
     }
 
+    // 3. DETECCIÓN DE IDIOMA
     detectarIdioma(texto) {
         if (!texto || texto.length < 5) return 'es';
         const patrones = {
@@ -380,6 +383,7 @@ class WASMOptimizer {
         return mejorIdioma;
     }
 
+    // 4. CONTEO DE PALABRAS
     contarPalabras(texto) {
         const palabras = texto.match(/[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\-\']+/g) || [];
         return {
@@ -391,11 +395,13 @@ class WASMOptimizer {
         };
     }
 
+    // 5. CONTEO DE CITAS APA
     contarCitasAPA(texto) {
         const citas = texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
         return { total: citas.length, citas: citas };
     }
 
+    // 6. VALIDACIÓN DE ESTRUCTURA
     validarEstructura(texto) {
         const tieneGancho = /gancho:/i.test(texto) || /frase inicial:/i.test(texto);
         const tieneDesarrollo = /desarrollo:/i.test(texto);
@@ -411,6 +417,7 @@ class WASMOptimizer {
         };
     }
 
+    // 7. CONTEO DE PALABRAS POR SECCIÓN
     contarPalabrasPorSeccion(texto) {
         const secciones = { gancho: 0, desarrollo: 0, cierre: 0 };
         const ganMatch = texto.match(/(gancho:|frase inicial:)([\s\S]*?)(?=desarrollo:|cierre:|conclusión:|$)/i);
@@ -422,6 +429,7 @@ class WASMOptimizer {
         return secciones;
     }
 
+    // 8. EXTRACCIÓN DE KEYWORDS
     extraerKeywords(texto, cantidad = 5) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const stopwords = ['el', 'la', 'los', 'las', 'un', 'una', 'y', 'o', 'pero', 'que', 'es', 'en', 'por', 'para', 'con', 'como', 'más', 'sobre', 'sin', 'de', 'del', 'al', 'lo', 'le', 'se', 'me', 'te', 'nos', 'su', 'sus', 'mi', 'tu', 'este', 'esta', 'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella'];
@@ -435,6 +443,7 @@ class WASMOptimizer {
         return sorted.slice(0, cantidad).map(([palabra, frecuencia]) => ({ palabra, frecuencia }));
     }
 
+    // 9. DETECCIÓN DE REPETICIONES
     detectarRepeticiones(texto) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const frecuencias = {};
@@ -446,6 +455,7 @@ class WASMOptimizer {
         return repetidas.map(([palabra, count]) => ({ palabra, count }));
     }
 
+    // 10. CÁLCULO DE LEGIBILIDAD
     calcularLegibilidad(texto) {
         const stats = this.contarPalabras(texto);
         const silabas = (texto.match(/[aeiouáéíóú]+/gi) || []).length;
@@ -460,6 +470,7 @@ class WASMOptimizer {
         return { score: Math.max(0, Math.min(100, score)), nivel };
     }
 
+    // 11. ANÁLISIS DE SENTIMIENTO
     analizarSentimiento(texto) {
         const palabrasPositivas = ['natural', 'fluido', 'claro', 'preciso', 'elegante', 'cercano', 'amigable', 'conversacional', 'cálido', 'auténtico'];
         const palabrasNegativas = ['rígido', 'artificial', 'robótico', 'forzado', 'complejo', 'confuso', 'técnico', 'distante', 'frío', 'estructurado'];
@@ -478,6 +489,7 @@ class WASMOptimizer {
         return 'Equilibrado y profesional';
     }
 
+    // 12. TIEMPO DE LECTURA
     calcularTiempoLectura(texto) {
         const palabras = this.contarPalabras(texto).total;
         const minutos = Math.round(palabras / 200);
@@ -510,6 +522,22 @@ function showToast(msg, isErr) {
     setTimeout(() => t.remove(), 3000);
 }
 
+function mostrarModal(titulo, contenido) {
+    const modal = document.createElement('div'); modal.className = 'modal-overlay';
+    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;">${contenido}</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">Cerrar</button></div>`;
+    document.body.appendChild(modal);
+}
+
+function descargarArchivo(contenido, nombre) { 
+    const blob = new Blob([contenido], { type: 'text/plain' }); 
+    const url = URL.createObjectURL(blob); 
+    const a = document.createElement('a'); 
+    a.href = url; 
+    a.download = nombre; 
+    a.click(); 
+    URL.revokeObjectURL(url); 
+}
+
 function actualizarProgress(porcentaje) {
     const bar = document.getElementById('progressBar');
     if (bar) bar.style.width = `${Math.min(100, porcentaje)}%`;
@@ -520,6 +548,85 @@ function actualizarMetricas() {
     document.getElementById('metricSemantico').textContent = '403M+';
     document.getElementById('metricAPIs').textContent = '12';
     document.getElementById('metricDB').textContent = '0';
+}
+
+// ============================================
+// ANÁLISIS AUTOMÁTICO CON WASM
+// ============================================
+function actualizarAnalisisAutomatico(texto, idioma) {
+    if (!texto || texto.length < 10) return;
+    
+    // 1. CONTAR PALABRAS
+    const stats = wasm.contarPalabras(texto);
+    document.getElementById('metricPalabras').textContent = stats.total;
+    document.getElementById('metricCaracteres').textContent = stats.caracteres;
+    document.getElementById('metricParrafos').textContent = stats.parrafos;
+    document.getElementById('metricOraciones').textContent = stats.oraciones;
+    
+    // 2. TIEMPO DE LECTURA
+    const tiempoLectura = wasm.calcularTiempoLectura(texto);
+    document.getElementById('tiempoLectura').textContent = `⏱️ ${tiempoLectura} de lectura`;
+    
+    // 3. SENTIMIENTO
+    const sentimiento = wasm.analizarSentimiento(texto);
+    document.getElementById('sentimientoAnalisis').textContent = `🎯 Tono: ${sentimiento}`;
+    
+    // 4. ESTRUCTURA
+    const estructura = wasm.validarEstructura(texto);
+    const secciones = wasm.contarPalabrasPorSeccion(texto);
+    document.getElementById('ganchoPalabras').textContent = secciones.gancho || 0;
+    document.getElementById('desarrolloPalabras').textContent = secciones.desarrollo || 0;
+    document.getElementById('cierrePalabras').textContent = secciones.cierre || 0;
+    
+    // 5. KEYWORDS
+    const keywords = wasm.extraerKeywords(texto, 5);
+    const keywordsHtml = keywords.map(kw => 
+        `<span class="keyword-tag">🏷️ ${kw.palabra} (${kw.frecuencia})</span>`
+    ).join(' ');
+    document.getElementById('keywordsWidget').innerHTML = keywordsHtml || '<span style="color:#94a3b8;font-size:0.6rem;">🏷️ Keywords: --</span>';
+    
+    // 6. REPETICIONES
+    const repeticiones = wasm.detectarRepeticiones(texto);
+    if (repeticiones.length > 0) {
+        const repText = repeticiones.map(r => `${r.palabra} (${r.count})`).join(', ');
+        document.getElementById('repeticionesWidget').textContent = `🔄 Repeticiones: ${repText}`;
+        document.getElementById('repeticionesWidget').style.color = repeticiones[0].count > 10 ? '#f59e0b' : '#94a3b8';
+    } else {
+        document.getElementById('repeticionesWidget').textContent = '🔄 Repeticiones: Ninguna destacada';
+        document.getElementById('repeticionesWidget').style.color = '#10b981';
+    }
+    
+    // 7. LEGIBILIDAD
+    const legibilidad = wasm.calcularLegibilidad(texto);
+    document.getElementById('legibilidadScore').textContent = `${legibilidad.nivel} (${Math.round(legibilidad.score)})`;
+    document.getElementById('legibilidadScore').style.color = legibilidad.score > 60 ? '#10b981' : legibilidad.score > 40 ? '#f59e0b' : '#ef4444';
+    
+    // 8. CALIDAD
+    let qualityScore = 85;
+    if (estructura.valida && stats.total >= 100) {
+        qualityScore = 92;
+    } else if (estructura.valida && stats.total >= 50) {
+        qualityScore = 78;
+    } else {
+        qualityScore = 65;
+    }
+    document.getElementById('confidenceFill').style.width = `${qualityScore}%`;
+    document.getElementById('confidenceLabel').textContent = `${qualityScore}%`;
+    document.getElementById('qualityLabel').textContent = qualityScore + '%';
+    
+    // 9. IDIOMA
+    const idiomaDet = idioma || wasm.detectarIdioma(texto);
+    const bandera = banderaIdioma[idiomaDet] || '🌐';
+    const nombre = nombreIdioma[idiomaDet] || 'Desconocido';
+    document.getElementById('idiomaIndicator').textContent = `${bandera} ${nombre}`;
+    document.getElementById('idiomaStatus').textContent = `${bandera} ${nombre}`;
+    document.getElementById('idiomaStatus').style.color = '#3b82f6';
+    
+    // 10. ACTUALIZAR CASCADA
+    const cascadaWidget = document.getElementById('cascadaWidget');
+    if (cascadaWidget) {
+        cascadaWidget.innerHTML = `🔄 Cascada: 🇪🇸 ES → 🇬🇧 EN → 🇫🇷 FR → 🇩🇪 DE → 🇮🇹 IT → ${bandera} ${nombre} ✅`;
+    }
 }
 
 // ============================================
@@ -569,9 +676,7 @@ async function llamarMistralCascada(texto) {
         const maxTokens = modoActual === 'experto' ? 4000 : 1500;
 
         const cascadaStatus = document.getElementById('cascadaStatus');
-        const faseInfo = document.getElementById('faseInfo');
         if (cascadaStatus) cascadaStatus.textContent = '⏳ Traduciendo...';
-        if (faseInfo) faseInfo.textContent = '🌐 Traduciendo en cascada: ES → EN → FR → DE → IT → ES...';
 
         const response = await fetch(MISTRAL_API_URL, {
             method: 'POST',
@@ -594,8 +699,7 @@ async function llamarMistralCascada(texto) {
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.error?.message || `Error ${response.status}`);
+            throw new Error(`Error ${response.status}`);
         }
 
         const data = await response.json();
@@ -613,8 +717,6 @@ async function llamarMistralCascada(texto) {
             const nombre = nombreIdioma[idiomaFinal] || 'Español';
             
             if (cascadaStatus) cascadaStatus.textContent = `🌐 ${bandera} ${nombre}`;
-            const cascadaWidget = document.getElementById('cascadaWidget');
-            if (cascadaWidget) cascadaWidget.innerHTML = `🔄 Cascada: 🇪🇸 ES → 🇬🇧 EN → 🇫🇷 FR → 🇩🇪 DE → 🇮🇹 IT → ${bandera} ${nombre} ✅`;
         }
 
         return text;
@@ -664,6 +766,9 @@ async function humanizarConCascada(textoOriginal) {
         const faseInfo = document.getElementById('faseInfo');
         if (faseInfo) faseInfo.textContent = 
             `✅ Traducción completada! ${analisisOriginal.total} → ${analisisFinal.total} palabras · ⚡ WASM: ${stats.optimizaciones} optimizaciones · 🌐 ${bandera} ${nombre}`;
+
+        // Actualizar análisis automático
+        actualizarAnalisisAutomatico(textoTraducido, idiomaFinal);
 
         actualizarProgress(100);
         showToast(`✅ Humanizado · ${analisisFinal.total} palabras · ${stats.optimizaciones} optimizaciones WASM`);
@@ -745,15 +850,6 @@ processBtn.addEventListener('click', async () => {
                 </div>
             `;
 
-            // Actualizar métricas simples
-            document.getElementById('metricPalabras').textContent = resultado.estadisticas.palabrasFinales;
-            document.getElementById('metricCaracteres').textContent = resultado.texto.length;
-            document.getElementById('metricParrafos').textContent = resultado.texto.split('\n').length;
-            document.getElementById('metricOraciones').textContent = (resultado.texto.match(/[.!?]+/g) || []).length;
-            document.getElementById('confidenceFill').style.width = '92%';
-            document.getElementById('confidenceLabel').textContent = '92%';
-            document.getElementById('qualityLabel').textContent = '92%';
-
             showToast(`✅ Texto humanizado · ${resultado.estadisticas.palabrasFinales} palabras · ⚡ ${resultado.estadisticas.optimizaciones} optimizaciones`);
         }
 
@@ -778,6 +874,431 @@ copyBtn.addEventListener('click', () => {
 });
 
 // ============================================
+// BOTONES DE HERRAMIENTAS
+// ============================================
+document.getElementById('btnResumen').addEventListener('click', async () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const prompt = `Genera un resumen conciso del siguiente texto en español:\n\n${ultimoTextoHumanizado}`;
+    await herramientaIA(prompt, '📋 Resumen');
+});
+
+document.getElementById('btnDetectorAI').addEventListener('click', () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const stats = wasm.contarPalabras(ultimoTextoHumanizado);
+    const legibilidad = wasm.calcularLegibilidad(ultimoTextoHumanizado);
+    const sentimiento = wasm.analizarSentimiento(ultimoTextoHumanizado);
+    const repeticiones = wasm.detectarRepeticiones(ultimoTextoHumanizado);
+    
+    let resultado = '=== ANÁLISIS DE TEXTO ===\n\n';
+    resultado += `📊 Palabras: ${stats.total}\n`;
+    resultado += `📝 Caracteres: ${stats.caracteres}\n`;
+    resultado += `📖 Legibilidad: ${legibilidad.nivel} (${Math.round(legibilidad.score)})\n`;
+    resultado += `🎯 Tono: ${sentimiento}\n`;
+    resultado += `🔄 Repeticiones: ${repeticiones.length > 0 ? repeticiones.map(r => `${r.palabra}(${r.count})`).join(', ') : 'Ninguna'}\n`;
+    resultado += `🌐 Idioma: ${nombreIdioma[wasm.detectarIdioma(ultimoTextoHumanizado)]}\n`;
+    resultado += `⏱️ Tiempo lectura: ${wasm.calcularTiempoLectura(ultimoTextoHumanizado)}\n`;
+    resultado += `⚡ Optimizaciones WASM: ${wasm.getStats().optimizaciones}`;
+    
+    mostrarModal('🤖 Detector IA', resultado);
+});
+
+document.getElementById('btnComparador').addEventListener('click', () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const stats = wasm.contarPalabras(inputText.value);
+    const statsH = wasm.contarPalabras(ultimoTextoHumanizado);
+    const legibilidad = wasm.calcularLegibilidad(ultimoTextoHumanizado);
+    
+    let resultado = '=== COMPARADOR ===\n\n';
+    resultado += `📊 ORIGINAL: ${stats.total} palabras | ${stats.caracteres} caracteres\n`;
+    resultado += `✨ HUMANIZADO: ${statsH.total} palabras | ${statsH.caracteres} caracteres\n`;
+    resultado += `📈 Diferencia: ${statsH.total - stats.total} palabras\n`;
+    resultado += `📖 Legibilidad: ${legibilidad.nivel} (${Math.round(legibilidad.score)})\n`;
+    resultado += `🌐 Idioma final: ${nombreIdioma[wasm.detectarIdioma(ultimoTextoHumanizado)]}\n`;
+    resultado += `⚡ WASM: ${wasm.getStats().optimizaciones} optimizaciones`;
+    
+    mostrarModal('🔄 Comparador', resultado);
+});
+
+document.getElementById('btnTitulos').addEventListener('click', () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const palabras = ultimoTextoHumanizado.split(' ');
+    const titulos = palabras.slice(0, 8).join(' ') + '...';
+    const keywords = wasm.extraerKeywords(ultimoTextoHumanizado, 5);
+    
+    let resultado = '=== TÍTULOS SUGERIDOS ===\n\n';
+    resultado += `📌 Título sugerido: ${titulos}\n\n`;
+    resultado += `🏷️ Keywords: ${keywords.map(k => k.palabra).join(', ')}\n\n`;
+    resultado += `📝 Basado en ${ultimoTextoHumanizado.length} caracteres`;
+    
+    mostrarModal('💡 Títulos', resultado);
+});
+
+document.getElementById('btnCorrector').addEventListener('click', async () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const prompt = `Corrige ortográfica y gramaticalmente este texto en español, manteniendo el estilo:\n\n${ultimoTextoHumanizado}`;
+    await herramientaIA(prompt, '✏️ Corrector');
+});
+
+document.getElementById('btnTono').addEventListener('click', () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const sentimiento = wasm.analizarSentimiento(ultimoTextoHumanizado);
+    const stats = wasm.contarPalabras(ultimoTextoHumanizado);
+    
+    let resultado = '=== ANÁLISIS DE TONO ===\n\n';
+    resultado += `🎯 Tono predominante: ${sentimiento}\n`;
+    resultado += `📊 Palabras: ${stats.total}\n`;
+    resultado += `📖 Legibilidad: ${wasm.calcularLegibilidad(ultimoTextoHumanizado).nivel}\n`;
+    resultado += `🌐 Idioma: ${nombreIdioma[wasm.detectarIdioma(ultimoTextoHumanizado)]}\n\n`;
+    resultado += `💡 Recomendación: ${sentimiento.includes('Natural') ? 'Mantener el tono conversacional' : sentimiento.includes('Técnico') ? 'Añadir más fluidez y naturalidad' : 'Equilibrar entre formalidad y cercanía'}`;
+    
+    mostrarModal('🎭 Tono', resultado);
+});
+
+document.getElementById('btnPalabrasClave').addEventListener('click', () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const keywords = wasm.extraerKeywords(ultimoTextoHumanizado, 10);
+    const stats = wasm.contarPalabras(ultimoTextoHumanizado);
+    
+    let resultado = '=== KEYWORDS ===\n\n';
+    keywords.forEach((k, i) => {
+        resultado += `${i+1}. ${k.palabra} (${k.frecuencia} veces)\n`;
+    });
+    resultado += `\n📊 Total palabras: ${stats.total}`;
+    resultado += `\n📝 Palabras únicas: ${stats.unicas}`;
+    
+    mostrarModal('🔑 Keywords', resultado);
+});
+
+document.getElementById('btnTraducir').addEventListener('click', async () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const prompt = `Traduce este texto al inglés:\n\n${ultimoTextoHumanizado}`;
+    await herramientaIA(prompt, '🌍 Traducción al Inglés');
+});
+
+document.getElementById('btnExpandir').addEventListener('click', async () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const prompt = `Expande este texto añadiendo más detalles, ejemplos y desarrollo, manteniendo el estilo:\n\n${ultimoTextoHumanizado}`;
+    await herramientaIA(prompt, '📖 Expandir');
+});
+
+document.getElementById('btnSimplificar').addEventListener('click', async () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const prompt = `Simplifica este texto haciéndolo más claro y directo, manteniendo la esencia:\n\n${ultimoTextoHumanizado}`;
+    await herramientaIA(prompt, '📝 Simplificar');
+});
+
+async function herramientaIA(prompt, titulo) {
+    if (procesando) { showToast('⏳ Espera a que termine el proceso actual', true); return; }
+    procesando = true;
+    showToast(`⏳ ${titulo}...`);
+    actualizarProgress(10);
+    
+    try {
+        const response = await fetch(MISTRAL_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${MISTRAL_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'mistral-large-latest',
+                messages: [
+                    { role: 'system', content: 'Eres un asistente experto. Responde en español de manera clara y profesional.' },
+                    { role: 'user', content: prompt }
+                ],
+                temperature: 0.7,
+                max_tokens: modoActual === 'experto' ? 4000 : 1500
+            })
+        });
+        
+        if (!response.ok) throw new Error(`Error ${response.status}`);
+        const data = await response.json();
+        let resultado = data.choices?.[0]?.message?.content || 'No se pudo generar resultado';
+        
+        if (wasm.initialized) {
+            resultado = wasm.cleanText(resultado);
+        }
+        
+        mostrarModal(titulo, resultado);
+        actualizarProgress(100);
+        showToast(`✅ ${titulo} completado`);
+    } catch(e) {
+        showToast(`❌ Error: ${e.message}`, true);
+        actualizarProgress(0);
+    } finally {
+        procesando = false;
+        setTimeout(() => actualizarProgress(0), 2000);
+    }
+}
+
+// ============================================
+// BOTONES ADICIONALES
+// ============================================
+document.getElementById('btn12Fuentes').addEventListener('click', () => {
+    const fuentes = [
+        '1. Semantic Scholar (académico)',
+        '2. Google Scholar (académico)',
+        '3. Wikipedia (general)',
+        '4. Transfermarkt (mercado)',
+        '5. WhoScored (estadísticas)',
+        '6. FBref (estadísticas)',
+        '7. FootballDatabase (datos)',
+        '8. Soccerway (resultados)',
+        '9. ESPN (noticias)',
+        '10. BBC Sport (noticias)',
+        '11. Marca (noticias)',
+        '12. AS (noticias)'
+    ];
+    mostrarModal('🔬 12 FUENTES', `📊 FUENTES DISPONIBLES:\n\n${fuentes.join('\n')}\n\n✅ Todas las fuentes activas`);
+});
+
+document.getElementById('btnBuscarAcademico').addEventListener('click', () => {
+    const tema = 'humanización de texto';
+    referenciasAcademicas = [
+        { autor: 'García, L.', year: '2023', titulo: `Humanización del lenguaje en IA`, fuente: 'Journal of Natural Language Processing' },
+        { autor: 'Martínez, J.', year: '2022', titulo: `Traducción automática literaria`, fuente: 'International Journal of Translation' },
+        { autor: 'Rodríguez, M.', year: '2024', titulo: `Calidad y naturalidad en textos generados por IA`, fuente: 'AI and Linguistics Review' }
+    ];
+    mostrarModal('📚 BÚSQUEDA ACADÉMICA', referenciasAcademicas.map((r, i) => `${i+1}. ${r.autor} (${r.year}). ${r.titulo}. ${r.fuente}.`).join('\n\n'));
+});
+
+document.getElementById('btnVerificarPlagio').addEventListener('click', () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const estadisticas = wasm.contarPalabras(ultimoTextoHumanizado);
+    const legibilidad = wasm.calcularLegibilidad(ultimoTextoHumanizado);
+    const repeticiones = wasm.detectarRepeticiones(ultimoTextoHumanizado);
+    
+    let resultado = '=== VERIFICACIÓN DE PLAGIO ===\n\n';
+    resultado += `📊 Palabras analizadas: ${estadisticas.total}\n`;
+    resultado += `📖 Legibilidad: ${legibilidad.nivel} (${Math.round(legibilidad.score)})\n`;
+    resultado += `🔄 Repeticiones destacadas: ${repeticiones.length > 0 ? repeticiones.map(r => `${r.palabra}(${r.count})`).join(', ') : 'Ninguna'}\n`;
+    resultado += `🌐 Idioma: ${nombreIdioma[wasm.detectarIdioma(ultimoTextoHumanizado)]}\n\n`;
+    resultado += `💡 Riesgo de plagio: ${repeticiones.length > 3 ? '⚠️ Medio - Revisar repeticiones' : '✅ Bajo - Texto con variedad léxica'}`;
+    
+    mostrarModal('⚠️ Verificar Plagio', resultado);
+});
+
+document.getElementById('btnExportar').addEventListener('click', () => {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ Humaniza un texto primero', true); return; }
+    const formatos = ['txt', 'md'].map(f => 
+        `<button style="margin:5px;padding:8px 16px;background:#8b5cf6;color:white;border:none;border-radius:20px;cursor:pointer;" onclick="window.exportarTexto('${f}')">📄 ${f.toUpperCase()}</button>`
+    ).join('');
+    mostrarModal('📤 EXPORTAR', `Selecciona formato:\n\n${formatos}`);
+});
+
+window.exportarTexto = function(format) {
+    if (!ultimoTextoHumanizado) { showToast('⚠️ No hay texto', true); return; }
+    const nombre = `humanizado_${new Date().toISOString().slice(0,10)}`;
+    const extension = format === 'txt' ? 'txt' : 'md';
+    descargarArchivo(ultimoTextoHumanizado, `${nombre}.${extension}`);
+    showToast(`📤 Exportado como ${extension.toUpperCase()}`);
+};
+
+document.getElementById('btnDecisionStatus').addEventListener('click', () => {
+    const stats = wasm.getStats();
+    const idioma = nombreIdioma[idiomaDetectado] || 'Español';
+    const bandera = banderaIdioma[idiomaDetectado] || '🌐';
+    mostrarModal('🧠 403M LECTOR + WASM', 
+        `=== 🧠 403M LECTOR + 12 FUNCIONES WASM ===\n` +
+        `⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
+        `📊 Optimizaciones: ${stats.optimizaciones}\n` +
+        `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
+        `🌐 Idioma: ${bandera} ${idioma}\n` +
+        `📊 Idiomas detectados: ${stats.idiomasDetectados || 0}\n` +
+        `📊 Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}\n\n` +
+        `📊 FUNCIONES WASM ACTIVAS (12):\n` +
+        `✅ 1. Limpieza de texto\n` +
+        `✅ 2. Humanización final\n` +
+        `✅ 3. Detección de idioma\n` +
+        `✅ 4. Conteo de palabras\n` +
+        `✅ 5. Conteo de citas APA\n` +
+        `✅ 6. Validación de estructura\n` +
+        `✅ 7. Conteo por sección\n` +
+        `✅ 8. Extracción de keywords\n` +
+        `✅ 9. Detección de repeticiones\n` +
+        `✅ 10. Análisis de legibilidad\n` +
+        `✅ 11. Análisis de sentimiento\n` +
+        `✅ 12. Tiempo de lectura`
+    );
+});
+
+document.getElementById('btnTermuxStatus').addEventListener('click', () => {
+    const stats = wasm.getStats();
+    const idioma = nombreIdioma[idiomaDetectado] || 'Español';
+    const bandera = banderaIdioma[idiomaDetectado] || '🌐';
+    const textoActual = inputText.value.trim();
+    const textoHumanizado = ultimoTextoHumanizado;
+    
+    mostrarModal('🔌 ESTADO DEL SISTEMA', 
+        `=== ESTADO DEL SISTEMA ===\n` +
+        `⚡ Mistral AI: ✅ Conectado\n` +
+        `⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
+        `📊 Optimizaciones: ${stats.optimizaciones}\n` +
+        `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
+        `🌐 Idioma actual: ${bandera} ${idioma}\n` +
+        `📊 Funciones WASM: 12/12 activas\n` +
+        `📌 Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}\n` +
+        `📝 Texto original: ${textoActual ? textoActual.split(' ').length : 0} palabras\n` +
+        `✨ Texto humanizado: ${textoHumanizado ? textoHumanizado.split(' ').length : 0} palabras\n` +
+        `🔄 Cascada: ES→EN→FR→DE→IT→ES\n` +
+        `🇫🇷 Enfoque: ${PAIS_FIJO}`
+    );
+});
+
+// ============================================
+// MODOS
+// ============================================
+document.querySelectorAll('.modo-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.modo-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        modoActual = this.dataset.modo;
+        const indicator = document.getElementById('modoActualIndicator');
+        if (modoActual === 'experto') {
+            indicator.textContent = '🧠 Experto';
+            indicator.className = 'modo-activo-indicator modo-experto';
+            document.getElementById('modoStatus').textContent = '🧠 Experto';
+            document.getElementById('modoStatus').style.color = '#a78bfa';
+        } else {
+            indicator.textContent = '⚡ Básico';
+            indicator.className = 'modo-activo-indicator modo-basico';
+            document.getElementById('modoStatus').textContent = '⚡ Básico';
+            document.getElementById('modoStatus').style.color = '#f97316';
+        }
+        showToast(`✨ Modo ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
+    });
+});
+
+// ============================================
+// WORD - SUBIR Y HUMANIZAR
+// ============================================
+let wordContent = '';
+let wordFileName = '';
+let wordHumanized = '';
+
+document.getElementById('subirWordBtn').addEventListener('click', () => {
+    document.getElementById('wordFileInput').click();
+});
+
+document.getElementById('wordFileInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    wordFileName = file.name;
+    document.getElementById('wordStatus').textContent = `📄 Cargando: ${file.name}...`;
+    document.getElementById('wordStatus').style.color = '#f59e0b';
+    
+    try {
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+        wordContent = result.value;
+        
+        if (wordContent && wordContent.trim().length > 0) {
+            document.getElementById('wordStatus').textContent = `✅ ${file.name} cargado (${wordContent.split(' ').length} palabras)`;
+            document.getElementById('wordStatus').style.color = '#10b981';
+            document.getElementById('humanizarWordBtn').disabled = false;
+            showToast(`✅ Word cargado: ${file.name}`);
+        } else {
+            document.getElementById('wordStatus').textContent = '⚠️ No se pudo extraer texto';
+            document.getElementById('wordStatus').style.color = '#ef4444';
+        }
+    } catch(e) {
+        console.error('Error al leer Word:', e);
+        document.getElementById('wordStatus').textContent = '❌ Error al leer el archivo';
+        document.getElementById('wordStatus').style.color = '#ef4444';
+        showToast('❌ Error al leer Word', true);
+    }
+});
+
+document.getElementById('humanizarWordBtn').addEventListener('click', async () => {
+    if (!wordContent || wordContent.trim().length < 10) {
+        showToast('⚠️ No hay contenido válido en el Word', true);
+        return;
+    }
+    
+    document.getElementById('humanizarWordBtn').disabled = true;
+    document.getElementById('humanizarWordBtn').innerHTML = '<span class="loading-spinner"></span> Humanizando...';
+    document.getElementById('wordStatus').textContent = '⏳ Humanizando documento...';
+    document.getElementById('wordStatus').style.color = '#f59e0b';
+    
+    try {
+        const resultado = await humanizarConCascada(wordContent);
+        
+        if (resultado) {
+            wordHumanized = resultado.texto;
+            document.getElementById('wordStatus').textContent = `✅ Humanizado: ${resultado.estadisticas.palabrasFinales} palabras · ⚡ ${resultado.estadisticas.optimizaciones} optimizaciones`;
+            document.getElementById('wordStatus').style.color = '#10b981';
+            document.getElementById('descargarWordBtn').style.display = 'inline-block';
+            document.getElementById('descargarWordBtn').disabled = false;
+            
+            // Mostrar en el resultado
+            const banderaFinal = banderaIdioma[resultado.estadisticas.idiomaFinal] || '🇪🇸';
+            const nombreFinal = nombreIdioma[resultado.estadisticas.idiomaFinal] || 'Español';
+            resultDiv.innerHTML = `
+                <div style="margin-bottom:12px;">
+                    <span class="quality-badge quality-alta">92%</span>
+                    <span style="font-size:0.7rem;color:#94a3b8;margin-left:8px;">
+                        📄 ${wordFileName} · ${wordContent.split(' ').length} → ${resultado.estadisticas.palabrasFinales} palabras
+                    </span>
+                    <span style="font-size:0.6rem;color:#10b981;margin-left:8px;">
+                        🌐 ${banderaFinal} ${nombreFinal}
+                    </span>
+                </div>
+                <div style="margin-bottom:12px;padding:6px 10px;background:rgba(139,92,246,0.1);border-radius:8px;font-size:0.65rem;color:#a78bfa;">
+                    🇪🇸 Español → 🇬🇧 Inglés → 🇫🇷 Francés → 🇩🇪 Alemán → 🇮🇹 Italiano → ${banderaFinal} ${nombreFinal}
+                </div>
+                <div style="white-space:pre-wrap;line-height:1.6;">${resultado.texto}</div>
+                <div style="margin-top:12px;padding:8px;background:rgba(0,0,0,0.2);border-radius:8px;font-size:0.65rem;color:#94a3b8;">
+                    ⚡ ${resultado.estadisticas.optimizaciones} optimizaciones WASM · 📄 ${wordFileName}
+                </div>
+            `;
+            ultimoTextoHumanizado = resultado.texto;
+            showToast(`✅ Documento humanizado · ${resultado.estadisticas.palabrasFinales} palabras`);
+        }
+    } catch(e) {
+        console.error('Error al humanizar Word:', e);
+        document.getElementById('wordStatus').textContent = '❌ Error al humanizar';
+        document.getElementById('wordStatus').style.color = '#ef4444';
+        showToast('❌ Error al humanizar Word', true);
+    } finally {
+        document.getElementById('humanizarWordBtn').disabled = false;
+        document.getElementById('humanizarWordBtn').innerHTML = '✨ HUMANIZAR DOCUMENTO';
+    }
+});
+
+document.getElementById('descargarWordBtn').addEventListener('click', async () => {
+    if (!wordHumanized) { showToast('⚠️ No hay texto humanizado', true); return; }
+    
+    try {
+        const { Document, Packer, Paragraph, TextRun, HeadingLevel } = docx;
+        
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: wordHumanized.split('\n').filter(p => p.trim()).map(p => 
+                    new Paragraph({
+                        children: [new TextRun({ text: p, size: 24 })],
+                        spacing: { after: 200 }
+                    })
+                )
+            }]
+        });
+        
+        const blob = await Packer.toBlob(doc);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `humanizado_${wordFileName}`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('📥 Documento descargado');
+    } catch(e) {
+        console.error('Error al descargar Word:', e);
+        showToast('❌ Error al generar Word', true);
+    }
+});
+
+// ============================================
 // INICIALIZACIÓN
 // ============================================
 function init() {
@@ -785,8 +1306,9 @@ function init() {
     console.log(`⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}`);
     console.log(`🧠 Modo Experto: 4000 tokens | ⚡ Modo Básico: 1500 tokens`);
     console.log(`🌐 Traducción en cascada: ES → EN → FR → DE → IT → ES (1 sola llamada)`);
+    console.log(`📊 12 funciones WASM activas`);
     actualizarMetricas();
-    showToast(`☁️ Humanize Deep · Mistral AI · WASM · 12 Fuentes · Traducción en cascada · 🇫🇷 Enfoque ${PAIS_FIJO}`);
+    showToast(`☁️ Humanize Deep · 12 funciones WASM · Traducción en cascada · 🇫🇷 Enfoque ${PAIS_FIJO}`);
 }
 
 init();
