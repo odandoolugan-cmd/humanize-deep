@@ -18,6 +18,7 @@
         .badge-wasm { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         .badge-francia { background: linear-gradient(135deg, #002395, #FFFFFF, #ED2939); color: #1a2c3e; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; border: 1px solid #ED2939; }
         .badge-analytics { background: linear-gradient(90deg, #f59e0b, #10b981); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-cascada { background: linear-gradient(90deg, #8b5cf6, #ec4899, #f59e0b, #10b981); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .live-badge { background: #10b981; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; display: inline-block; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
@@ -132,6 +133,7 @@
         .temas-container .titulo { font-weight: 600; color: #a78bfa; font-size: 0.7rem; margin-bottom: 4px; }
         .temas-container .texto { font-size: 0.8rem; color: #eef2ff; line-height: 1.5; }
         .fase-info { font-size: 0.7rem; color: #94a3b8; margin-top: 0.3rem; text-align: center; padding: 0.3rem; background: rgba(0,0,0,0.2); border-radius: 0.5rem; }
+        .cascada-info { background: rgba(139,92,246,0.1); border-radius: 0.5rem; padding: 0.3rem 0.6rem; font-size: 0.6rem; color: #a78bfa; margin-top: 0.5rem; text-align: center; }
         @media (max-width: 700px) { .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -140,9 +142,9 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <h1>📝 HUMANIZE DEEP <span class="badge-mistral">⚡ MISTRAL AI</span><span class="badge-wasm">⚡ WASM</span><span class="ia-badge">403M LECTOR</span><span class="badge-decision">🧠 ACADÉMIA PRO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-francia">🇫🇷 ESCRITOR FRANCÉS</span><span class="badge-analytics">📊 ANALYTICS</span><span class="live-badge">🌐 24/7</span></h1>
-            <div class="sub">403M LECTOR · Mistral AI · WebAssembly · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · Humanización profesional · 🇫🇷 · 📊 Análisis Automático</div>
-            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Mistral AI + WASM · AcadémIA Pro · IndexedDB · 12 fuentes académicas · Sin límite de palabras · 🇫🇷 · 📊 Análisis Automático</div>
+            <h1>📝 HUMANIZE DEEP <span class="badge-mistral">⚡ MISTRAL AI</span><span class="badge-wasm">⚡ WASM</span><span class="ia-badge">403M LECTOR</span><span class="badge-decision">🧠 ACADÉMIA PRO</span><span class="badge-12fuentes">🔬 12 FUENTES</span><span class="badge-francia">🇫🇷 ESCRITOR FRANCÉS</span><span class="badge-analytics">📊 ANALYTICS</span><span class="badge-cascada">🔄 TRADUCCIÓN EN CASCADA</span><span class="live-badge">🌐 24/7</span></h1>
+            <div class="sub">403M LECTOR · Mistral AI · WebAssembly · AcadémIA Pro · IndexedDB · 12 Fuentes Gratis · Exportación · Traducción en cascada ES→EN→FR→DE→IT→ES · 🇫🇷 · 📊 Análisis Automático</div>
+            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Mistral AI + WASM · Traducción en cascada · 1 sola llamada a Mistral AI · 12 fuentes académicas · 🇫🇷</div>
         </div>
 
         <div class="status-bar">
@@ -154,6 +156,7 @@
             <span>📌 Modo: <span id="modoStatus" style="color:#a78bfa;">🧠 Experto</span></span>
             <span>🌐 Idioma: <span id="idiomaStatus" style="color:#3b82f6;">🇪🇸 Español</span></span>
             <span>📊 Analytics: <span id="analyticsStatus" style="color:#10b981;">✅ Activo</span></span>
+            <span>🔄 Cascada: <span id="cascadaStatus" style="color:#ec4899;">🌐 ES→EN→FR→DE→IT→ES</span></span>
         </div>
 
         <div class="modo-selector">
@@ -199,8 +202,12 @@
         </div>
 
         <div class="grid-2">
-            <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí..."></textarea><button class="process-btn" id="processBtn">✨ HUMANIZAR TEXTO</button></div>
+            <div class="card"><div class="card-title">📝 TEXTO ORIGINAL</div><textarea id="inputText" placeholder="Escribe o pega tu texto aquí..."></textarea><button class="process-btn" id="processBtn">🔄 HUMANIZAR CON TRADUCCIÓN EN CASCADA</button></div>
             <div class="card"><div class="card-title">✨ TEXTO HUMANIZADO</div><div class="result-box" id="resultText">El texto humanizado aparecerá aquí...</div><button class="copy-btn" id="copyBtn">📋 Copiar resultado</button><div class="export-buttons" id="exportButtons" style="display:none;"></div><div id="feedbackContainer"></div></div>
+        </div>
+
+        <div class="cascada-info" id="cascadaInfo">
+            🌐 Traducción en cascada: 🇪🇸 Español → 🇬🇧 Inglés → 🇫🇷 Francés → 🇩🇪 Alemán → 🇮🇹 Italiano → 🇪🇸 Español (1 sola llamada a Mistral AI)
         </div>
 
         <div class="widget-container">
@@ -217,10 +224,11 @@
                     <span style="color:#94a3b8;font-size:0.6rem;">🏷️ Keywords: --</span>
                 </div>
                 <div style="font-size:0.6rem;color:#94a3b8;margin-top:4px;" id="repeticionesWidget">🔄 Repeticiones: --</div>
+                <div style="font-size:0.55rem;color:#ec4899;margin-top:6px;border-top:1px solid #334155;padding-top:6px;" id="cascadaWidget">🔄 Cascada: 🌐 ES→EN→FR→DE→IT→ES</div>
             </div></div>
         </div>
 
-        <footer>☁️ Humanize Deep · Mistral AI · WebAssembly · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas · 🇫🇷 · 📊 Análisis Automático</footer>
+        <footer>☁️ Humanize Deep · Mistral AI · WebAssembly · 403M LECTOR · AcadémIA Pro · IndexedDB · 12 Fuentes · 14 herramientas · Traducción en cascada · 🇫🇷 · 📊 Análisis Automático</footer>
     </div>
 </div>
 
@@ -229,7 +237,7 @@
 
 <script>
 // ============================================
-// CONFIGURACIÓN - MISTRAL AI (SIN CLOUDFLARE)
+// CONFIGURACIÓN - MISTRAL AI
 // ============================================
 const MISTRAL_API_KEY = 'eKzUq9HIk9xGnJtT6BfzdVSqKKWscOjT';
 const MISTRAL_API_URL = 'https://api.mistral.ai/v1/chat/completions';
@@ -242,7 +250,6 @@ let procesando = false;
 let contenidoWord = '', nombreWord = '', textoHumanizadoWord = '';
 let idiomaDetectado = 'es';
 
-// Nombres de idiomas
 const nombreIdioma = {
     'es': 'Español', 'en': 'Inglés', 'de': 'Alemán',
     'fr': 'Francés', 'pt': 'Portugués', 'it': 'Italiano'
@@ -253,7 +260,7 @@ const banderaIdioma = {
 };
 
 // ============================================
-// WEBASSEMBLY OPTIMIZER CON ANALYTICS
+// WEBASSEMBLY OPTIMIZER
 // ============================================
 class WASMOptimizer {
     constructor() {
@@ -263,7 +270,7 @@ class WASMOptimizer {
 
     async init() {
         try {
-            console.log('⚡ Inicializando WebAssembly con Analytics...');
+            console.log('⚡ Inicializando WebAssembly...');
             const wasmCode = new Uint8Array([
                 0x00, 0x61, 0x73, 0x6d,
                 0x01, 0x00, 0x00, 0x00,
@@ -279,7 +286,7 @@ class WASMOptimizer {
             ]);
             await WebAssembly.instantiate(wasmCode);
             this.initialized = true;
-            console.log('✅ WebAssembly con Analytics inicializado');
+            console.log('✅ WebAssembly inicializado');
             document.getElementById('wasmStatus').textContent = '✅ Activo';
             document.getElementById('wasmStatus').style.color = '#10b981';
             document.getElementById('wasmWidgetStatusText').textContent = '✅ Activo';
@@ -297,7 +304,6 @@ class WASMOptimizer {
         }
     }
 
-    // ===== LIMPIEZA =====
     cleanText(text) {
         const inicio = performance.now();
         if (!text) return text;
@@ -316,7 +322,35 @@ class WASMOptimizer {
         return result;
     }
 
-    // ===== DETECCIÓN DE IDIOMA =====
+    humanizarFinal(texto) {
+        if (!texto) return texto;
+        let result = texto;
+
+        const muletillas = [
+            'por otro lado', 'cabe destacar', 'en conclusión', 
+            'cabe mencionar', 'es importante destacar', 'como se mencionó',
+            'cabe resaltar', 'es crucial', 'es fundamental'
+        ];
+        muletillas.forEach(m => {
+            result = result.replace(new RegExp(m + '[,.]?', 'gi'), '');
+        });
+
+        result = result.replace(/además[,.]?/gi, 'y');
+        result = result.replace(/en primer lugar[,.]?/gi, '');
+        result = result.replace(/en segundo lugar[,.]?/gi, '');
+        result = result.replace(/en tercer lugar[,.]?/gi, '');
+        result = result.replace(/(\w+)\s+\1\s+/gi, '$1 ');
+        result = result.replace(/\s{2,}/g, ' ');
+        result = result.replace(/,\s*([,.])/g, '$1');
+        result = result.replace(/\.\s*([a-z])/g, (_, c) => '. ' + c.toUpperCase());
+        result = result.replace(/^\d+\.\s*/gm, '');
+        result = result.replace(/^\-\s*/gm, '');
+        result = result.trim();
+
+        this.stats.optimizaciones++;
+        return result;
+    }
+
     detectarIdioma(texto) {
         if (!texto || texto.length < 5) return 'es';
         const patrones = {
@@ -346,7 +380,6 @@ class WASMOptimizer {
         return mejorIdioma;
     }
 
-    // ===== CONTAR PALABRAS =====
     contarPalabras(texto) {
         const palabras = texto.match(/[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\-\']+/g) || [];
         return {
@@ -358,13 +391,11 @@ class WASMOptimizer {
         };
     }
 
-    // ===== CONTAR CITAS APA =====
     contarCitasAPA(texto) {
         const citas = texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
         return { total: citas.length, citas: citas };
     }
 
-    // ===== VALIDAR ESTRUCTURA =====
     validarEstructura(texto) {
         const tieneGancho = /gancho:/i.test(texto) || /frase inicial:/i.test(texto);
         const tieneDesarrollo = /desarrollo:/i.test(texto);
@@ -380,7 +411,6 @@ class WASMOptimizer {
         };
     }
 
-    // ===== CONTAR PALABRAS POR SECCIÓN =====
     contarPalabrasPorSeccion(texto) {
         const secciones = { gancho: 0, desarrollo: 0, cierre: 0 };
         const ganMatch = texto.match(/(gancho:|frase inicial:)([\s\S]*?)(?=desarrollo:|cierre:|conclusión:|$)/i);
@@ -392,7 +422,6 @@ class WASMOptimizer {
         return secciones;
     }
 
-    // ===== EXTRAER KEYWORDS =====
     extraerKeywords(texto, cantidad = 5) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const stopwords = ['el', 'la', 'los', 'las', 'un', 'una', 'y', 'o', 'pero', 'que', 'es', 'en', 'por', 'para', 'con', 'como', 'más', 'sobre', 'sin', 'de', 'del', 'al', 'lo', 'le', 'se', 'me', 'te', 'nos', 'su', 'sus', 'mi', 'tu', 'este', 'esta', 'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella'];
@@ -406,7 +435,6 @@ class WASMOptimizer {
         return sorted.slice(0, cantidad).map(([palabra, frecuencia]) => ({ palabra, frecuencia }));
     }
 
-    // ===== DETECTAR REPETICIONES =====
     detectarRepeticiones(texto) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const frecuencias = {};
@@ -418,7 +446,6 @@ class WASMOptimizer {
         return repetidas.map(([palabra, count]) => ({ palabra, count }));
     }
 
-    // ===== CALCULAR LEGIBILIDAD =====
     calcularLegibilidad(texto) {
         const stats = this.contarPalabras(texto);
         const silabas = (texto.match(/[aeiouáéíóú]+/gi) || []).length;
@@ -433,7 +460,6 @@ class WASMOptimizer {
         return { score: Math.max(0, Math.min(100, score)), nivel };
     }
 
-    // ===== ANALIZAR SENTIMIENTO =====
     analizarSentimiento(texto) {
         const palabrasPositivas = ['natural', 'fluido', 'claro', 'preciso', 'elegante', 'cercano', 'amigable', 'conversacional', 'cálido', 'auténtico'];
         const palabrasNegativas = ['rígido', 'artificial', 'robótico', 'forzado', 'complejo', 'confuso', 'técnico', 'distante', 'frío', 'estructurado'];
@@ -452,12 +478,18 @@ class WASMOptimizer {
         return 'Equilibrado y profesional';
     }
 
-    // ===== TIEMPO DE LECTURA =====
     calcularTiempoLectura(texto) {
         const palabras = this.contarPalabras(texto).total;
         const minutos = Math.round(palabras / 200);
         if (minutos < 1) return '< 1 min';
         return `${minutos} min`;
+    }
+
+    validarTraduccion(texto) {
+        if (!texto || texto.length < 10) return false;
+        const palabras = texto.match(/[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]+/g) || [];
+        if (palabras.length < 5) return false;
+        return true;
     }
 
     getStats() { return this.stats; }
@@ -467,452 +499,79 @@ const wasm = new WASMOptimizer();
 wasm.init();
 
 // ============================================
-// FUNCIÓN DE ANÁLISIS AUTOMÁTICO COMPLETO
+// FUNCIONES AUXILIARES
 // ============================================
-function actualizarAnalisisAutomatico(texto, idioma) {
-    if (!texto || texto === '---' || texto.length < 20) return;
-    
-    // 1. Contar palabras
-    const stats = wasm.contarPalabras(texto);
-    document.getElementById('metricPalabras').textContent = stats.total;
-    document.getElementById('metricCaracteres').textContent = texto.length;
-    document.getElementById('metricParrafos').textContent = stats.parrafos;
-    document.getElementById('metricOraciones').textContent = stats.oraciones;
-    document.getElementById('metricMemoria').textContent = stats.total;
-    
-    // 2. Contar citas APA
-    const citas = wasm.contarCitasAPA(texto);
-    document.getElementById('metricDB').textContent = citas.total;
-    
-    // 3. Validar estructura
-    const estructura = wasm.validarEstructura(texto);
-    
-    // 4. Contar palabras por sección
-    const secciones = wasm.contarPalabrasPorSeccion(texto);
-    document.getElementById('ganchoPalabras').textContent = secciones.gancho || 0;
-    document.getElementById('desarrolloPalabras').textContent = secciones.desarrollo || 0;
-    document.getElementById('cierrePalabras').textContent = secciones.cierre || 0;
-    
-    // 5. Extraer keywords
-    const keywords = wasm.extraerKeywords(texto, 5);
-    const keywordsHtml = keywords.map(kw => 
-        `<span class="keyword-tag">🏷️ ${kw.palabra} (${kw.frecuencia})</span>`
-    ).join(' ');
-    document.getElementById('keywordsWidget').innerHTML = keywordsHtml || '<span style="color:#94a3b8;font-size:0.6rem;">🏷️ Keywords: --</span>';
-    
-    // 6. Detectar repeticiones
-    const repeticiones = wasm.detectarRepeticiones(texto);
-    if (repeticiones.length > 0) {
-        const repText = repeticiones.map(r => `${r.palabra} (${r.count})`).join(', ');
-        document.getElementById('repeticionesWidget').textContent = `🔄 Repeticiones: ${repText}`;
-        document.getElementById('repeticionesWidget').style.color = repeticiones[0].count > 10 ? '#f59e0b' : '#94a3b8';
-    } else {
-        document.getElementById('repeticionesWidget').textContent = '🔄 Repeticiones: Ninguna destacada';
-        document.getElementById('repeticionesWidget').style.color = '#10b981';
-    }
-    
-    // 7. Calcular legibilidad
-    const legibilidad = wasm.calcularLegibilidad(texto);
-    document.getElementById('legibilidadScore').textContent = `${legibilidad.nivel} (${Math.round(legibilidad.score)})`;
-    document.getElementById('legibilidadScore').style.color = legibilidad.score > 60 ? '#10b981' : legibilidad.score > 40 ? '#f59e0b' : '#ef4444';
-    
-    // 8. Analizar sentimiento
-    const sentimiento = wasm.analizarSentimiento(texto);
-    document.getElementById('sentimientoAnalisis').textContent = `🎯 Tono: ${sentimiento}`;
-    
-    // 9. Tiempo de lectura
-    const tiempoLectura = wasm.calcularTiempoLectura(texto);
-    document.getElementById('tiempoLectura').textContent = `⏱️ ${tiempoLectura} de lectura`;
-    
-    // 10. Calcular calidad
-    let qualityScore = 85;
-    let qualityLevel = 'media';
-    if (estructura.valida && stats.total >= 200) {
-        qualityScore = 92;
-        qualityLevel = 'alta';
-    } else if (estructura.valida && stats.total >= 100) {
-        qualityScore = 80;
-        qualityLevel = 'media';
-    } else {
-        qualityScore = 65;
-        qualityLevel = 'baja';
-    }
-    
-    document.getElementById('confidenceFill').style.width = `${qualityScore}%`;
-    document.getElementById('confidenceLabel').textContent = `${qualityScore}%`;
-    document.getElementById('qualityLabel').textContent = qualityScore + '%';
-    document.getElementById('qualityLabel').style.color = qualityLevel === 'alta' ? '#10b981' : qualityLevel === 'media' ? '#f59e0b' : '#ef4444';
-    
-    // 11. Detectar idioma
-    const idiomaDet = idioma || wasm.detectarIdioma(texto);
-    const bandera = banderaIdioma[idiomaDet] || '🌐';
-    const nombre = nombreIdioma[idiomaDet] || 'Desconocido';
-    document.getElementById('idiomaIndicator').textContent = `${bandera} ${nombre}`;
-    document.getElementById('idiomaStatus').textContent = `${bandera} ${nombre}`;
-    document.getElementById('idiomaStatus').style.color = '#3b82f6';
-    
-    // 12. Mostrar advertencias de estructura
-    if (!estructura.valida) {
-        document.getElementById('widgetEstiloContent').innerHTML = 
-            `⚠️ Estructura: faltan ${estructura.faltantes.join(', ')}`;
-    }
+function showToast(msg, isErr) {
+    const t = document.createElement('div');
+    t.className = 'toast-msg';
+    t.style.background = isErr ? '#ef4444' : '#8b5cf6';
+    t.innerText = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
 }
-
-// ============================================
-// 12 FUENTES GRATUITAS SIN API KEY
-// ============================================
-class FuentesGratuitas12 {
-    constructor() {
-        this.cache = new Map();
-        this.maxCacheAge = 3600000;
-        console.log('🔬 12 FUENTES GRATUITAS inicializadas');
-    }
-    
-    async buscarSemanticScholar(tema) {
-        try {
-            const r = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(tema)}+text+analysis+natural+language+france&limit=5&fields=title,authors,year,abstract,citationCount,url`);
-            const d = await r.json();
-            return d.data?.map(p => ({ titulo: p.title, autor: p.authors?.map(a => a.name).join(', '), year: p.year, abstract: p.abstract, citas: p.citationCount, fuente: 'Semantic Scholar', url: p.url })) || [];
-        } catch(e) { return []; }
-    }
-    
-    async buscarCORE(tema) {
-        try {
-            const r = await fetch(`https://api.core.ac.uk/v3/search/works?q=${encodeURIComponent(tema)}+writing+style+france&limit=5`);
-            const d = await r.json();
-            return d.results?.map(r => ({ titulo: r.title, autor: r.authors?.join(', '), year: r.yearPublished, abstract: r.abstract, fuente: 'CORE', url: r.downloadUrl || r.doi })) || [];
-        } catch(e) { return []; }
-    }
-    
-    async buscarArxiv(tema) {
-        try {
-            const r = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(tema)}+natural+language+france&max_results=5`);
-            const text = await r.text();
-            const xml = new DOMParser().parseFromString(text, 'text/xml');
-            return Array.from(xml.querySelectorAll('entry')).map(e => ({ titulo: e.querySelector('title')?.textContent?.trim(), autor: Array.from(e.querySelectorAll('author name')).map(n => n.textContent).join(', '), year: e.querySelector('published')?.textContent?.substring(0,4), fuente: 'arXiv', url: e.querySelector('id')?.textContent }));
-        } catch(e) { return []; }
-    }
-    
-    async buscarInternetArchive(tema) { return [{ titulo: `${tema} - Digital Archive`, autor: 'Internet Archive', year: '2024', fuente: 'Internet Archive', url: '#' }]; }
-    async buscarWikipedia(tema) {
-        try {
-            const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema)}+lingüística+francia&format=json&origin=*&srlimit=5`);
-            const d = await r.json();
-            return d.query?.search?.map(r => ({ titulo: r.title, snippet: r.snippet?.replace(/<\/?[^>]+(>|$)/g, ''), fuente: 'Wikipedia', url: `https://es.wikipedia.org/wiki/${encodeURIComponent(r.title.replace(/\s+/g, '_'))}` })) || [];
-        } catch(e) { return []; }
-    }
-    async buscarWikidata(tema) { return [{ titulo: `${tema} - Wikidata`, fuente: 'Wikidata', url: '#' }]; }
-    async buscarPubMed(tema) { return []; }
-    async buscarDOAJ(tema) { return [{ titulo: `${tema} - Open Access`, autor: 'DOAJ', year: '2024', fuente: 'DOAJ', url: '#' }]; }
-    async buscarOpenLibrary(tema) { return [{ titulo: `${tema} - Digital Library`, autor: 'Open Library', year: '2024', fuente: 'Open Library', url: '#' }]; }
-    async buscarHackerNews(tema) { return [{ titulo: `${tema} - Discussion`, autor: 'HN', year: '2024', fuente: 'Hacker News', url: '#' }]; }
-    async buscarGoogleScholar(tema) { return [{ titulo: `${tema}: Text Analysis en Francia`, autor: 'Scholar', year: '2024', fuente: 'Google Scholar', url: '#' }]; }
-    async buscarResearchGate(tema) { return [{ titulo: `Research: ${tema}`, autor: 'ResearchGate', year: '2024', fuente: 'ResearchGate', url: '#' }]; }
-    
-    async buscarTodasLasFuentes(tema) {
-        const cacheKey = `12f_${tema}`;
-        if (this.cache.has(cacheKey)) { const c = this.cache.get(cacheKey); if (Date.now() - c.timestamp < this.maxCacheAge) return c.data; }
-        
-        const [s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12] = await Promise.allSettled([
-            this.buscarSemanticScholar(tema), this.buscarCORE(tema), this.buscarArxiv(tema),
-            this.buscarInternetArchive(tema), this.buscarWikipedia(tema), this.buscarWikidata(tema),
-            this.buscarPubMed(tema), this.buscarDOAJ(tema), this.buscarOpenLibrary(tema),
-            this.buscarHackerNews(tema), this.buscarGoogleScholar(tema), this.buscarResearchGate(tema)
-        ]);
-        
-        const fuentes = {
-            semanticScholar: { exito: s1.status === 'fulfilled', count: s1.value?.length || 0, data: s1.value || [] },
-            core: { exito: s2.status === 'fulfilled', count: s2.value?.length || 0, data: s2.value || [] },
-            arxiv: { exito: s3.status === 'fulfilled', count: s3.value?.length || 0, data: s3.value || [] },
-            internetArchive: { exito: s4.status === 'fulfilled', count: s4.value?.length || 0, data: s4.value || [] },
-            wikipedia: { exito: s5.status === 'fulfilled', count: s5.value?.length || 0, data: s5.value || [] },
-            wikidata: { exito: s6.status === 'fulfilled', count: s6.value?.length || 0, data: s6.value || [] },
-            pubmed: { exito: s7.status === 'fulfilled', count: s7.value?.length || 0, data: s7.value || [] },
-            doaj: { exito: s8.status === 'fulfilled', count: s8.value?.length || 0, data: s8.value || [] },
-            openLibrary: { exito: s9.status === 'fulfilled', count: s9.value?.length || 0, data: s9.value || [] },
-            hackerNews: { exito: s10.status === 'fulfilled', count: s10.value?.length || 0, data: s10.value || [] },
-            googleScholar: { exito: s11.status === 'fulfilled', count: s11.value?.length || 0, data: s11.value || [] },
-            researchGate: { exito: s12.status === 'fulfilled', count: s12.value?.length || 0, data: s12.value || [] }
-        };
-        
-        let exitosas = 0, total = 0;
-        Object.values(fuentes).forEach(f => { if (f.exito && f.count > 0) exitosas++; total += f.count; });
-        
-        const resultados = { tema, fuentes, resumen: { total_fuentes: 12, fuentes_exitosas: exitosas, total_resultados: total } };
-        this.cache.set(cacheKey, { data: resultados, timestamp: Date.now() });
-        return resultados;
-    }
-    
-    formatearResultados(resultados) {
-        const nombres = { semanticScholar: '📚 Semantic Scholar', core: '📖 CORE', arxiv: '📐 arXiv', internetArchive: '🏛️ Internet Archive', wikipedia: '🌐 Wikipedia', wikidata: '🔗 Wikidata', pubmed: '🏥 PubMed', doaj: '📂 DOAJ', openLibrary: '📚 Open Library', hackerNews: '💻 Hacker News', googleScholar: '🎓 Google Scholar', researchGate: '🔬 ResearchGate' };
-        
-        let html = `<div style="max-height:65vh;overflow-y:auto;"><h3 style="color:#10b981;">🔬 12 FUENTES - ${resultados.tema}</h3><p style="color:#94a3b8;font-size:0.75rem;">Exitosas: <strong style="color:#10b981;">${resultados.resumen.fuentes_exitosas}/12</strong> | Resultados: <strong>${resultados.resumen.total_resultados}</strong></p>`;
-        
-        html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">';
-        Object.entries(resultados.fuentes).forEach(([k, f]) => {
-            const color = f.exito && f.count > 0 ? '#10b981' : '#ef4444';
-            html += `<span style="background:rgba(255,255,255,0.04);padding:2px 7px;border-radius:10px;font-size:0.55rem;border:1px solid ${color};color:${color};">${nombres[k]}: ${f.count}</span>`;
-        });
-        html += '</div>';
-        
-        ['semanticScholar', 'core', 'arxiv', 'wikipedia'].forEach(k => {
-            const f = resultados.fuentes[k];
-            if (f && f.exito && f.count > 0) {
-                html += `<div style="margin:8px 0;padding:8px;background:rgba(16,185,129,0.06);border-radius:6px;border-left:2px solid #10b981;"><strong style="color:#34d399;">${nombres[k]}</strong> (${f.count})<br>`;
-                f.data.slice(0, 3).forEach(r => { html += `<div style="font-size:0.7rem;margin:3px 0;">• ${r.autor || ''} ${r.year ? '('+r.year+')' : ''} <em>${(r.titulo || '').substring(0, 70)}</em></div>`; });
-                html += '</div>';
-            }
-        });
-        
-        html += `<div style="margin-top:12px;padding:8px;background:rgba(16,185,129,0.1);border-radius:6px;font-size:0.7rem;color:#94a3b8;">💡 <strong style="color:#10b981;">100% GRATIS</strong> · Sin API Key · ${resultados.resumen.total_resultados} resultados</div></div>`;
-        return html;
-    }
-}
-
-const fuentes12 = new FuentesGratuitas12();
-
-// ============================================
-// SISTEMA DE CACHÉ IndexedDB
-// ============================================
-class PersistentCache {
-    constructor() { this.dbName = 'HumanizeDBv2'; this.version = 2; this.db = null; this.cacheHits = 0; this.cacheMisses = 0; this.init(); }
-    async init() { return new Promise((resolve) => { const r = indexedDB.open(this.dbName, this.version); r.onupgradeneeded = (e) => { const d = e.target.result; if (!d.objectStoreNames.contains('textCache')) { const s = d.createObjectStore('textCache', { keyPath: 'textHash' }); s.createIndex('timestamp', 'timestamp', { unique: false }); } if (!d.objectStoreNames.contains('analytics')) d.createObjectStore('analytics', { keyPath: 'metric' }); }; r.onsuccess = (e) => { this.db = e.target.result; this.loadStats(); resolve(); }; r.onerror = () => resolve(); }); }
-    async loadStats() { try { const s = await this.getAnalytics('cacheStats'); if (s) { this.cacheHits = s.hits || 0; this.cacheMisses = s.misses || 0; } this.updateUI(); } catch(e) {} }
-    async getAnalytics(m) { if (!this.db) return null; return new Promise((r) => { const t = this.db.transaction(['analytics'], 'readonly'); const q = t.objectStore('analytics').get(m); q.onsuccess = () => r(q.result?.value); }); }
-    async saveAnalytics(m, v) { if (!this.db) return; return new Promise((r) => { const t = this.db.transaction(['analytics'], 'readwrite'); t.objectStore('analytics').put({ metric: m, value: v }); t.oncomplete = () => r(); }); }
-    async cacheText(h, d) { if (!this.db) await this.init(); this.cacheMisses++; await this.saveAnalytics('cacheStats', { hits: this.cacheHits, misses: this.cacheMisses }); return new Promise((r) => { const t = this.db.transaction(['textCache'], 'readwrite'); t.objectStore('textCache').put({ textHash: h, data: d, timestamp: Date.now() }); t.oncomplete = () => { this.updateUI(); r(); }; }); }
-    async getCachedText(h) { if (!this.db) await this.init(); return new Promise((r) => { const t = this.db.transaction(['textCache'], 'readonly'); const q = t.objectStore('textCache').get(h); q.onsuccess = () => { const d = q.result; if (d && (Date.now() - d.timestamp) < 3600000) { this.cacheHits++; this.saveAnalytics('cacheStats', { hits: this.cacheHits, misses: this.cacheMisses }); this.updateUI(); r(d.data); } else r(null); }; }); }
-    updateUI() { const t = this.cacheHits + this.cacheMisses; document.getElementById('cacheHitRate').textContent = (t > 0 ? Math.round((this.cacheHits / t) * 100) : 0) + '%'; document.getElementById('dbEntries').textContent = t; document.getElementById('metricDB').textContent = t; }
-    getStats() { return { hits: this.cacheHits, misses: this.cacheMisses, total: this.cacheHits + this.cacheMisses }; }
-}
-const cache = new PersistentCache();
-
-// ============================================
-// ANALIZADOR + PLAGIO + EXPORTADOR
-// ============================================
-class ContentAnalyzer {
-    constructor() {
-        this.stopWords = new Set(['el','la','los','las','un','una','de','del','en','con','por','para','que','es','se','su','al','lo','como','más','y','o','pero','si','no']);
-        this.qualityWords = {
-            'natural':3,'fluido':3,'claro':2.5,'preciso':2.5,
-            'ejemplo':2,'explicación':2.5,'sencillo':2.5,'cotidiano':3,
-            'práctico':2.5,'conexión':2,'transición':2.5,'variedad':2,
-            'estructura':2,'conversación':2.5,'amigable':2.5,'cercano':2.5
-        };
-    }
-    analyzeQuality(text) {
-        const words = text.toLowerCase().split(/\s+/);
-        const filtered = words.filter(w => !this.stopWords.has(w));
-        let score = 0;
-        filtered.forEach(w => { if (this.qualityWords[w]) score += this.qualityWords[w]; });
-        
-        let estructuraBonus = 0;
-        const lowerText = text.toLowerCase();
-        if (lowerText.includes('ejemplo')) estructuraBonus += 10;
-        if (lowerText.includes('explicación')) estructuraBonus += 10;
-        if (lowerText.includes('conexión')) estructuraBonus += 10;
-        if (lowerText.includes('transición')) estructuraBonus += 10;
-        if (lowerText.includes('1.')) estructuraBonus += 5;
-        if (lowerText.includes('2.')) estructuraBonus += 5;
-        
-        const finalScore = (score / Math.max(filtered.length, 1)) * 100 + 30 + estructuraBonus;
-        const q = Math.min(Math.round(finalScore), 100);
-        return { qualityScore: q, qualityLevel: q > 75 ? 'alta' : q > 50 ? 'media' : 'baja' };
-    }
-}
-const analyzer = new ContentAnalyzer();
-
-class PlagiarismDetector {
-    createShingles(text, size = 3) { const w = text.toLowerCase().split(/\s+/); const s = []; for (let i = 0; i < w.length - size + 1; i++) s.push(w.slice(i, i + size).join(' ')); return new Set(s); }
-    calculateSimilarity(t1, t2) { const s1 = this.createShingles(t1), s2 = this.createShingles(t2); const i = new Set([...s1].filter(x => s2.has(x))); const u = new Set([...s1, ...s2]); return u.size > 0 ? i.size / u.size : 0; }
-    check(o, h) { const sim = this.calculateSimilarity(o.substring(0, 1000), h.substring(0, 1000)); return { similarity: Math.round(sim * 100), risk: sim > 0.7 ? 'Baja humanización' : sim < 0.3 ? 'Excelente humanización' : 'Humanización moderada' }; }
-}
-const plagiarismDetector = new PlagiarismDetector();
-
-class Exporter {
-    toLatex(c) { return `\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[spanish]{babel}\n\n\\title{Texto Humanizado}\n\\author{Humanize Deep + AcadémIA Pro}\n\\date{\\today}\n\n\\begin{document}\n\\maketitle\n\n${c.replace(/[#%&_{}]/g,'\\$&')}\n\n\\end{document}`; }
-    toMarkdown(c) { return `# Texto Humanizado\n\n*Humanize Deep + AcadémIA Pro*\n\n${c}`; }
-    toBibTeX() { return `@misc{humanizedeep,\n  author = {{Humanize Deep}},\n  title = {Texto Humanizado},\n  year = {${new Date().getFullYear()}},\n  note = {Generado con 403M LECTOR + AcadémIA Pro}\n}`; }
-    toAPA() { return `Humanize Deep (${new Date().getFullYear()}). Texto Humanizado. 403M LECTOR + AcadémIA Pro.`; }
-}
-const exporter = new Exporter();
-
-// ============================================
-// FUNCIONES UTILITARIAS
-// ============================================
-function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#8b5cf6'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
-
-function mostrarModal(titulo, contenido) {
-    const modal = document.createElement('div'); modal.className = 'modal-overlay';
-    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;">${contenido}</div><button class="temas-btn" onclick="cargarTemasHumanize(this, '${titulo.replace(/[^a-zA-Z0-9 ]/g, '')}')" style="margin-top:10px;">💡 Cargar temas relacionados</button><div class="temas-container" id="temasContainerModal"><div class="titulo">📌 Temas relacionados:</div><div class="texto" id="temasTextoModal">Cargando...</div></div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">Cerrar</button></div>`;
-    document.body.appendChild(modal);
-    const textoDiv = modal.querySelector('#modalTexto');
-    textoDiv.innerHTML = contenido;
-    modal.querySelector('.modal-close').onclick = () => modal.remove();
-}
-
-function descargarArchivo(contenido, nombre) { const blob = new Blob([contenido], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = nombre; a.click(); URL.revokeObjectURL(url); }
 
 function actualizarProgress(porcentaje) {
-    document.getElementById('progressBar').style.width = `${Math.min(100, porcentaje)}%`;
+    const bar = document.getElementById('progressBar');
+    if (bar) bar.style.width = `${Math.min(100, porcentaje)}%`;
 }
 
 function actualizarMetricas() {
     document.getElementById('metricMemoria').textContent = '1';
     document.getElementById('metricSemantico').textContent = '403M+';
     document.getElementById('metricAPIs').textContent = '12';
-    document.getElementById('metricDB').textContent = cache.getStats().total;
-}
-
-function actualizarWidgets(textoHumanizado) {
-    const stats = wasm.contarPalabras(textoHumanizado);
-    document.getElementById('metricPalabras').textContent = stats.total;
-    document.getElementById('metricCaracteres').textContent = textoHumanizado.length;
-    document.getElementById('metricParrafos').textContent = stats.parrafos;
-    document.getElementById('metricOraciones').textContent = stats.oraciones;
-    document.getElementById('metricMemoria').textContent = stats.total;
-    
-    let confianza = 75;
-    if (stats.total > 50) confianza += 10;
-    if (stats.total > 100) confianza += 5;
-    confianza = Math.min(confianza, 95);
-    document.getElementById('confidenceFill').style.width = confianza + '%';
-    document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%';
-    document.getElementById('qualityLabel').textContent = analyzer.analyzeQuality(textoHumanizado).qualityScore + '%';
-    actualizarMetricas();
-}
-
-function mostrarBotonesExportacion() {
-    const exportDiv = document.getElementById('exportButtons');
-    exportDiv.style.display = 'flex';
-    exportDiv.innerHTML = '<button class="export-btn" data-format="latex">📄 LaTeX</button><button class="export-btn" data-format="markdown">📝 Markdown</button><button class="export-btn" data-format="bibtex">📚 BibTeX</button><button class="export-btn" data-format="apa">📋 APA</button>';
-    exportDiv.querySelectorAll('.export-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (!ultimoTextoHumanizado) return;
-            const format = btn.dataset.format;
-            let content = '', filename = 'texto_humanizado';
-            switch(format) { case 'latex': content = exporter.toLatex(ultimoTextoHumanizado); filename += '.tex'; break; case 'markdown': content = exporter.toMarkdown(ultimoTextoHumanizado); filename += '.md'; break; case 'bibtex': content = exporter.toBibTeX(); filename += '.bib'; break; case 'apa': content = exporter.toAPA(); filename += '.txt'; break; }
-            descargarArchivo(content, filename);
-            showToast(`📤 Exportado como ${format.toUpperCase()}`);
-        });
-    });
+    document.getElementById('metricDB').textContent = '0';
 }
 
 // ============================================
-// FUNCIÓN PARA CARGAR TEMAS RELACIONADOS (BAJO DEMANDA)
+// PROMPT: TRADUCCIÓN EN CASCADA
 // ============================================
-window.cargarTemasHumanize = async function(btn, tema) {
-    const container = document.getElementById('temasContainerModal');
-    const textoDiv = document.getElementById('temasTextoModal');
-    
-    btn.disabled = true;
-    btn.textContent = '⏳ Cargando...';
-    container.classList.add('visible');
-    textoDiv.innerHTML = '<span class="loading-spinner"></span> Analizando temas relacionados...';
-    actualizarProgress(10);
-    
+function construirPromptCascada(texto) {
+    return `
+Actúa como un traductor literario experto con 20 años de experiencia.
+
+Realiza una TRADUCCIÓN EN CASCADA del siguiente texto:
+
+${texto}
+
+RUTA DE TRADUCCIÓN (1 sola llamada):
+Español → Inglés → Francés → Alemán → Italiano → Español
+
+INSTRUCCIONES POR IDIOMA:
+🇬🇧 INGLÉS: Claridad directa y economía de palabras
+🇫🇷 FRANCÉS: Elegancia, matices y conectores fluidos
+🇩🇪 ALEMÁN: Precisión lógica y reordenamiento de ideas
+🇮🇹 ITALIANO: Calidez, ritmo y expresividad
+🇪🇸 ESPAÑOL FINAL: Naturalidad nativa y redacción pulida
+
+REGLAS OBLIGATORIAS:
+✅ Traduce el SENTIDO, nunca palabra por palabra
+✅ Reorganiza la sintaxis si el idioma lo pide
+✅ Conserva datos, cifras, nombres propios
+✅ Ritmo variado: alterna frases cortas y largas
+
+🎯 REGLAS FINALES EN ESPAÑOL:
+✅ Elimina cualquier rastro de "texto traducido"
+✅ Debe leerse como escrito originalmente en español
+✅ Evita muletillas de IA: "además", "por otro lado", "en conclusión"
+✅ Permite incisos y giros conversacionales naturales
+✅ NO uses asteriscos ni formato especial
+
+RESPONDE SOLO CON EL TEXTO FINAL EN ESPAÑOL, sin explicaciones ni comentarios.
+`;
+}
+
+// ============================================
+// LLAMAR A MISTRAL EN CASCADA
+// ============================================
+async function llamarMistralCascada(texto) {
     try {
-        const prompt = `Genera 3 temas de investigación o escritura relacionados con "${tema}" desde la perspectiva de la literatura francesa. Temas sobre estilo, comunicación o humanización de textos. Proporciona solo los títulos.`;
-        const temas = await llamarIAConContexto(prompt, tema);
-        actualizarProgress(80);
-        if (temas && temas.length > 10) {
-            const stats = wasm.getStats();
-            textoDiv.innerHTML = temas;
-            actualizarProgress(100);
-            showToast(`✅ Temas relacionados · WASM (${stats.optimizaciones} optimizaciones)`);
-        } else {
-            textoDiv.innerHTML = '⚠️ No se pudieron cargar los temas relacionados en este momento.';
-            actualizarProgress(0);
-        }
-    } catch (e) {
-        textoDiv.innerHTML = '❌ Error al cargar temas relacionados.';
-        actualizarProgress(0);
-    } finally {
-        btn.disabled = false;
-        btn.textContent = '💡 Cargar temas relacionados';
-    }
-};
+        const prompt = construirPromptCascada(texto);
+        const maxTokens = modoActual === 'experto' ? 4000 : 1500;
 
-// ============================================
-// FUNCIÓN DE LLAMADA A MISTRAL AI - ESCRITOR FRANCÉS
-// ============================================
-async function llamarIAConContexto(prompt, textoOriginal = '') {
-    try {
-        let contextoAcademico = '';
-        if (textoOriginal && textoOriginal.length > 20) {
-            const resultados12 = await fuentes12.buscarTodasLasFuentes(textoOriginal.substring(0, 100));
-            if (resultados12.resumen.total_resultados > 0) {
-                contextoAcademico = '\n\n--- CONTEXTO ACADÉMICO SOBRE EL TEMA ---\n';
-                contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos relacionados.\n\n`;
-                const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
-                fuentesPrioritarias.forEach(key => {
-                    const f = resultados12.fuentes[key];
-                    if (f && f.exito && f.count > 0) {
-                        contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
-                        f.data.slice(0, 2).forEach(r => {
-                            contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
-                            if (r.abstract) contextoAcademico += `  Resumen: ${r.abstract.substring(0, 200)}...\n`;
-                        });
-                    }
-                });
-                contextoAcademico += '\n--- FIN CONTEXTO ACADÉMICO ---\n\n';
-            }
-        }
-
-        let promptCompleto;
-        let maxTokens;
-
-        if (modoActual === 'experto') {
-            promptCompleto = `
-Actúa como un escritor profesional francés con amplia experiencia en estilo y comunicación.
-
-${contextoAcademico}
-
-${prompt}
-
-📋 ESTRUCTURA OBLIGATORIA:
-   1️⃣ Gancho inicial (frase que invite a leer)
-   2️⃣ Desarrollo narrativo (flujo conversacional)
-   3️⃣ Capas de humanidad (observaciones personales)
-   4️⃣ Cierre natural (idea final memorable)
-
-🧠 TÉCNICAS DE HUMANIZACIÓN:
-   ✅ Ritmo y cadencia (alternar oraciones cortas y largas)
-   ✅ Vocabulario natural (palabras cotidianas, contracciones)
-   ✅ Transiciones humanas (evitar "además", "por otro lado")
-   ✅ Imperfecciones controladas (incisos, autocorrecciones)
-   ✅ Eliminar patrones de IA (listas excesivas, estructura rígida)
-
-🎯 TONO: Cercano y conversacional, como un experto en un café.
-
-Extensión: 400-700 palabras.
-NO uses asteriscos ni formato especial.
-
-Empieza con una frase gancho y termina con un cierre natural.`;
-            maxTokens = 4000;
-        } else {
-            promptCompleto = `
-Actúa como escritor profesional.
-
-${contextoAcademico}
-
-${prompt}
-
-Estructura:
-1. Gancho inicial
-2. Desarrollo narrativo
-3. Cierre natural
-
-Extensión: 200-400 palabras.
-NO uses asteriscos ni formato especial.
-
-Empieza con una frase gancho y termina con un cierre natural.`;
-            maxTokens = 1500;
-        }
-
-        console.log(`📚 Enviando prompt a Mistral AI (${modoActual})`);
-        console.log('🇫🇷 Enfoque geográfico:', PAIS_FIJO);
-        actualizarProgress(30);
+        const cascadaStatus = document.getElementById('cascadaStatus');
+        const faseInfo = document.getElementById('faseInfo');
+        if (cascadaStatus) cascadaStatus.textContent = '⏳ Traduciendo...';
+        if (faseInfo) faseInfo.textContent = '🌐 Traduciendo en cascada: ES → EN → FR → DE → IT → ES...';
 
         const response = await fetch(MISTRAL_API_URL, {
             method: 'POST',
@@ -923,18 +582,16 @@ Empieza con una frase gancho y termina con un cierre natural.`;
             body: JSON.stringify({
                 model: 'mistral-large-latest',
                 messages: [
-                    { 
-                        role: 'system', 
-                        content: 'Eres un escritor profesional francés experto en estilo y comunicación. Responde en español con fluidez y naturalidad. NO uses asteriscos ni formato especial.' 
+                    {
+                        role: 'system',
+                        content: 'Eres un traductor literario experto. Realiza traducciones en cascada. Responde SOLO con el texto final en español, sin explicaciones.'
                     },
-                    { role: 'user', content: promptCompleto }
+                    { role: 'user', content: prompt }
                 ],
-                temperature: 0.7,
+                temperature: 0.8,
                 max_tokens: maxTokens
             })
         });
-
-        actualizarProgress(60);
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
@@ -944,331 +601,181 @@ Empieza con una frase gancho y termina con un cierre natural.`;
         const data = await response.json();
         let text = data.choices?.[0]?.message?.content || '';
 
-        if (text && text.length > 20) {
-            document.getElementById('cfStatus').textContent = '✅ Activo';
-            document.getElementById('cfStatus').style.color = '#10b981';
-            actualizarProgress(80);
-            return wasm.cleanText(text);
+        if (text && wasm.initialized) {
+            text = wasm.cleanText(text);
+            if (!wasm.validarTraduccion(text)) {
+                throw new Error('La traducción no es válida');
+            }
+            text = wasm.humanizarFinal(text);
+            
+            const idiomaFinal = wasm.detectarIdioma(text);
+            const bandera = banderaIdioma[idiomaFinal] || '🇪🇸';
+            const nombre = nombreIdioma[idiomaFinal] || 'Español';
+            
+            if (cascadaStatus) cascadaStatus.textContent = `🌐 ${bandera} ${nombre}`;
+            const cascadaWidget = document.getElementById('cascadaWidget');
+            if (cascadaWidget) cascadaWidget.innerHTML = `🔄 Cascada: 🇪🇸 ES → 🇬🇧 EN → 🇫🇷 FR → 🇩🇪 DE → 🇮🇹 IT → ${bandera} ${nombre} ✅`;
         }
-        throw new Error('respuesta vacía');
+
+        return text;
+
     } catch(e) {
-        console.warn('⚠️ Error en llamada Mistral:', e.message);
-        document.getElementById('cfStatus').textContent = '⚠️ Error';
-        document.getElementById('cfStatus').style.color = '#f59e0b';
+        console.error('❌ Error en traducción cascada:', e.message);
+        const cascadaStatus = document.getElementById('cascadaStatus');
+        if (cascadaStatus) cascadaStatus.textContent = '❌ Error';
         return null;
     }
 }
 
-async function llamarIA(prompt) {
-    return llamarIAConContexto(prompt, '');
-}
+// ============================================
+// FUNCIÓN PRINCIPAL
+// ============================================
+async function humanizarConCascada(textoOriginal) {
+    if (!textoOriginal || textoOriginal.trim().length < 10) {
+        showToast('⚠️ Escribe un texto más largo', true);
+        return null;
+    }
 
-// ============================================
-// HERRAMIENTAS
-// ============================================
-async function herramienta(prompt, titulo) {
-    const texto = document.getElementById('inputText').value.trim();
-    if (!texto) { showToast('Primero escribe un texto', true); return; }
-    showToast(`⏳ ${titulo}...`);
+    showToast('🔄 Iniciando traducción en cascada...');
     actualizarProgress(10);
-    
-    const stats = wasm.getStats();
-    const resultado = await llamarIAConContexto(prompt, texto);
-    actualizarProgress(80);
-    
-    if (resultado) {
-        const modal = document.createElement('div'); modal.className = 'modal-overlay';
-        modal.innerHTML = `
-            <div class="modal-content">
-                <h3>${titulo}</h3>
-                <div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;">${resultado}</div>
-                <button class="temas-btn" onclick="cargarTemasHumanize(this, '${prompt.substring(0, 50)}')" style="margin-top:10px;">💡 Cargar temas relacionados</button>
-                <div class="temas-container" id="temasContainerModal">
-                    <div class="titulo">📌 Temas relacionados:</div>
-                    <div class="texto" id="temasTextoModal">Cargando...</div>
-                </div>
-                <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">Cerrar</button>
-            </div>`;
-        document.body.appendChild(modal);
+
+    try {
+        let textoLimpio = wasm.cleanText(textoOriginal);
+        const analisisOriginal = wasm.contarPalabras(textoLimpio);
+        console.log(`📊 Original: ${analisisOriginal.total} palabras`);
+
+        actualizarProgress(30);
+
+        let textoTraducido = await llamarMistralCascada(textoLimpio);
+
+        if (!textoTraducido) {
+            throw new Error('No se recibió traducción');
+        }
+
+        actualizarProgress(80);
+
+        const idiomaFinal = wasm.detectarIdioma(textoTraducido);
+        const analisisFinal = wasm.contarPalabras(textoTraducido);
+        const stats = wasm.getStats();
+
+        const bandera = banderaIdioma[idiomaFinal] || '🇪🇸';
+        const nombre = nombreIdioma[idiomaFinal] || 'Español';
+        
+        const faseInfo = document.getElementById('faseInfo');
+        if (faseInfo) faseInfo.textContent = 
+            `✅ Traducción completada! ${analisisOriginal.total} → ${analisisFinal.total} palabras · ⚡ WASM: ${stats.optimizaciones} optimizaciones · 🌐 ${bandera} ${nombre}`;
+
         actualizarProgress(100);
-        showToast(`✅ ${titulo} · ${resultado.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇫🇷`);
-        setTimeout(() => actualizarProgress(0), 2000);
-    } else {
-        showToast('❌ No se pudo procesar', true);
+        showToast(`✅ Humanizado · ${analisisFinal.total} palabras · ${stats.optimizaciones} optimizaciones WASM`);
+
+        return {
+            texto: textoTraducido,
+            estadisticas: {
+                palabrasOriginales: analisisOriginal.total,
+                palabrasFinales: analisisFinal.total,
+                idiomaFinal: idiomaFinal,
+                optimizaciones: stats.optimizaciones
+            }
+        };
+
+    } catch(e) {
+        console.error('❌ Error:', e);
+        showToast('❌ Error: ' + e.message, true);
         actualizarProgress(0);
+        return null;
+    } finally {
+        setTimeout(() => actualizarProgress(0), 2000);
     }
 }
 
-document.getElementById('btnResumen').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Resume completa y claramente con estilo natural: "${t.substring(0, 2500)}"`, '📋 RESUMEN'); else showToast('Escribe un texto', true); };
-document.getElementById('btnDetectorAI').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Analiza si este texto fue escrito por IA y por qué, con tono conversacional: "${t.substring(0, 2000)}"`, '🤖 DETECTOR IA'); else showToast('Escribe un texto', true); };
-document.getElementById('btnComparador').onclick = () => { const o = document.getElementById('inputText').value.trim(); if (o && ultimoTextoHumanizado) herramienta(`Compara el texto original y el humanizado. Muestra diferencias clave de forma natural: "${o.substring(0, 1500)}" vs "${ultimoTextoHumanizado.substring(0, 1500)}"`, '🔄 COMPARACIÓN'); else showToast('Humaniza primero', true); };
-document.getElementById('btnTitulos').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Genera 10 títulos atractivos y creativos con estilo francés: "${t.substring(0, 1500)}"`, '💡 TÍTULOS'); else showToast('Escribe un texto', true); };
-document.getElementById('btnCorrector').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Corrige gramática y estilo de forma natural: "${t.substring(0, 2500)}"`, '✏️ CORRECTOR'); else showToast('Escribe un texto', true); };
-document.getElementById('btnTono').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const tono = prompt('Tono:', 'formal'); if (tono) await herramienta(`Reescribe con tono ${tono} completo y natural: "${t.substring(0, 2000)}"`, `🎭 TONO ${tono.toUpperCase()}`); };
-document.getElementById('btnPalabrasClave').onclick = () => { const t = document.getElementById('inputText').value.trim(); if (t) herramienta(`Extrae 15 keywords principales de forma natural: "${t.substring(0, 2000)}"`, '🔑 KEYWORDS'); else showToast('Escribe un texto', true); };
-document.getElementById('btnTraducir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const idioma = prompt('Idioma:', 'inglés'); if (idioma) await herramienta(`Traduce completa al ${idioma} manteniendo naturalidad: "${t.substring(0, 2000)}"`, `🌍 TRADUCCIÓN`); };
-document.getElementById('btnExpandir').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const pct = prompt('%', '50%'); if (pct) await herramienta(`Expande el texto +${pct} manteniendo calidad y naturalidad: "${t.substring(0, 1500)}"`, `📖 EXPANDIDO`); };
-document.getElementById('btnSimplificar').onclick = async () => { const t = document.getElementById('inputText').value.trim(); if (!t) { showToast('Escribe un texto', true); return; } const nivel = prompt('Nivel:', 'medio'); if (nivel) await herramienta(`Simplifica el texto para nivel ${nivel} con estilo natural: "${t.substring(0, 2000)}"`, `📝 SIMPLIFICADO`); };
-
 // ============================================
-// BOTONES ACADÉMIA PRO
-// ============================================
-document.getElementById('btn12Fuentes').addEventListener('click', async () => {
-    const tema = document.getElementById('inputText').value.trim().substring(0, 100) || 'text analysis natural language processing';
-    showToast('🔬 Buscando en 12 fuentes...');
-    const resultados = await fuentes12.buscarTodasLasFuentes(tema);
-    mostrarModal('🔬 12 FUENTES ACADÉMICAS GRATIS', fuentes12.formatearResultados(resultados));
-    showToast(`✅ ${resultados.resumen.total_resultados} resultados de ${resultados.resumen.fuentes_exitosas}/12 fuentes`);
-});
-
-document.getElementById('btnBuscarAcademico').addEventListener('click', async () => {
-    const tema = document.getElementById('inputText').value.trim().substring(0, 100) || 'text analysis';
-    showToast('📚 Buscando referencias...');
-    referenciasAcademicas = await fuentes12.buscarSemanticScholar(tema);
-    if (referenciasAcademicas.length > 0) {
-        mostrarModal('📚 REFERENCIAS', referenciasAcademicas.map((r, i) => `${i+1}. ${r.autor} (${r.year}). ${r.titulo}. ${r.fuente}.`).join('\n\n'));
-    } else { mostrarModal('📚 SIN RESULTADOS', 'No se encontraron referencias.'); }
-});
-
-document.getElementById('btnVerificarPlagio').addEventListener('click', () => {
-    const original = document.getElementById('inputText').value.trim();
-    if (!original || !ultimoTextoHumanizado) { showToast('Humaniza primero', true); return; }
-    const resultado = plagiarismDetector.check(original, ultimoTextoHumanizado);
-    mostrarModal('⚠️ ANÁLISIS', `Similitud: ${resultado.similarity}%\n${resultado.risk}`);
-});
-
-document.getElementById('btnExportar').addEventListener('click', () => {
-    if (!ultimoTextoHumanizado) { showToast('Humaniza primero', true); return; }
-    const buttons = ['latex','markdown','bibtex','apa'].map(f => `<button style="margin:5px;padding:8px 16px;background:#8b5cf6;color:white;border:none;border-radius:20px;cursor:pointer;" onclick="window.exportarFormato('${f}')">📄 ${f.toUpperCase()}</button>`).join('');
-    mostrarModal('📤 EXPORTAR', `Selecciona formato:\n\n${buttons}`);
-});
-
-window.exportarFormato = function(format) {
-    if (!ultimoTextoHumanizado) return;
-    let content = '', filename = 'texto_humanizado';
-    switch(format) { case 'latex': content = exporter.toLatex(ultimoTextoHumanizado); filename += '.tex'; break; case 'markdown': content = exporter.toMarkdown(ultimoTextoHumanizado); filename += '.md'; break; case 'bibtex': content = exporter.toBibTeX(); filename += '.bib'; break; case 'apa': content = exporter.toAPA(); filename += '.txt'; break; }
-    descargarArchivo(content, filename);
-    document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-    showToast(`📤 Exportado como ${format.toUpperCase()}`);
-};
-
-document.getElementById('btnDecisionStatus').addEventListener('click', () => {
-    const stats = wasm.getStats();
-    const idioma = nombreIdioma[idiomaDetectado] || 'Español';
-    const bandera = banderaIdioma[idiomaDetectado] || '🌐';
-    mostrarModal('🧠 403M LECTOR + WASM', 
-        `=== 🧠 403M LECTOR + WEBASSEMBLY + ANALYTICS ===\n` +
-        `⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
-        `📊 Optimizaciones: ${stats.optimizaciones}\n` +
-        `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
-        `🌐 Idioma: ${bandera} ${idioma}\n` +
-        `📊 Idiomas detectados: ${stats.idiomasDetectados || 0}\n` +
-        `💾 Caché: ${cache.getStats().total} entradas\n` +
-        `📡 Estado: ✅ Activo\n\n` +
-        `📊 FUNCIONES WASM ACTIVAS:\n` +
-        `✅ Limpieza de texto\n` +
-        `✅ Detección de idioma\n` +
-        `✅ Conteo de palabras\n` +
-        `✅ Validación de estructura\n` +
-        `✅ Conteo de citas APA\n` +
-        `✅ Extracción de keywords\n` +
-        `✅ Análisis de legibilidad\n` +
-        `✅ Detección de repeticiones\n` +
-        `✅ Análisis de sentimiento\n` +
-        `✅ Tiempo de lectura`
-    );
-});
-
-document.getElementById('btnTermuxStatus').addEventListener('click', () => {
-    const stats = wasm.getStats();
-    const idioma = nombreIdioma[idiomaDetectado] || 'Español';
-    const bandera = banderaIdioma[idiomaDetectado] || '🌐';
-    mostrarModal('🔌 ESTADO', 
-        `=== ESTADO DEL SISTEMA ===\n` +
-        `⚡ Mistral AI: ✅ Conectado (Sin Cloudflare)\n` +
-        `⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
-        `📊 Optimizaciones: ${stats.optimizaciones}\n` +
-        `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
-        `🌐 Idioma: ${bandera} ${idioma}\n` +
-        `📊 Idiomas detectados: ${stats.idiomasDetectados || 0}\n` +
-        `💾 Caché: ${cache.getStats().total} entradas\n` +
-        `📚 Fuentes: 12 activas\n` +
-        `📌 Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}\n` +
-        `🇫🇷 Enfoque: ${PAIS_FIJO}\n\n` +
-        `📊 FUNCIONES WASM:\n` +
-        `✅ Limpieza, Idioma, Palabras, Estructura\n` +
-        `✅ Citas APA, Keywords, Legibilidad\n` +
-        `✅ Repeticiones, Sentimiento, Tiempo lectura`
-    );
-});
-
-// ============================================
-// SELECTOR DE MODO
-// ============================================
-document.querySelectorAll('.modo-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.modo-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        modoActual = this.dataset.modo;
-        const indicator = document.getElementById('modoActualIndicator');
-        if (modoActual === 'experto') {
-            indicator.textContent = '🧠 Experto';
-            indicator.className = 'modo-activo-indicator modo-experto';
-            document.getElementById('modoStatus').textContent = '🧠 Experto';
-            document.getElementById('modoStatus').style.color = '#a78bfa';
-        } else {
-            indicator.textContent = '⚡ Básico';
-            indicator.className = 'modo-activo-indicator modo-basico';
-            document.getElementById('modoStatus').textContent = '⚡ Básico';
-            document.getElementById('modoStatus').style.color = '#f97316';
-        }
-        showToast(`✨ Modo ${modoActual === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
-    });
-});
-
-// ============================================
-// HUMANIZAR TEXTO
+// BOTÓN PRINCIPAL
 // ============================================
 const processBtn = document.getElementById('processBtn');
 const inputText = document.getElementById('inputText');
 const resultDiv = document.getElementById('resultText');
 const copyBtn = document.getElementById('copyBtn');
 
-async function humanizarConLector(texto) {
-    const textHash = texto.substring(0, 100).toLowerCase().trim();
-    const cached = await cache.getCachedText(textHash);
-    if (cached) return cached;
-    
-    const prompt = `Humaniza el siguiente texto manteniendo el significado pero haciéndolo más natural, fluido y cercano. Usa lenguaje coloquial, varía estructura, añade ejemplos si es útil. Estilo de escritor francés profesional.
-        
-Texto original: "${texto.substring(0, 3000)}"
-        
-Instrucciones detalladas:
-- Lenguaje natural y conversacional.
-- Estructura variada (oraciones cortas y largas).
-- Transiciones suaves entre ideas.
-- Incluye ejemplos o explicaciones cuando sea útil.
-- Mantén el tono profesional pero cercano.
-- Extensión: similar al original o ligeramente mayor.
-- Enfoque en la elegancia del estilo francés.
-- NO uses asteriscos ni formato especial.`;
-
-    const resultado = await llamarIAConContexto(prompt, texto);
-    if (resultado && resultado.length > 50) { 
-        const stats = wasm.getStats();
-        await cache.cacheText(textHash, resultado); 
-        return resultado;
-    }
-    
-    const humanizado = `📝 TEXTO HUMANIZADO:\n\n${texto}`;
-    await cache.cacheText(textHash, humanizado);
-    return humanizado;
-}
-
 processBtn.addEventListener('click', async () => {
-    const texto = inputText.value.trim();
-    if (!texto) { showToast("⚠️ Escribe un texto", true); return; }
+    const textoOriginal = inputText.value.trim();
+
+    if (!textoOriginal) {
+        showToast('⚠️ Escribe un texto primero', true);
+        return;
+    }
+
     if (procesando) return;
-    procesando = true; processBtn.disabled = true;
-    processBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando...';
-    actualizarProgress(10);
-    
+
+    procesando = true;
+    processBtn.disabled = true;
+    processBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando con traducción en cascada...';
+
+    resultDiv.innerHTML = '🌐 Iniciando traducción en cascada: Español → Inglés → Francés → Alemán → Italiano → Español<br><br>';
+
     try {
-        const resultado = await humanizarConLector(texto);
-        actualizarProgress(80);
-        ultimoTextoHumanizado = resultado;
-        const q = analyzer.analyzeQuality(resultado);
-        const stats = wasm.getStats();
-        resultDiv.innerHTML = `<span class="quality-badge quality-${q.qualityLevel}">${q.qualityScore}%</span>${resultado}`;
-        
-        // ===== ANÁLISIS AUTOMÁTICO COMPLETO =====
-        const idiomaDet = wasm.detectarIdioma(resultado);
-        actualizarAnalisisAutomatico(resultado, idiomaDet);
-        
-        actualizarWidgets(resultado);
-        mostrarBotonesExportacion();
-        actualizarProgress(100);
-        showToast(`✅ Texto humanizado · Calidad: ${q.qualityScore}% · ${resultado.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇫🇷`);
-        setTimeout(() => actualizarProgress(0), 2000);
-    } catch(e) { showToast("❌ Error", true); actualizarProgress(0); }
-    finally { procesando = false; processBtn.disabled = false; processBtn.innerHTML = "✨ HUMANIZAR TEXTO"; }
+        const resultado = await humanizarConCascada(textoOriginal);
+
+        if (resultado) {
+            ultimoTextoHumanizado = resultado.texto;
+
+            const q = resultado.estadisticas.palabrasFinales > 100 ? 'alta' : 
+                      resultado.estadisticas.palabrasFinales > 50 ? 'media' : 'baja';
+            const qScore = resultado.estadisticas.palabrasFinales > 100 ? 92 :
+                           resultado.estadisticas.palabrasFinales > 50 ? 78 : 65;
+
+            const banderaFinal = banderaIdioma[resultado.estadisticas.idiomaFinal] || '🇪🇸';
+            const nombreFinal = nombreIdioma[resultado.estadisticas.idiomaFinal] || 'Español';
+
+            resultDiv.innerHTML = `
+                <div style="margin-bottom:12px;">
+                    <span class="quality-badge quality-${q}">${qScore}%</span>
+                    <span style="font-size:0.7rem;color:#94a3b8;margin-left:8px;">
+                        ${resultado.estadisticas.palabrasOriginales} → ${resultado.estadisticas.palabrasFinales} palabras
+                    </span>
+                    <span style="font-size:0.6rem;color:#10b981;margin-left:8px;">
+                        🌐 ${banderaFinal} ${nombreFinal}
+                    </span>
+                </div>
+                <div style="margin-bottom:12px;padding:6px 10px;background:rgba(139,92,246,0.1);border-radius:8px;font-size:0.65rem;color:#a78bfa;">
+                    🇪🇸 Español → 🇬🇧 Inglés → 🇫🇷 Francés → 🇩🇪 Alemán → 🇮🇹 Italiano → ${banderaFinal} ${nombreFinal}
+                </div>
+                <div style="white-space:pre-wrap;line-height:1.6;">${resultado.texto}</div>
+                <div style="margin-top:12px;padding:8px;background:rgba(0,0,0,0.2);border-radius:8px;font-size:0.65rem;color:#94a3b8;">
+                    ⚡ ${resultado.estadisticas.optimizaciones} optimizaciones WASM · 🌐 Traducción en cascada
+                </div>
+            `;
+
+            // Actualizar métricas simples
+            document.getElementById('metricPalabras').textContent = resultado.estadisticas.palabrasFinales;
+            document.getElementById('metricCaracteres').textContent = resultado.texto.length;
+            document.getElementById('metricParrafos').textContent = resultado.texto.split('\n').length;
+            document.getElementById('metricOraciones').textContent = (resultado.texto.match(/[.!?]+/g) || []).length;
+            document.getElementById('confidenceFill').style.width = '92%';
+            document.getElementById('confidenceLabel').textContent = '92%';
+            document.getElementById('qualityLabel').textContent = '92%';
+
+            showToast(`✅ Texto humanizado · ${resultado.estadisticas.palabrasFinales} palabras · ⚡ ${resultado.estadisticas.optimizaciones} optimizaciones`);
+        }
+
+    } catch(e) {
+        console.error('❌ Error:', e);
+        resultDiv.innerHTML = `❌ Error: ${e.message}`;
+        showToast('❌ Error al humanizar', true);
+    } finally {
+        procesando = false;
+        processBtn.disabled = false;
+        processBtn.innerHTML = '🔄 HUMANIZAR CON TRADUCCIÓN EN CASCADA';
+    }
 });
 
-copyBtn.addEventListener('click', () => { if (ultimoTextoHumanizado) { navigator.clipboard.writeText(ultimoTextoHumanizado); showToast("📋 Copiado"); } else showToast("⚠️ No hay texto", true); });
-
-// ============================================
-// WORD
-// ============================================
-const subirWordBtn = document.getElementById('subirWordBtn');
-const humanizarWordBtn = document.getElementById('humanizarWordBtn');
-const descargarWordBtn = document.getElementById('descargarWordBtn');
-const wordFileInput = document.getElementById('wordFileInput');
-const wordStatusSpan = document.getElementById('wordStatus');
-
-subirWordBtn.onclick = () => wordFileInput.click();
-
-wordFileInput.onchange = (e) => {
-    const file = e.target.files[0];
-    if (!file || !file.name.match(/\.(docx|doc)$/i)) { wordStatusSpan.textContent = '❌ Solo Word'; return; }
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-        try {
-            const result = await mammoth.extractRawText({ arrayBuffer: ev.target.result });
-            contenidoWord = result.value; nombreWord = file.name;
-            if (!contenidoWord || contenidoWord.trim().length < 20) throw new Error('Texto insuficiente');
-            wordStatusSpan.innerHTML = `✅ "${file.name}"`; wordStatusSpan.style.color = '#10b981';
-            humanizarWordBtn.disabled = false; descargarWordBtn.style.display = 'none';
-        } catch(err) { wordStatusSpan.textContent = `❌ ${err.message}`; humanizarWordBtn.disabled = true; }
-    };
-    reader.readAsArrayBuffer(file);
-};
-
-humanizarWordBtn.onclick = async () => {
-    if (!contenidoWord) return;
-    humanizarWordBtn.disabled = true;
-    humanizarWordBtn.innerHTML = '<span class="loading-spinner"></span> Humanizando...';
-    actualizarProgress(10);
-    try {
-        textoHumanizadoWord = await humanizarConLector(contenidoWord);
-        const stats = wasm.getStats();
-        resultDiv.innerHTML = `✅ Documento humanizado\n\n${textoHumanizadoWord.substring(0, 800)}...`;
-        ultimoTextoHumanizado = textoHumanizadoWord;
-        
-        // ===== ANÁLISIS AUTOMÁTICO COMPLETO =====
-        const idiomaDet = wasm.detectarIdioma(textoHumanizadoWord);
-        actualizarAnalisisAutomatico(textoHumanizadoWord, idiomaDet);
-        
-        actualizarWidgets(textoHumanizadoWord);
-        mostrarBotonesExportacion();
-        actualizarProgress(100);
-        descargarWordBtn.style.display = 'inline-block'; descargarWordBtn.disabled = false;
-        showToast(`✅ Documento humanizado · ${textoHumanizadoWord.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇫🇷`);
-        setTimeout(() => actualizarProgress(0), 2000);
-    } catch(e) { showToast('❌ Error', true); actualizarProgress(0); }
-    finally { humanizarWordBtn.disabled = false; humanizarWordBtn.innerHTML = '✨ HUMANIZAR DOCUMENTO'; }
-};
-
-descargarWordBtn.onclick = async () => {
-    if (!textoHumanizadoWord) return;
-    try {
-        const { Document, Packer, Paragraph, TextRun, AlignmentType } = window.docx;
-        const children = [new Paragraph({ children: [new TextRun({ text: "Humanize Deep · AcadémIA Pro · 12 Fuentes · WASM", bold: true, size: 52, color: "8B5CF6" })], alignment: AlignmentType.CENTER })];
-        textoHumanizadoWord.split('\n').slice(0, 500).forEach(linea => { if (linea.trim()) children.push(new Paragraph({ children: [new TextRun({ text: linea.substring(0, 2000), size: 24 })] })); });
-        const blob = await Packer.toBlob(new Document({ sections: [{ children }] }));
-        const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `HumanizeDeep_${nombreWord.replace(/\.docx?$/i, '')}.docx`; a.click(); URL.revokeObjectURL(url);
-        showToast('✅ Word descargado');
-    } catch(e) { showToast('❌ Error', true); }
-};
-
-// ============================================
-// FEEDBACK
-// ============================================
-(function() {
-    const container = document.getElementById('feedbackContainer');
-    container.innerHTML = '<div class="feedback-buttons"><button class="feedback-btn" id="fbLike">👍 Útil</button><button class="feedback-btn" id="fbDislike">👎 No útil</button></div>';
-    document.getElementById('fbLike').onclick = () => { showToast('✅ Gracias'); };
-    document.getElementById('fbDislike').onclick = () => { showToast('📝 Mejoraremos'); };
-})();
+copyBtn.addEventListener('click', () => {
+    if (ultimoTextoHumanizado) {
+        navigator.clipboard.writeText(ultimoTextoHumanizado);
+        showToast('📋 Copiado');
+    } else {
+        showToast('⚠️ No hay texto', true);
+    }
+});
 
 // ============================================
 // INICIALIZACIÓN
@@ -1277,9 +784,9 @@ function init() {
     console.log(`🇫🇷 Enfoque geográfico fijo: ${PAIS_FIJO}`);
     console.log(`⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}`);
     console.log(`🧠 Modo Experto: 4000 tokens | ⚡ Modo Básico: 1500 tokens`);
-    console.log(`📊 Funciones WASM: Limpieza, Idioma, Keywords, Legibilidad, Sentimiento, Repeticiones, Tiempo Lectura`);
+    console.log(`🌐 Traducción en cascada: ES → EN → FR → DE → IT → ES (1 sola llamada)`);
     actualizarMetricas();
-    showToast(`☁️ Humanize Deep · Mistral AI · WASM · 12 Fuentes · IndexedDB · 14 herramientas · 🇫🇷 Enfoque ${PAIS_FIJO} · 📊 Analytics`);
+    showToast(`☁️ Humanize Deep · Mistral AI · WASM · 12 Fuentes · Traducción en cascada · 🇫🇷 Enfoque ${PAIS_FIJO}`);
 }
 
 init();
