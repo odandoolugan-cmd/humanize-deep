@@ -118,18 +118,7 @@
         .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
         .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
-        .temas-btn {
-            background: rgba(139, 92, 246, 0.3);
-            border: 1px solid #8b5cf6;
-            color: #a78bfa;
-            padding: 4px 14px;
-            border-radius: 16px;
-            cursor: pointer;
-            font-size: 0.6rem;
-            font-weight: 500;
-            margin-top: 8px;
-            transition: 0.2s;
-        }
+        .temas-btn { background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6; color: #a78bfa; padding: 4px 14px; border-radius: 16px; cursor: pointer; font-size: 0.6rem; font-weight: 500; margin-top: 8px; transition: 0.2s; }
         .temas-btn:hover { background: #8b5cf6; color: white; }
         .temas-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .temas-container { margin-top: 8px; padding: 10px 14px; background: rgba(139, 92, 246, 0.1); border-left: 3px solid #8b5cf6; border-radius: 0 8px 8px 0; display: none; }
@@ -332,37 +321,7 @@ class WASMUltra {
         return result;
     }
 
-    // 2. HUMANIZAR FINAL
-    humanizarFinal(texto) {
-        const inicio = performance.now();
-        if (!texto) return texto;
-        let result = texto;
-        const muletillas = [
-            'por otro lado', 'cabe destacar', 'en conclusión', 
-            'cabe mencionar', 'es importante destacar', 'como se mencionó',
-            'cabe resaltar', 'es crucial', 'es fundamental'
-        ];
-        muletillas.forEach(m => {
-            result = result.replace(new RegExp(m + '[,.]?', 'gi'), '');
-        });
-        result = result.replace(/además[,.]?/gi, 'y');
-        result = result.replace(/en primer lugar[,.]?/gi, '');
-        result = result.replace(/en segundo lugar[,.]?/gi, '');
-        result = result.replace(/en tercer lugar[,.]?/gi, '');
-        result = result.replace(/(\w+)\s+\1\s+/gi, '$1 ');
-        result = result.replace(/\s{2,}/g, ' ');
-        result = result.replace(/,\s*([,.])/g, '$1');
-        result = result.replace(/\.\s*([a-z])/g, (_, c) => '. ' + c.toUpperCase());
-        result = result.replace(/^\d+\.\s*/gm, '');
-        result = result.replace(/^\-\s*/gm, '');
-        result = result.trim();
-        this.stats.optimizaciones++;
-        this.stats.funcionesEjecutadas++;
-        this.stats.tiempoTotal += (performance.now() - inicio);
-        return result;
-    }
-
-    // 3. DETECCIÓN DE IDIOMA
+    // ✅ 2. DETECCIÓN DE IDIOMA (CORREGIDO: detectarIdioma con I mayúscula)
     detectarIdioma(texto) {
         const inicio = performance.now();
         if (!texto || texto.length < 5) return 'es';
@@ -395,6 +354,36 @@ class WASMUltra {
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
         return mejorIdioma;
+    }
+
+    // 3. HUMANIZAR FINAL
+    humanizarFinal(texto) {
+        const inicio = performance.now();
+        if (!texto) return texto;
+        let result = texto;
+        const muletillas = [
+            'por otro lado', 'cabe destacar', 'en conclusión', 
+            'cabe mencionar', 'es importante destacar', 'como se mencionó',
+            'cabe resaltar', 'es crucial', 'es fundamental'
+        ];
+        muletillas.forEach(m => {
+            result = result.replace(new RegExp(m + '[,.]?', 'gi'), '');
+        });
+        result = result.replace(/además[,.]?/gi, 'y');
+        result = result.replace(/en primer lugar[,.]?/gi, '');
+        result = result.replace(/en segundo lugar[,.]?/gi, '');
+        result = result.replace(/en tercer lugar[,.]?/gi, '');
+        result = result.replace(/(\w+)\s+\1\s+/gi, '$1 ');
+        result = result.replace(/\s{2,}/g, ' ');
+        result = result.replace(/,\s*([,.])/g, '$1');
+        result = result.replace(/\.\s*([a-z])/g, (_, c) => '. ' + c.toUpperCase());
+        result = result.replace(/^\d+\.\s*/gm, '');
+        result = result.replace(/^\-\s*/gm, '');
+        result = result.trim();
+        this.stats.optimizaciones++;
+        this.stats.funcionesEjecutadas++;
+        this.stats.tiempoTotal += (performance.now() - inicio);
+        return result;
     }
 
     // 4. CONTEO DE PALABRAS
@@ -1157,6 +1146,7 @@ async function llamarMistralCascada(texto) {
             }
             text = wasmUltra.humanizarFinal(text);
             
+            // ✅ Usar detectarIdioma con I mayúscula
             const idiomaFinal = wasmUltra.detectarIdioma(text);
             const bandera = banderaIdioma[idiomaFinal] || '🇪🇸';
             const nombre = nombreIdioma[idiomaFinal] || 'Español';
@@ -1201,6 +1191,7 @@ async function humanizarConCascada(textoOriginal) {
 
         actualizarProgress(80);
 
+        // ✅ Usar detectarIdioma con I mayúscula
         const idiomaFinal = wasmUltra.detectarIdioma(textoTraducido);
         const analisisFinal = wasmUltra.contarPalabras(textoTraducido);
         const stats = wasmUltra.getStats();
@@ -1351,6 +1342,7 @@ document.getElementById('btnDetectorAI').addEventListener('click', () => {
     resultado += `📚 Riqueza vocabularia: ${riqueza}%\n`;
     resultado += `📊 Completitud: ${completitud.completitud}%\n`;
     resultado += `🔄 Repeticiones: ${repeticiones.length > 0 ? repeticiones.map(r => `${r.palabra}(${r.count})`).join(', ') : 'Ninguna'}\n`;
+    // ✅ Usar detectarIdioma con I mayúscula
     resultado += `🌐 Idioma: ${nombreIdioma[wasmUltra.detectarIdioma(ultimoTextoHumanizado)]}\n`;
     resultado += `⏱️ Tiempo lectura: ${wasmUltra.calcularTiempoLectura(ultimoTextoHumanizado)}\n`;
     resultado += `⚡ Optimizaciones WASM ULTRA: ${statsWASM.optimizaciones}\n`;
@@ -1372,6 +1364,7 @@ document.getElementById('btnComparador').addEventListener('click', () => {
     resultado += `📈 Diferencia: ${statsH.total - stats.total} palabras\n`;
     resultado += `📖 Legibilidad: ${legibilidad.nivel} (${Math.round(legibilidad.score)})\n`;
     resultado += `📚 Riqueza vocabularia: ${riqueza}%\n`;
+    // ✅ Usar detectarIdioma con I mayúscula
     resultado += `🌐 Idioma final: ${nombreIdioma[wasmUltra.detectarIdioma(ultimoTextoHumanizado)]}\n`;
     resultado += `⚡ WASM ULTRA: ${wasmUltra.getStats().optimizaciones} optimizaciones`;
     
@@ -1409,6 +1402,7 @@ document.getElementById('btnTono').addEventListener('click', () => {
     resultado += `📊 Palabras: ${stats.total}\n`;
     resultado += `📖 Legibilidad: ${wasmUltra.calcularLegibilidad(ultimoTextoHumanizado).nivel}\n`;
     resultado += `📚 Riqueza vocabularia: ${riqueza}%\n`;
+    // ✅ Usar detectarIdioma con I mayúscula
     resultado += `🌐 Idioma: ${nombreIdioma[wasmUltra.detectarIdioma(ultimoTextoHumanizado)]}\n\n`;
     resultado += `💡 Recomendación: ${sentimiento.includes('Natural') ? 'Mantener el tono conversacional' : sentimiento.includes('Técnico') ? 'Añadir más fluidez y naturalidad' : 'Equilibrar entre formalidad y cercanía'}`;
     
@@ -1540,6 +1534,7 @@ document.getElementById('btnVerificarPlagio').addEventListener('click', () => {
     resultado += `📚 Riqueza vocabularia: ${riqueza}%\n`;
     resultado += `🔄 Repeticiones destacadas: ${repeticiones.length > 0 ? repeticiones.map(r => `${r.palabra}(${r.count})`).join(', ') : 'Ninguna'}\n`;
     resultado += `📊 Similitud con original: ${Math.round(sim)}%\n`;
+    // ✅ Usar detectarIdioma con I mayúscula
     resultado += `🌐 Idioma: ${nombreIdioma[wasmUltra.detectarIdioma(ultimoTextoHumanizado)]}\n\n`;
     resultado += `💡 Riesgo de plagio: ${sim > 80 ? '⚠️ Alto - Muy similar al original' : sim > 50 ? '⚠️ Medio - Revisar' : '✅ Bajo - Texto transformado'}`;
     
@@ -1610,8 +1605,8 @@ document.getElementById('btnDecisionStatus').addEventListener('click', () => {
         `  • Memoria: ${(memStats.memoriaUtilizada / 1024).toFixed(1)} KB\n\n` +
         `📊 FUNCIONES WASM ULTRA ACTIVAS (18+):\n` +
         `✅ 1. Limpieza de texto\n` +
-        `✅ 2. Humanización final\n` +
-        `✅ 3. Detección de idioma\n` +
+        `✅ 2. Detección de idioma\n` +
+        `✅ 3. Humanización final\n` +
         `✅ 4. Conteo de palabras\n` +
         `✅ 5. Conteo de citas APA\n` +
         `✅ 6. Validación de estructura\n` +
@@ -1838,6 +1833,22 @@ async function init() {
         document.getElementById('ultraTiempo').textContent = Math.round(stats.tiempoTotal) + 'ms';
         document.getElementById('ultraIdiomas').textContent = stats.idiomasDetectados;
         document.getElementById('ultraFunciones').textContent = stats.funcionesEjecutadas;
+        
+        // ✅ Prueba de diagnóstico - verificar que la función está disponible
+        console.log('🔍 Funciones disponibles en wasmUltra:');
+        console.log(Object.keys(wasmUltra));
+        
+        if (typeof wasmUltra.detectarIdioma === 'function') {
+            console.log('✅ detectarIdioma está disponible');
+        } else {
+            console.log('❌ detectarIdioma NO está disponible');
+            console.log('🔍 Buscando funciones similares:');
+            Object.keys(wasmUltra).forEach(key => {
+                if (key.includes('detectar') || key.includes('idioma')) {
+                    console.log(`  - ${key}`);
+                }
+            });
+        }
     }
     
     actualizarMetricas();
