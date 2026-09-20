@@ -377,6 +377,17 @@ class RustWASM {
     evaluarCompletitud(t) { const e = this.validarEstructura(t); const c = this.contarCitasAPA(t); const s = this.contarPalabras(t); const prob = []; if (!e.tieneGancho) prob.push('Falta Gancho'); if (!e.tieneDesarrollo) prob.push('Falta Desarrollo'); if (!e.tieneCierre) prob.push('Falta Cierre'); if (c.total < 2) prob.push('Pocas citas'); if (s.palabras < 100) prob.push('Texto corto'); return { completitud: Math.max(0, 100 - prob.length * 10), problemas: prob }; }
     humanizarFinal(t) { if (!t) return t; let r = t; const muletillas = ['por otro lado','cabe destacar','en conclusión','cabe mencionar','es importante destacar','como se mencionó','cabe resaltar','es crucial','es fundamental']; muletillas.forEach(m => { r = r.replace(new RegExp(m + '[,.]?', 'gi'), ''); }); r = r.replace(/además[,.]?/gi, 'y'); r = r.replace(/en primer lugar[,.]?/gi, ''); r = r.replace(/en segundo lugar[,.]?/gi, ''); r = r.replace(/en tercer lugar[,.]?/gi, ''); r = r.replace(/(\w+)\s+\1\s+/gi, '$1 '); r = r.replace(/\s{2,}/g, ' '); r = r.replace(/,\s*([,.])/g, '$1'); r = r.replace(/\.\s*([a-z])/g, (_, c) => '. ' + c.toUpperCase()); r = r.replace(/^\d+\.\s*/gm, ''); r = r.replace(/^\-\s*/gm, ''); r = r.trim(); this.stats.optimizaciones++; this.stats.funciones++; return r; }
     validarTraduccion(t) { if (!t || t.length < 10) return false; const p = t.match(/[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]+/g) || []; return p.length >= 5; }
+    
+    // ✅ MÉTODO CORREGIDO: getStats() ahora existe
+    getStats() {
+        return {
+            funciones: this.stats.funciones,
+            tiempo: this.stats.tiempo,
+            optimizaciones: this.stats.optimizaciones,
+            idiomasDetectados: this.stats.idiomasDetectados || 0,
+            cargado: this.cargado
+        };
+    }
 }
 const rustWASM = new RustWASM();
 window.rustWASM = rustWASM;
